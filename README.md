@@ -1,2 +1,1 @@
-# Webpack Template for Odin projects
-## Add ESLint and Prettier
+# Solution for Project Battleship (The Odin Project)
