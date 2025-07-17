@@ -17,7 +17,13 @@ class Ship {
     }
   }
 
-  
+  // Return ship's sunk status
+  isSunk() {
+    if (this.#hitCount >= this.length) {
+      this.sunk = true
+    }
+    return this.sunk
+  }
 }
 
 module.exports = Ship
