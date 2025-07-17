@@ -1,15 +1,23 @@
 // Create Ship class
 class Ship {
+  // Private variables
+  #hitCount
+
   constructor(length) {
     this.length = length
     // These two values are same for every ship when created
-    this.hitCount = 0
+    this.#hitCount = 0
     this.sunk = false
   }
 
+  // Increment the hitCount
   hit() {
-    this.hitCount++
+    if (this.#hitCount < this.length) {
+      this.#hitCount++
+    }
   }
+
+  
 }
 
 module.exports = Ship
