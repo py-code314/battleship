@@ -5,19 +5,19 @@ const Ship = require('../src/ship')
 // Tests for Ship functions
 describe('Ship', () => {
   describe('isSunk()', () => {
-    it('Returns false for a new ship', () => {
+    it('returns false for a new ship', () => {
       const ship = new Ship(2)
       expect(ship.isSunk()).toBe(false)
     })
 
-    it('Returns false if it is hit fewer times than the length', () => {
+    it('returns false if it is hit fewer times than the length', () => {
       const ship = new Ship(3)
       ship.hit()
       ship.hit()
       expect(ship.isSunk()).toBe(false)
     })
-
-    it("Returns true if it is hit equal times to it's length", () => {
+ 
+    it("returns true if it is hit equal times to it's length", () => {
       const ship = new Ship(3)
       ship.hit()
       ship.hit()
@@ -25,7 +25,7 @@ describe('Ship', () => {
       expect(ship.isSunk()).toBe(true)
     })
 
-    it('Returns true if the hit count exceeds the length', () => {
+    it('returns true if the hit count exceeds the length', () => {
       const ship = new Ship(3)
       ship.hit()
       ship.hit()
