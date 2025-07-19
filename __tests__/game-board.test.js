@@ -26,3 +26,13 @@ describe('GameBoard', () => {
     expect(board[3][4]).toEqual({ row: 3, column: 4 })
   })
 })
+
+// Tests for methods in GameBoard
+describe('GameBoard', ( )=> {
+  // describe('placeShip()', () => {
+  // it('returns the position of a ship', () => {
+  //   const gameBoard = new GameBoard()
+    
+  //   })
+  // })
+})
