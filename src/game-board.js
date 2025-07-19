@@ -30,7 +30,7 @@ class GameBoard {
     const ship = new Ship(shipLength)
 
     // Check for boundaries
-    if (row < 0 || row >= this.rows || column < 0 || column >= this.columns)
+    if (row < 0 || row >= this.rows || column < 0 || column >= this.columns || shipLength <= 0)
       return false
 
     const isHorizontal = Math.random() < 0.5
