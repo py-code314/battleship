@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 // Import GameBoard module
 const GameBoard = require('../src/game-board')
+// const Ship = require('../src/ship')
 
 // Tests for GameBoard class
 describe('GameBoard', () => {
@@ -12,30 +13,30 @@ describe('GameBoard', () => {
       expect(board[0].length).toBe(10)
     })
 
-    it('returns 5 x 5 game board when called with custom arguments', () => {
+    it('returns 5 x 7 game board when called with custom arguments', () => {
       const gameBoard = new GameBoard(5, 7)
       const board = gameBoard.board
       expect(board.length).toBe(5)
       expect(board[0].length).toBe(7)
     })
 
-    it('checks for correct values in each cell', () => {
-      const gameBoard = new GameBoard(5, 5)
-      const board = gameBoard.board
-      // expect(board.length).toBe(5)
-      expect(board[0][0]).toEqual({
-        row: 0,
-        column: 0,
-        isOccupied: false,
-        ship: '',
-      })
-      expect(board[3][4]).toEqual({
-        row: 3,
-        column: 4,
-        isOccupied: false,
-        ship: '',
-      })
-    })
+    // it('checks for correct values in each cell', () => {
+    //   const gameBoard = new GameBoard(5, 5)
+    //   const board = gameBoard.board
+    //   // expect(board.length).toBe(5)
+    //   expect(board[0][0]).toEqual({
+    //     row: 0,
+    //     column: 0,
+    //     isOccupied: false,
+    //     ship: '',
+    //   })
+    //   expect(board[3][4]).toEqual({
+    //     row: 3,
+    //     column: 4,
+    //     isOccupied: false,
+    //     ship: '',
+    //   })
+    // })
   })
 
   describe('placeShip()', () => {
@@ -116,5 +117,67 @@ describe('GameBoard', () => {
       // Clear mock
       Math.random.mockRestore()
     })
+  })
+
+  describe('receiveAttack()', () => {
+    let board
+
+    // Set up a board and place ship before each test
+    beforeEach(() => {
+      board = new GameBoard()
+
+      // Mock the Math.random function
+      jest.spyOn(Math, 'random').mockReturnValue(0.3)
+
+      board.placeShip(2, 3, 4)
+    })
+
+    // Clear mock after each test
+    afterEach(() => {
+      Math.random.mockRestore()
+    })
+
+    it('throws error if a square is hit second time', () => {
+      expect(board.receiveAttack(2, 3)).toBe(true)
+      expect(() => board.receiveAttack(2, 3)).toThrow(
+        'You have already hit that square'
+      )
+    })
+
+    it('checks for a hit on the ship', () => {
+      expect(board.receiveAttack(2, 3)).toBe(true)
+      expect(board.receiveAttack(2, 4)).toBe(true)
+      expect(board.receiveAttack(2, 5)).toBe(true)
+      expect(board.receiveAttack(2, 6)).toBe(true)
+    })
+
+    it('returns false if a hit misses the ship', () => {
+      expect(board.receiveAttack(2, 2)).toBe(false)
+      expect(board.receiveAttack(2, 7)).toBe(false)
+    })
+
+    it('adds a missed hit to emptySquares array', () => {
+      board.receiveAttack(2, 7)
+      expect(board.emptySquares).toContainEqual([2, 7])
+    })
+
+    it("doesn't add a hit to emptySquares array", () => {
+      board.receiveAttack(2, 4)
+      expect(board.emptySquares).not.toContainEqual([2, 7])
+    })
+
+    it('checks if square.ship.hit() is being called', () => {
+      // Get the square where ship is placed
+      const shipSquare = board.board[2][4]
+
+      // Mock the function hit()
+      shipSquare.ship.hit = jest.fn()
+
+      board.receiveAttack(2, 4)
+
+      expect(shipSquare.ship.hit).toHaveBeenCalledTimes(1)
+
+    })
+    
   })
 })

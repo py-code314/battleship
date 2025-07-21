@@ -1,12 +1,15 @@
 // Import
 import { Ship } from './aggregator.js'
 
+
+
 // GameBoard class to create a game board
 class GameBoard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows
     this.columns = columns
     this.board = this.createBoard()
+    this.emptySquares = []
   }
 
   // Create a board
@@ -16,7 +19,13 @@ class GameBoard {
     for (let i = 0; i < this.rows; i++) {
       const row = []
       for (let j = 0; j < this.columns; j++) {
-        row.push({ row: i, column: j, isOccupied: false, ship: '' })
+        row.push({
+          row: i,
+          column: j,
+          isOccupied: false,
+          ship: null,
+          isHit: false,
+        })
       }
       board.push(row)
     }
@@ -30,7 +39,13 @@ class GameBoard {
     const ship = new Ship(shipLength)
 
     // Check for boundaries
-    if (row < 0 || row >= this.rows || column < 0 || column >= this.columns || shipLength <= 0)
+    if (
+      row < 0 ||
+      row >= this.rows ||
+      column < 0 ||
+      column >= this.columns ||
+      shipLength <= 0
+    )
       return false
 
     const isHorizontal = Math.random() < 0.5
@@ -60,6 +75,27 @@ class GameBoard {
     }
 
     return true
+  }
+
+  receiveAttack(row, column) {
+    // Get the square
+    const square = this.board[row][column]
+
+    // Check if the square is already hit
+    if (square.isHit) {
+      throw new Error('You have already hit that square')
+    }
+    square.isHit = true
+
+    // Check for a ship in the square
+    if (square.ship) {
+      square.ship.hit()
+
+      return true
+    } else {
+      this.emptySquares.push([row, column])
+      return false
+    }
   }
 }
 
