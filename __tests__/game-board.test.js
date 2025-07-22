@@ -176,8 +176,80 @@ describe('GameBoard', () => {
       board.receiveAttack(2, 4)
 
       expect(shipSquare.ship.hit).toHaveBeenCalledTimes(1)
-
     })
-    
+  })
+
+  describe('allShipsSunken()', () => {
+    let board
+
+    // Set up a board and place ship before each test
+    beforeEach(() => {
+      board = new GameBoard()
+
+      // Mock the Math.random function
+      // jest.spyOn(Math, 'random').mockReturnValue(0.3)
+
+      // board.placeShip(2, 3, 3)
+      // board.placeShip(5, 3, 2)
+
+      // Mock placeShip function
+      board.placeShip = jest.fn(() => board.ships.push({}))
+      board.placeShip()
+      board.placeShip()
+    })
+
+    // Clear mock after each test
+    afterEach(() => {
+      // Math.random.mockRestore()
+    })
+
+    it('checks for all ships sunken', () => {
+      // Mock isSunk function
+      board.ships[0].isSunk = jest.fn(() => true)
+      board.ships[1].isSunk = jest.fn(() => true)
+
+      expect(board.allShipsSunken()).toBe(true)
+    })
+
+    it('returns false if all ships are not sunken', () => {
+      // Mock isSunk function
+      board.ships[0].isSunk = jest.fn(() => true)
+      board.ships[1].isSunk = jest.fn(() => false)
+
+      expect(board.allShipsSunken()).toBe(false)
+    })
+
+    it('checks that isSunk() is called on every ship', () => {
+      // Mock isSunk function
+      board.ships[0].isSunk = jest.fn().mockReturnValue(true)
+      board.ships[1].isSunk = jest.fn().mockReturnValue(true)
+
+      board.allShipsSunken()
+
+      expect(board.ships[0].isSunk).toHaveBeenCalledTimes(1)
+      expect(board.ships[1].isSunk).toHaveBeenCalledTimes(1)
+    })
+
+    it('skips calling isSunk() if ship in the middle is not sunk', () => {
+      // Place a third ship for testing purpose
+      board.placeShip()
+
+      // Mock isSunk function
+      board.ships[0].isSunk = jest.fn().mockReturnValue(true)
+      board.ships[1].isSunk = jest.fn().mockReturnValue(false)
+      board.ships[2].isSunk = jest.fn()
+
+      board.allShipsSunken()
+
+      expect(board.ships[0].isSunk).toHaveBeenCalledTimes(1)
+      expect(board.ships[1].isSunk).toHaveBeenCalledTimes(1)
+      expect(board.ships[2].isSunk).toHaveBeenCalledTimes(0)
+    })
+
+    it('returns true when there are no ships', () => {
+      board.ships = []
+
+      expect(board.allShipsSunken()).toBe(true)
+    })
   })
 })

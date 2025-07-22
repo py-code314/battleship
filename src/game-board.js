@@ -9,6 +9,7 @@ class GameBoard {
     this.rows = rows
     this.columns = columns
     this.board = this.createBoard()
+    this.ships = [] //
     this.emptySquares = []
   }
 
@@ -74,6 +75,9 @@ class GameBoard {
       square.ship = ship
     }
 
+    // Add ship to ships array
+    this.ships.push(ship)
+
     return true
   }
 
@@ -90,12 +94,17 @@ class GameBoard {
     // Check for a ship in the square
     if (square.ship) {
       square.ship.hit()
-
       return true
     } else {
       this.emptySquares.push([row, column])
       return false
     }
+  }
+
+  // Checks for sunken ships
+  allShipsSunken() {
+    
+    return this.ships.every(ship => ship.isSunk())
   }
 }
 

@@ -15,6 +15,7 @@ class Ship {
     if (this.#hitCount < this.length) {
       this.#hitCount++
     }
+    this.isSunk()
   }
 
   // Return ship's sunk status
