@@ -1,5 +1,5 @@
 // Create Ship class
-class Ship {
+export class Ship {
   // Private variables
   #hitCount
 
@@ -27,4 +27,4 @@ class Ship {
   }
 }
 
-module.exports = Ship
+

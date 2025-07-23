@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 // Import GameBoard module
-const GameBoard = require('../src/game-board')
-// const Ship = require('../src/ship')
+import { GameBoard } from '../src/aggregator.js'
 
 // Tests for GameBoard class
 describe('GameBoard', () => {
@@ -138,31 +137,31 @@ describe('GameBoard', () => {
     })
 
     it('throws error if a square is hit second time', () => {
-      expect(board.receiveAttack(2, 3)).toBe(true)
-      expect(() => board.receiveAttack(2, 3)).toThrow(
+      expect(board.receiveAttack([2, 3])).toBe(true)
+      expect(() => board.receiveAttack([2, 3])).toThrow(
         'You have already hit that square'
       )
     })
 
     it('checks for a hit on the ship', () => {
-      expect(board.receiveAttack(2, 3)).toBe(true)
-      expect(board.receiveAttack(2, 4)).toBe(true)
-      expect(board.receiveAttack(2, 5)).toBe(true)
-      expect(board.receiveAttack(2, 6)).toBe(true)
+      expect(board.receiveAttack([2, 3])).toBe(true)
+      expect(board.receiveAttack([2, 4])).toBe(true)
+      expect(board.receiveAttack([2, 5])).toBe(true)
+      expect(board.receiveAttack([2, 6])).toBe(true)
     })
 
     it('returns false if a hit misses the ship', () => {
-      expect(board.receiveAttack(2, 2)).toBe(false)
-      expect(board.receiveAttack(2, 7)).toBe(false)
+      expect(board.receiveAttack([2, 2])).toBe(false)
+      expect(board.receiveAttack([2, 7])).toBe(false)
     })
 
     it('adds a missed hit to emptySquares array', () => {
-      board.receiveAttack(2, 7)
+      board.receiveAttack([2, 7])
       expect(board.emptySquares).toContainEqual([2, 7])
     })
 
     it("doesn't add a hit to emptySquares array", () => {
-      board.receiveAttack(2, 4)
+      board.receiveAttack([2, 4])
       expect(board.emptySquares).not.toContainEqual([2, 7])
     })
 
@@ -173,13 +172,13 @@ describe('GameBoard', () => {
       // Mock the function hit()
       shipSquare.ship.hit = jest.fn()
 
-      board.receiveAttack(2, 4)
+      board.receiveAttack([2, 4])
 
       expect(shipSquare.ship.hit).toHaveBeenCalledTimes(1)
     })
   })
 
-  describe('allShipsSunken()', () => {
+  describe('allShipsSunk()', () => {
     let board
 
     // Set up a board and place ship before each test
@@ -208,7 +207,7 @@ describe('GameBoard', () => {
       board.ships[0].isSunk = jest.fn(() => true)
       board.ships[1].isSunk = jest.fn(() => true)
 
-      expect(board.allShipsSunken()).toBe(true)
+      expect(board.allShipsSunk()).toBe(true)
     })
 
     it('returns false if all ships are not sunken', () => {
@@ -216,7 +215,7 @@ describe('GameBoard', () => {
       board.ships[0].isSunk = jest.fn(() => true)
       board.ships[1].isSunk = jest.fn(() => false)
 
-      expect(board.allShipsSunken()).toBe(false)
+      expect(board.allShipsSunk()).toBe(false)
     })
 
     it('checks that isSunk() is called on every ship', () => {
@@ -224,7 +223,7 @@ describe('GameBoard', () => {
       board.ships[0].isSunk = jest.fn().mockReturnValue(true)
       board.ships[1].isSunk = jest.fn().mockReturnValue(true)
 
-      board.allShipsSunken()
+      board.allShipsSunk()
 
       expect(board.ships[0].isSunk).toHaveBeenCalledTimes(1)
       expect(board.ships[1].isSunk).toHaveBeenCalledTimes(1)
@@ -239,7 +238,7 @@ describe('GameBoard', () => {
       board.ships[1].isSunk = jest.fn().mockReturnValue(false)
       board.ships[2].isSunk = jest.fn()
 
-      board.allShipsSunken()
+      board.allShipsSunk()
 
       expect(board.ships[0].isSunk).toHaveBeenCalledTimes(1)
       expect(board.ships[1].isSunk).toHaveBeenCalledTimes(1)
@@ -249,7 +248,7 @@ describe('GameBoard', () => {
     it('returns true when there are no ships', () => {
       board.ships = []
 
-      expect(board.allShipsSunken()).toBe(true)
+      expect(board.allShipsSunk()).toBe(true)
     })
   })
 })

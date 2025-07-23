@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 // Import Ship
-const Ship = require('../src/ship')
+import {Ship} from '../src/aggregator.js'
 
 // Tests for Ship functions
 describe('Ship', () => {

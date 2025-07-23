@@ -4,13 +4,14 @@ import { Ship } from './aggregator.js'
 
 
 // GameBoard class to create a game board
-class GameBoard {
+export class GameBoard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows
     this.columns = columns
     this.board = this.createBoard()
     this.ships = [] //
     this.emptySquares = []
+    this.allHits = new Set()
   }
 
   // Create a board
@@ -81,8 +82,9 @@ class GameBoard {
     return true
   }
 
-  receiveAttack(row, column) {
+  receiveAttack(coordinates) {
     // Get the square
+    const [row, column] = coordinates
     const square = this.board[row][column]
 
     // Check if the square is already hit
@@ -90,22 +92,23 @@ class GameBoard {
       throw new Error('You have already hit that square')
     }
     square.isHit = true
+    this.allHits.add(`${row},${column}`)
 
     // Check for a ship in the square
     if (square.ship) {
       square.ship.hit()
       return true
     } else {
-      this.emptySquares.push([row, column])
+      this.emptySquares.push(coordinates)
       return false
     }
   }
 
   // Checks for sunken ships
-  allShipsSunken() {
+  allShipsSunk() {
     
     return this.ships.every(ship => ship.isSunk())
   }
 }
 
-module.exports = GameBoard
+
