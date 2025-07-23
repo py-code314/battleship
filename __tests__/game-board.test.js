@@ -128,12 +128,25 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
-      board.placeShip(2, 3, 4)
+      // Mock placeShip function
+      const mockShip = {
+        isHit: false,
+        hit: jest.fn(),
+      }
+
+      board.placeShip = jest.fn(() => {
+        board.board[2][3].ship = mockShip
+        board.board[2][4].ship = mockShip
+        board.board[2][5].ship = mockShip
+        board.board[2][6].ship = mockShip
+      })
+
+      board.placeShip()
     })
 
     // Clear mock after each test
     afterEach(() => {
-      Math.random.mockRestore()
+      jest.restoreAllMocks()
     })
 
     it('throws error if a square is hit second time', () => {
