@@ -47,19 +47,19 @@ describe('GameBoard', () => {
     })
 
     it('returns false for out of bounds coordinates', () => {
-      expect(board.placeShip(-1, 3, 4)).toBe(false)
-      expect(board.placeShip(1, 10, 4)).toBe(false)
+      expect(board.placeShip([-1, 3], 4)).toBe(false)
+      expect(board.placeShip([1, 10], 4)).toBe(false)
     })
 
     it('returns false for ship length less than or equal to 0', () => {
-      expect(board.placeShip(1, 3, 0)).toBe(false)
+      expect(board.placeShip([1, 3], 0)).toBe(false)
     })
 
     it('checks for a successfully placed horizontal ship', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
-      expect(board.placeShip(2, 3, 4)).toBe(true)
+      expect(board.placeShip([2, 3], 4)).toBe(true)
 
       // Clear mock
       Math.random.mockRestore()
@@ -69,8 +69,8 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
-      expect(board.placeShip(2, 3, 4)).toBe(true)
-      expect(board.placeShip(2, 3, 4)).toBe(false)
+      expect(board.placeShip([2, 3], 4)).toBe(true)
+      expect(board.placeShip([2, 3], 4)).toBe(false)
 
       // Clear mock
       Math.random.mockRestore()
@@ -80,7 +80,7 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
-      expect(board.placeShip(2, 7, 4)).toBe(false)
+      expect(board.placeShip([2, 7], 4)).toBe(false)
 
       // Clear mock
       Math.random.mockRestore()
@@ -90,7 +90,7 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.7)
 
-      expect(board.placeShip(2, 3, 4)).toBe(true)
+      expect(board.placeShip([2, 3], 4)).toBe(true)
 
       // Clear mock
       Math.random.mockRestore()
@@ -100,8 +100,8 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.7)
 
-      expect(board.placeShip(2, 3, 4)).toBe(true)
-      expect(board.placeShip(2, 3, 4)).toBe(false)
+      expect(board.placeShip([2, 3], 4)).toBe(true)
+      expect(board.placeShip([2, 3], 4)).toBe(false)
 
       // Clear mock
       Math.random.mockRestore()
@@ -111,7 +111,7 @@ describe('GameBoard', () => {
       // Mock the Math.random function
       jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
-      expect(board.placeShip(7, 7, 4)).toBe(false)
+      expect(board.placeShip([7, 7], 4)).toBe(false)
 
       // Clear mock
       Math.random.mockRestore()

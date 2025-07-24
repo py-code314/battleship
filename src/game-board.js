@@ -1,8 +1,6 @@
 // Import
 import { Ship } from './aggregator.js'
 
-
-
 // GameBoard class to create a game board
 export class GameBoard {
   constructor(rows = 10, columns = 10) {
@@ -36,7 +34,8 @@ export class GameBoard {
   }
 
   // Place a ship at specified coordinates
-  placeShip(row, column, shipLength) {
+  placeShip(coordinates, shipLength) {
+    const [row, column] = coordinates
     // Create a ship
     const ship = new Ship(shipLength)
 
@@ -50,7 +49,9 @@ export class GameBoard {
     )
       return false
 
-    const isHorizontal = Math.random() < 0.5
+    // Changing the value temporarily
+    // const isHorizontal = Math.random() < 0.5
+    const isHorizontal = true
 
     // Check for orientation boundaries
     if (isHorizontal && column + ship.length > this.columns) return false
@@ -106,9 +107,6 @@ export class GameBoard {
 
   // Checks for sunken ships
   allShipsSunk() {
-    
-    return this.ships.every(ship => ship.isSunk())
+    return this.ships.every((ship) => ship.isSunk())
   }
 }
-
-
