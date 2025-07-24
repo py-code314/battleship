@@ -4,6 +4,7 @@
 
 import { Ship } from './ship.js'
 import { GameBoard } from './game-board.js'
-import {Player} from './player.js'
+import { Player } from './player.js'
+import { initializeDefaultGrid } from './dom-controller.js'
 
-export {Ship, GameBoard, Player}
+export {Ship, GameBoard, Player, initializeDefaultGrid}

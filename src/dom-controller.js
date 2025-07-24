@@ -1,6 +1,9 @@
 // Import classes
 import { Ship, GameBoard, Player } from './aggregator.js'
 
+
+// console.log(humanGameBoard, computerGameBoard)
+
 // Create humanPlayer and computerPlayer
 const humanPlayer = new Player('human')
 const computerPlayer = new Player('computer')
@@ -42,3 +45,17 @@ function createComputerPlayerGameBoard() {
 }
 
 createComputerPlayerGameBoard()
+
+export function initializeDefaultGrid(container) {
+  const gridSize = 10
+  const cellSize = container.offsetWidth / 10
+
+  for (let i = 0; i < gridSize ** 2; i++) {
+    const square = document.createElement('div')
+    square.classList.add('cell')
+    square.style.width = `${cellSize}px`
+    square.style.height = `${cellSize}px`
+    container.appendChild(square)
+  }
+}
+

@@ -53,6 +53,7 @@
   --clr-white: hsl(0, 0%, 100%);
   --clr-black: #282828;
   --clr-red: hsl(359, 77%, 51%);
+  --clr-light-blue: hsl(195, 73%, 79%);
   --clr-blue: hsl(216, 88%, 65%);
   --clr-slate-blue: hsl(248, 53%, 58%);
   --clr-green: hsl(123, 46%, 34%);
@@ -211,7 +212,14 @@ body {
 .game-board {
   width: var(--size-game-board);
   height: var(--size-game-board);
-  border: 1px solid goldenrod;
+  /* border: 1px solid goldenrod; */
+  display: flex;
+  flex-wrap: wrap;
+  background-color: var(--clr-light-blue);
+}
+
+.cell {
+   border: 1px solid var(--clr-white);
 }
 
 .game {
