@@ -6,31 +6,38 @@
     <title>Battleship</title>
   </head>
   <body>
-    <header>
-      <h1>Battleship</h1>
+    <header class="header">
+      <h1 class="header__title">Battleship</h1>
     </header>
 
-    <main>
-      <div class="intro">
-        <div class="game">
-          <button class="btn game__btn">Instructions</button>
-          <button class="btn game__btn">Options</button>
+    <main class="main">
+      <div class="btns-container">
+        <div class="intro">
+          <button class="btn intro__btn">Instructions</button>
+          <button class="btn intro__btn">Options</button>
         </div>
         <div class="computer">
           <p class="computer__text">Choose a Computer Level:</p>
           <div class="computer__levels">
-            <button class="btn computer__btn">Normal</button>
+            <button class="btn computer__btn">Standard</button>
             <button class="btn computer__btn">Advanced</button>
           </div>
         </div>
       </div>
-      <div class="boardsContainer">
-        <div class="humanBoard"></div>
-        <div class="computerBoard"></div>
+
+      <div class="boards-container">
+        <div class="game-board"></div>
+        <div class="game">
+          <button class="btn game__btn">Randomize</button>
+          <button class="btn game__btn">Reset</button>
+          <button class="btn game__btn">Play</button>
+        </div>
+        <div class="game-board"></div>
       </div>
 
-      <div class="gameData">
+      <div class="game-data">
         <div class="ships">
+          <p class="ships__text">Your Ships</p>
           <ul class="ships__list">
             <li class="ships__item">Aircraft Carrier (5)</li>
             <li class="ships__item">Battleship (4)</li>
@@ -43,7 +50,8 @@
           <p class="messages__text">Messages</p>
           <div class="messages__container"></div>
         </div>
-        <div class="ships">
+        <div class="ships computer-ships">
+          <p class="ships__text">Enemy Ships</p>
           <ul class="ships__list">
             <li class="ships__item">Aircraft Carrier (5)</li>
             <li class="ships__item">Battleship (4)</li>
