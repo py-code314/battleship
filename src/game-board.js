@@ -25,6 +25,7 @@ export class GameBoard {
           isOccupied: false,
           ship: null,
           isHit: false,
+          marker: ''
         })
       }
       board.push(row)

@@ -1,14 +1,14 @@
 // Import classes
 import { Ship, GameBoard, Player } from './aggregator.js'
 
-
 // console.log(humanGameBoard, computerGameBoard)
 
 // Create humanPlayer and computerPlayer
-const humanPlayer = new Player('human')
-const computerPlayer = new Player('computer')
+export const humanPlayer = new Player('human')
+export const computerPlayer = new Player('computer')
 
-function createHumanPlayerGameBoard() {
+// Place ships on human game board
+function populateHumanGameBoard() {
   const shipDetails = [
     [[1, 1], 5],
     [[3, 4], 4],
@@ -25,9 +25,10 @@ function createHumanPlayerGameBoard() {
   })
 }
 
-createHumanPlayerGameBoard()
+populateHumanGameBoard()
 
-function createComputerPlayerGameBoard() {
+// Place ships on computer game board
+function populateComputerGameBoard() {
   const shipDetails = [
     [[3, 2], 5],
     [[1, 5], 4],
@@ -44,18 +45,52 @@ function createComputerPlayerGameBoard() {
   })
 }
 
-createComputerPlayerGameBoard()
+populateComputerGameBoard()
 
-export function initializeDefaultGrid(container) {
-  const gridSize = 10
+// Create human game board with default ship colors
+export function renderHumanGameBoard(container, board) {
   const cellSize = container.offsetWidth / 10
+ 
 
-  for (let i = 0; i < gridSize ** 2; i++) {
-    const square = document.createElement('div')
-    square.classList.add('cell')
-    square.style.width = `${cellSize}px`
-    square.style.height = `${cellSize}px`
-    container.appendChild(square)
-  }
+  board.forEach((row) => {
+    row.forEach((cell) => {
+      // Create a div for each cell
+      const square = document.createElement('div')
+      square.classList.add('cell')
+      square.style.width = `${cellSize}px`
+      square.style.height = `${cellSize}px`
+      square.textContent =  cell.marker 
+      
+      if (cell.ship) {
+        square.style.backgroundColor = 'gray'
+      }
+
+      container.appendChild(square)
+
+    })
+  })
 }
 
+// Create computer game board
+export function renderComputerGameBoard(container, board) {
+  const cellSize = container.offsetWidth / 10
+ 
+
+  board.forEach((row) => {
+    row.forEach((cell) => {
+      // Create a div for each cell
+      const square = document.createElement('div')
+      square.classList.add('cell')
+      square.style.width = `${cellSize}px`
+      square.style.height = `${cellSize}px`
+      square.textContent =  cell.marker 
+      
+      // if (cell.ship) {
+      //   square.style.backgroundColor = 'gray'
+      // }
+
+      container.appendChild(square)
+
+    })
+  })
+}

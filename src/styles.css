@@ -25,8 +25,8 @@
   --fw-extra-black: 950;
 
   /* Font family */
-  --ff-fira-code: "Fira Code", monospace;
-  --ff-work-sans: "Work Sans", sans-serif;
+  --ff-fira-code: 'Fira Code', monospace;
+  --ff-work-sans: 'Work Sans', sans-serif;
 
   /* Spaces */
   --space-10: 0.0625rem; /* 1px */
@@ -169,7 +169,6 @@ body {
   justify-content: space-between;
   gap: var(--space-900);
   border: 1px solid rgb(255, 0, 208);
-
 }
 
 .intro,
@@ -219,7 +218,15 @@ body {
 }
 
 .cell {
-   border: 1px solid var(--clr-white);
+  border: 1px solid var(--clr-white);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: var(--clr-white); */
+  text-align: center;
+  /* font-size: 5rem; */
+  /* border: none; */
+  cursor: pointer;
 }
 
 .game {

@@ -1,10 +1,13 @@
 import './dom-controller.js'
 import './styles.css'
-import { initializeDefaultGrid } from './aggregator.js'
+import { humanPlayer, computerPlayer, renderHumanGameBoard, renderComputerGameBoard } from './aggregator.js'
 
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
 
 
-document.addEventListener('DOMcontentLoaded', initializeDefaultGrid(humanGameBoard))
-document.addEventListener('DOMcontentLoaded', initializeDefaultGrid(computerGameBoard))
+document.addEventListener('DOMContentLoaded', () => {
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board )
+  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board )
+  
+})
