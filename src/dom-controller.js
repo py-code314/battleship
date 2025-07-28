@@ -1,3 +1,7 @@
+import { humanPlayer, computerPlayer } from './aggregator.js'
+
+// Get DOM elements
+export const playerTurn = document.querySelector('.messages__turn')
 
 
 // Create human game board with default ship colors
@@ -66,6 +70,18 @@ export function renderComputerGameBoard(container, board) {
 
     })
   })
+}
+
+export function updatePlayerTurn() {
+  let turnMessage = playerTurn.textContent === 'Your turn' ? "Computer's turn" : 'Your turn'
+
+  if (humanPlayer.isLost() || computerPlayer.isLost()) {
+    turnMessage = 'Game over'
+  }
+
+  playerTurn.textContent = turnMessage
+
+  
 }
 
 

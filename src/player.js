@@ -14,17 +14,17 @@ export class Player {
     if (this.type === 'human') {
       enemyBoard.receiveAttack(coordinates)
     } else if (this.type === 'computer') {
-      const randomCoordinates = this.generateRandomCoordinates()
+      const randomCoordinates = this.generateRandomCoordinates(enemyBoard)
       enemyBoard.receiveAttack(randomCoordinates)
     }
   }
 
   // Generate random coordinates
-  generateRandomCoordinates() {
+  generateRandomCoordinates(enemyBoard) {
     let row, column, key, randomCoordinates
 
     // Throw error if all squares are hit
-    if (this.gameBoard.allHits.size >= 100) {
+    if (enemyBoard.allHits.size >= 100) {
       throw new Error('All squares have been hit')
     }
 
@@ -34,13 +34,13 @@ export class Player {
       column = Math.floor(Math.random() * 10)
       key = `${row},${column}`
       randomCoordinates = [row, column]
-    } while (this.gameBoard.allHits.has(key))
+    } while (enemyBoard.allHits.has(key))
     
 
     return randomCoordinates
   }
 
-  // Player's win status
+  
   isLost() {
     return this.gameBoard.allShipsSunk()
   }

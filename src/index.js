@@ -1,16 +1,19 @@
 import './dom-controller.js'
 import './styles.css'
-import { humanPlayer, computerPlayer, renderHumanGameBoard, renderComputerGameBoard } from './aggregator.js'
+import { humanPlayer, computerPlayer, renderHumanGameBoard, renderComputerGameBoard, updatePlayerTurn, playerTurn } from './aggregator.js'
 
 // Get board containers
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
 
 
+
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board )
-  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board )
+  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
+  
+  playerTurn.textContent = 'Your turn'
   
 })
 
@@ -22,20 +25,16 @@ computerGameBoard.addEventListener('click', (e) => {
 
   humanPlayer.makeMove(computerPlayer.gameBoard, [row, column])
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
+  updatePlayerTurn()
+
+
 
   // Call makeMove() and renderHumanGameBoard() after click event on
   //  computerGameBoard with 500ms delay
   setTimeout(() => {
     computerPlayer.makeMove(humanPlayer.gameBoard)
     renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+    updatePlayerTurn()
   }, 500)
 })
 
-
-
-
-
-
-// Click event on board, get the coordinates
-// Call makeMove()
-// Change  color of square
