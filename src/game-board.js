@@ -87,6 +87,7 @@ export class GameBoard {
   receiveAttack(coordinates) {
     // Get the square
     const [row, column] = coordinates
+    console.log(row, column)
     const square = this.board[row][column]
 
     // Check if the square is already hit
