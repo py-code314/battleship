@@ -5,6 +5,7 @@
 import { Ship } from './ship.js'
 import { GameBoard } from './game-board.js'
 import { Player } from './player.js'
-import { humanPlayer, computerPlayer, renderHumanGameBoard, renderComputerGameBoard } from './dom-controller.js'
+import { renderHumanGameBoard, renderComputerGameBoard } from './dom-controller.js'
+import {humanPlayer, computerPlayer} from './game-controller.js'
 
 export {Ship, GameBoard, Player, humanPlayer, computerPlayer, renderHumanGameBoard, renderComputerGameBoard}
