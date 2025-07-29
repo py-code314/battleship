@@ -2,6 +2,7 @@ import { humanPlayer, computerPlayer } from './aggregator.js'
 
 // Get DOM elements
 export const playerTurn = document.querySelector('.messages__turn')
+const errorMessage = document.querySelector('.messages__error')
 
 
 // Create human game board with default ship colors
@@ -84,4 +85,12 @@ export function updatePlayerTurn() {
   
 }
 
+// Show error on repeat hit on same square
+export function handleRepeatHit(err) {  
+  errorMessage.textContent = err.message 
+}
 
+// Clear error message
+export function clearErrorMessage() {
+  errorMessage.textContent = ''
+}

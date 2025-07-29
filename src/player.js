@@ -14,6 +14,7 @@ export class Player {
     if (this.type === 'human') {
       enemyBoard.receiveAttack(coordinates)
     } else if (this.type === 'computer') {
+      console.log('computer hit')
       const randomCoordinates = this.generateRandomCoordinates(enemyBoard)
       enemyBoard.receiveAttack(randomCoordinates)
     }

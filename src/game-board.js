@@ -7,7 +7,7 @@ export class GameBoard {
     this.rows = rows
     this.columns = columns
     this.board = this.createBoard()
-    this.ships = [] //
+    this.ships = []
     this.emptySquares = []
     this.allHits = new Set()
   }

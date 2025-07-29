@@ -1,5 +1,5 @@
 // Import classes
-import { Ship, GameBoard, Player } from './aggregator.js'
+import { Player } from './aggregator.js'
 
 // console.log(humanGameBoard, computerGameBoard)
 
