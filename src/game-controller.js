@@ -1,5 +1,5 @@
 // Import classes
-import { Player } from './aggregator.js'
+import { Player,  } from './aggregator.js'
 
 // console.log(humanGameBoard, computerGameBoard)
 
@@ -8,42 +8,39 @@ export const humanPlayer = new Player('human')
 export const computerPlayer = new Player('computer')
 
 // Place ships on human game board
-function populateHumanGameBoard() {
-  const shipDetails = [
-    [[1, 1], 5],
-    [[3, 4], 4],
-    [[6, 7], 3],
-    [[8, 4], 3],
-    [[5, 0], 2],
-  ]
+export function populateHumanGameBoard() {
+  humanPlayer.gameBoard.resetBoard()
 
-  // Loop through shipDetails and place ship at specific coordinates
-  shipDetails.forEach((shipDetails) => {
-    const [coordinates, length] = shipDetails
-    const ship = humanPlayer.gameBoard.placeShip(coordinates, length)
-    console.log(ship)
-  })
+  const shipLengths = [5, 4, 3, 3, 2]
+  const length = shipLengths.length
+
+  for (let i = 0; i < length; i++) {
+    let ship
+    do {
+      const row = Math.floor(Math.random() * (9 + 1))
+      const column = Math.floor(Math.random() * (9 + 1))
+      const coordinates = [row, column]
+      ship = humanPlayer.gameBoard.placeShip(coordinates, shipLengths[i])
+      // console.log(ship)
+    } while (!ship)
+  }
 }
-
-populateHumanGameBoard()
 
 // Place ships on computer game board
-function populateComputerGameBoard() {
-  const shipDetails = [
-    [[3, 2], 5],
-    [[1, 5], 4],
-    [[0, 0], 3],
-    [[5, 4], 3],
-    [[7, 6], 2],
-  ]
+export function populateComputerGameBoard() {
+  const shipLengths = [5, 4, 3, 3, 2]
+  const length = shipLengths.length
 
-  // Loop through shipDetails and place ship at specific coordinates
-  shipDetails.forEach((shipDetails) => {
-    const [coordinates, length] = shipDetails
-    const ship = computerPlayer.gameBoard.placeShip(coordinates, length)
-    console.log(ship)
-  })
+  for (let i = 0; i < length; i++) {
+    let ship
+
+    do {
+      const row = Math.floor(Math.random() * (9 + 1))
+      const column = Math.floor(Math.random() * (9 + 1))
+      const coordinates = [row, column]
+
+      ship = computerPlayer.gameBoard.placeShip(coordinates, shipLengths[i])
+      // console.log(ship)
+    } while (!ship)
+  }
 }
-
-populateComputerGameBoard()
-

@@ -5,8 +5,10 @@ export const playerTurn = document.querySelector('.messages__turn')
 const errorMessage = document.querySelector('.messages__error')
 
 
+
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
+  // console.log('human board')
   container.textContent = ''
   const cellSize = container.offsetWidth / 10
  
@@ -18,7 +20,9 @@ export function renderHumanGameBoard(container, board) {
       square.classList.add('cell')
       square.style.width = `${cellSize}px`
       square.style.height = `${cellSize}px`
-      square.textContent =  cell.marker 
+      square.textContent = cell.marker 
+      
+      // console.log(cell.ship)
       
       // Color ship
       if (cell.ship) {
@@ -56,9 +60,9 @@ export function renderComputerGameBoard(container, board) {
       square.textContent =  cell.marker 
       
       // Color ship
-      // if (cell.ship) {
-      //   square.style.backgroundColor = 'gray'
-      // }
+      if (cell.ship) {
+        square.style.backgroundColor = 'gray'
+      }
 
       // Color ship hit & empty square hit
       if (cell.isHit && cell.ship) {
@@ -94,3 +98,4 @@ export function handleRepeatHit(err) {
 export function clearErrorMessage() {
   errorMessage.textContent = ''
 }
+

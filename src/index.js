@@ -1,4 +1,3 @@
-
 import './styles.css'
 import {
   humanPlayer,
@@ -8,16 +7,24 @@ import {
   updatePlayerTurn,
   playerTurn,
   handleRepeatHit,
-  clearErrorMessage
+  clearErrorMessage,
+  populateHumanGameBoard,
+  populateComputerGameBoard,
+  GameBoard
 } from './aggregator.js'
 
-// Get board containers
+// Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
+const randomizeBtn = document.querySelector('#randomize-btn')
 
 // On page load
 document.addEventListener('DOMContentLoaded', () => {
+  // console.log('on page load')
+  populateHumanGameBoard()
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+
+  populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
 
   playerTurn.textContent = 'Your turn'
@@ -35,7 +42,6 @@ computerGameBoard.addEventListener('click', (e) => {
     updatePlayerTurn()
     clearErrorMessage()
 
-
     // Call makeMove() and renderHumanGameBoard() after click event on
     //  computerGameBoard with 500ms delay
     setTimeout(() => {
@@ -46,4 +52,11 @@ computerGameBoard.addEventListener('click', (e) => {
   } catch (err) {
     handleRepeatHit(err)
   }
+})
+
+// Event listener for randomize button
+randomizeBtn.addEventListener('click', () => {
+  // console.log('randomize btn')
+  populateHumanGameBoard()
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })

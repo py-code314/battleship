@@ -14,6 +14,7 @@ export class GameBoard {
 
   // Create a board
   createBoard() {
+    // console.log('new board')
     const board = []
     // Loop through rows and columns and add object to each square
     for (let i = 0; i < this.rows; i++) {
@@ -25,7 +26,8 @@ export class GameBoard {
           isOccupied: false,
           ship: null,
           isHit: false,
-          marker: ''
+          marker: '',
+          isReserved: false,
         })
       }
       board.push(row)
@@ -37,6 +39,7 @@ export class GameBoard {
   // Place a ship at specified coordinates
   placeShip(coordinates, shipLength) {
     const [row, column] = coordinates
+
     // Create a ship
     const ship = new Ship(shipLength)
 
@@ -51,8 +54,9 @@ export class GameBoard {
       return false
 
     // Changing the value temporarily
-    // const isHorizontal = Math.random() < 0.5
-    const isHorizontal = true
+    const isHorizontal = Math.random() < 0.5
+
+    // const isHorizontal = true
 
     // Check for orientation boundaries
     if (isHorizontal && column + ship.length > this.columns) return false
@@ -65,6 +69,7 @@ export class GameBoard {
         : this.board[row + i][column]
 
       if (square.isOccupied) return false
+      if (square.isReserved) return false
     }
 
     // Place the ship
@@ -78,16 +83,55 @@ export class GameBoard {
       square.ship = ship
     }
 
+    for (let i = 0; i < ship.length; i++) {
+      const shipRow = isHorizontal ? row : row + i
+      const shipColumn = isHorizontal ? column + i : column
+
+      for (let i = -1; i <= 1; i++) {
+        for (let j = -1; j <= 1; j++) {
+          const newRow = shipRow + i
+          const newColumn = shipColumn + j
+
+          if (
+            newRow >= 0 &&
+            newRow < this.rows &&
+            newColumn >= 0 &&
+            newColumn < this.columns
+          ) {
+            const adjacentSquare = this.board[newRow][newColumn]
+            if (!adjacentSquare.isOccupied) {
+              adjacentSquare.isReserved = true
+            }
+
+            //  console.log(adjacentSquare)
+          }
+        }
+      }
+    }
+
     // Add ship to ships array
     this.ships.push(ship)
 
     return true
   }
 
+  // Mark adjacent squares as reserved
+  resetBoard() {
+    this.board.forEach((row) => {
+      row.forEach((square) => {
+        square.isOccupied = false
+        square.ship = null
+        square.isReserved = false
+      })
+    })
+
+    this.ships = []
+  }
+
   receiveAttack(coordinates) {
     // Get the square
     const [row, column] = coordinates
-    console.log(row, column)
+    // console.log(row, column)
     const square = this.board[row][column]
 
     // Check if the square is already hit
