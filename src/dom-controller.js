@@ -1,4 +1,8 @@
-import { humanPlayer, computerPlayer } from './aggregator.js'
+import {
+  humanPlayer,
+  computerPlayer,
+  changeShipDirection,
+} from './aggregator.js'
 
 // Get DOM elements
 export const playerTurn = document.querySelector('.messages__turn')
@@ -14,7 +18,7 @@ export function renderHumanGameBoard(container, board) {
     row.forEach((cell, columnIndex) => {
       // Create a div for each cell
       const square = document.createElement('div')
-      
+
       square.style.width = `${cellSize}px`
       square.style.height = `${cellSize}px`
       square.dataset.row = `${rowIndex}`
@@ -104,7 +108,6 @@ export function handleDragStart(e) {
   const shipCells = document.querySelectorAll(`[data-ship-id='${shipId}']`)
   shipCells.forEach((shipCell) => {
     shipCell.classList.add('drag-ship')
-    
   })
 
   // Store ship id in dragging cell
@@ -148,5 +151,18 @@ export function handleDrop(e) {
 
   const newCoordinates = [row, column]
   return { shipId, newCoordinates }
-  
+}
+
+// TODO: call populateHumanGameBoard() inside handleDrop()?
+
+export function updateShipDirection(e) {
+  if (e.target.classList.contains('ship')) {
+    const shipId = e.target.dataset.shipId
+    const row = +e.target.dataset.row
+    const column = +e.target.dataset.column
+
+    const newCoordinates = [row, column]
+
+    changeShipDirection(shipId, newCoordinates)
+  }
 }

@@ -16,12 +16,14 @@ import {
   handleDragLeave,
   handleDragOver,
   handleDrop,
+  updateShipDirection,
 } from './dom-controller.js'
 import {
   humanPlayer,
   computerPlayer,
   populateHumanGameBoard,
   populateComputerGameBoard,
+  changeShipDirection
 } from './game-controller.js'
 
 export {
@@ -44,4 +46,6 @@ export {
   handleDragLeave,
   handleDragOver,
   handleDrop,
+  updateShipDirection,
+  changeShipDirection
 }

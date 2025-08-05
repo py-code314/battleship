@@ -5,7 +5,6 @@ import { Ship, Player, handleDrop } from './aggregator.js'
 export const humanPlayer = new Player('human')
 export const computerPlayer = new Player('computer')
 
-
 // Place ships on human game board
 export function populateHumanGameBoard(e) {
   if (e.type === 'drop') {
@@ -18,7 +17,10 @@ export function populateHumanGameBoard(e) {
     const oldCoordinates = movingShip.getPosition()
 
     humanPlayer.gameBoard.clearShipAndReservedCells(movingShip)
-    const canMove = humanPlayer.gameBoard.regulateMovableCells(movingShip, newCoordinates)
+    const canMove = humanPlayer.gameBoard.regulateMovableCells(
+      movingShip,
+      newCoordinates
+    )
     if (canMove) {
       const success = humanPlayer.gameBoard.placeShip(
         movingShip,
@@ -30,12 +32,13 @@ export function populateHumanGameBoard(e) {
     } else {
       humanPlayer.gameBoard.placeShip(movingShip, oldCoordinates)
     }
-    
 
     // Reserve cells after ship's placement is over
-    humanPlayer.gameBoard.getShips().forEach(ship => 
-      humanPlayer.gameBoard.reserveCells(ship, ship.getPosition())
-    )
+    humanPlayer.gameBoard
+      .getShips()
+      .forEach((ship) =>
+        humanPlayer.gameBoard.reserveCells(ship, ship.getPosition())
+      )
   } else {
     humanPlayer.gameBoard.resetBoard()
 
@@ -82,4 +85,40 @@ export function populateComputerGameBoard() {
       success = computerPlayer.gameBoard.placeShip(ship, coordinates)
     } while (!success)
   }
+}
+
+export function changeShipDirection(shipId, coordinates) {
+  // Moving ship details
+  const movingShip = humanPlayer.gameBoard
+    .getShips()
+    .find((ship) => ship.id === shipId)
+
+  const oldCoordinates = movingShip.getPosition()
+  const oldDirection = movingShip.getDirection()
+
+  humanPlayer.gameBoard.clearShipAndReservedCells(movingShip)
+  movingShip.direction =
+    oldDirection === 'horizontal' ? 'vertical' : 'horizontal'
+  const canMove = humanPlayer.gameBoard.regulateMovableCells(
+    movingShip,
+    coordinates
+  )
+
+  if (canMove) {
+    const success = humanPlayer.gameBoard.placeShip(movingShip, coordinates)
+
+    if (!success) {
+      humanPlayer.gameBoard.placeShip(movingShip, oldCoordinates)
+    }
+  } else {
+    movingShip.direction = oldDirection
+    humanPlayer.gameBoard.placeShip(movingShip, oldCoordinates)
+  }
+
+  // Reserve cells after ship's placement is over
+  humanPlayer.gameBoard
+    .getShips()
+    .forEach((ship) =>
+      humanPlayer.gameBoard.reserveCells(ship, ship.getPosition())
+    )
 }

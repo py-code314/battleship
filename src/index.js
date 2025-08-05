@@ -15,6 +15,7 @@ import {
   handleDragEnter,
   handleDragLeave,
   handleDragOver,
+  updateShipDirection,
 } from './aggregator.js'
 
 // Get DOM elements
@@ -102,6 +103,11 @@ humanGameBoard.addEventListener('drop', (e) => {
     populateHumanGameBoard(e)
     renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
   }
+})
+
+humanGameBoard.addEventListener('click', (e) => {
+  updateShipDirection(e)
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
 

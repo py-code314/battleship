@@ -59,7 +59,7 @@
   --clr-slate-blue: hsl(248, 53%, 58%);
   --clr-green: hsl(123, 46%, 34%);
   --clr-pink: hsl(323, 52%, 53%);
-  --clr-gray: hsl(34, 57%, 47%);
+  --clr-yellow: hsl(55, 89%, 59%);
 
   /* Utilities */
   --radius-1: 0.3125rem; /* 5px */
@@ -260,7 +260,7 @@ body {
 }
 
 .ship {
-  background-color: var(--clr-gray);
+  background-color: var(--clr-yellow);
   cursor: move;
 }
 

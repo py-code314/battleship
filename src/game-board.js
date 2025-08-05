@@ -80,6 +80,7 @@ export class GameBoard {
     }
 
     // Place the ship
+
     for (let i = 0; i < ship.length; i++) {
       let square
 
@@ -144,7 +145,6 @@ export class GameBoard {
     const [row, column] = ship.getPosition()
     const direction = ship.getDirection()
 
-
     for (let i = 0; i < ship.length; i++) {
       const shipRow = direction === 'horizontal' ? row : row + i
       const shipColumn = direction === 'horizontal' ? column + i : column
@@ -175,7 +175,12 @@ export class GameBoard {
 
   regulateMovableCells(ship, coordinates) {
     const [row, column] = coordinates
-    const direction = ship.direction 
+    const direction = ship.direction
+
+    // Check for orientation boundaries
+    if (direction === 'horizontal' && column + ship.length > this.columns)
+      return false
+    if (direction === 'vertical' && row + ship.length > this.rows) return false
 
     for (let i = 0; i < ship.length; i++) {
       const shipRow = direction === 'horizontal' ? row : row + i
@@ -187,7 +192,12 @@ export class GameBoard {
           const newRow = shipRow + j
           const newColumn = shipCol + k
 
-          if (newRow >= 0 && newRow < this.rows && newColumn >= 0 && newColumn < this.columns) {
+          if (
+            newRow >= 0 &&
+            newRow < this.rows &&
+            newColumn >= 0 &&
+            newColumn < this.columns
+          ) {
             const cell = this.board[newRow][newColumn]
 
             // Ignore the moving ship
@@ -216,7 +226,6 @@ export class GameBoard {
     this.ships = []
   }
 
-  
   receiveAttack(coordinates) {
     // Get the square
     const [row, column] = coordinates
