@@ -1,5 +1,5 @@
 // Import
-import { Ship } from './aggregator.js'
+// import { Ship } from './aggregator.js'
 
 // GameBoard class to create a game board
 export class GameBoard {
@@ -8,15 +8,24 @@ export class GameBoard {
     this.columns = columns
     this.board = this.createBoard()
     this.ships = []
-    this.emptySquares = []
+    this.emptyCells = []
     this.allHits = new Set()
+  }
+
+  // Get ships array
+  getShips() {
+    return [...this.ships]
+  }
+
+  setShips(ship) {
+    this.ships.push(ship)
   }
 
   // Create a board
   createBoard() {
-    // console.log('new board')
     const board = []
-    // Loop through rows and columns and add object to each square
+
+    // Loop through rows and columns and add object to each cell
     for (let i = 0; i < this.rows; i++) {
       const row = []
       for (let j = 0; j < this.columns; j++) {
@@ -26,7 +35,6 @@ export class GameBoard {
           isOccupied: false,
           ship: null,
           isHit: false,
-          marker: '',
           isReserved: false,
         })
       }
@@ -37,26 +45,25 @@ export class GameBoard {
   }
 
   // Place a ship at specified coordinates
-  placeShip(coordinates, shipLength) {
+  placeShip(ship, coordinates) {
     const [row, column] = coordinates
 
-    // Create a ship
-    const ship = new Ship(shipLength)
-
-    // Check for boundaries
+    // Check for board boundaries
     if (
       row < 0 ||
       row >= this.rows ||
       column < 0 ||
       column >= this.columns ||
-      shipLength <= 0
+      ship.length <= 0
     )
       return false
 
-    // Changing the value temporarily
-    const isHorizontal = Math.random() < 0.5
-
-    // const isHorizontal = true
+    let isHorizontal
+    if (ship.direction === 'horizontal') {
+      isHorizontal = true
+    } else {
+      isHorizontal = false
+    }
 
     // Check for orientation boundaries
     if (isHorizontal && column + ship.length > this.columns) return false
@@ -74,24 +81,48 @@ export class GameBoard {
 
     // Place the ship
     for (let i = 0; i < ship.length; i++) {
-      const square = isHorizontal
-        ? this.board[row][column + i]
-        : this.board[row + i][column]
+      let square
+
+      if (isHorizontal) {
+        square = this.board[row][column + i]
+        square.ship = ship
+      } else {
+        square = this.board[row + i][column]
+        square.ship = ship
+      }
 
       square.isOccupied = true
-      // Mark the square with ship
-      square.ship = ship
     }
 
+    // Update ship's position and direction
+    ship.setPosition(coordinates)
+    ship.setDirection(ship.direction)
+
+    // Add new ship to ships array
+    if (!this.ships.includes(ship)) {
+      this.setShips(ship)
+    }
+
+    this.reserveCells(ship, coordinates)
+
+    return true
+  }
+
+  reserveCells(ship, coordinates) {
+    const [row, column] = coordinates
+    const direction = ship.getDirection()
+
+    // Mark cells adjacent to ship cells as reserved
     for (let i = 0; i < ship.length; i++) {
-      const shipRow = isHorizontal ? row : row + i
-      const shipColumn = isHorizontal ? column + i : column
+      const shipRow = direction === 'horizontal' ? row : row + i
+      const shipColumn = direction === 'horizontal' ? column + i : column
 
-      for (let i = -1; i <= 1; i++) {
-        for (let j = -1; j <= 1; j++) {
-          const newRow = shipRow + i
-          const newColumn = shipColumn + j
+      for (let j = -1; j <= 1; j++) {
+        for (let k = -1; k <= 1; k++) {
+          const newRow = shipRow + j
+          const newColumn = shipColumn + k
 
+          // Check for board boundaries
           if (
             newRow >= 0 &&
             newRow < this.rows &&
@@ -102,16 +133,74 @@ export class GameBoard {
             if (!adjacentSquare.isOccupied) {
               adjacentSquare.isReserved = true
             }
-
-            //  console.log(adjacentSquare)
           }
         }
       }
     }
+  }
 
-    // Add ship to ships array
-    this.ships.push(ship)
+  // Move ship to new position when it's dragged
+  clearShipAndReservedCells(ship) {
+    const [row, column] = ship.getPosition()
+    const direction = ship.getDirection()
 
+
+    for (let i = 0; i < ship.length; i++) {
+      const shipRow = direction === 'horizontal' ? row : row + i
+      const shipColumn = direction === 'horizontal' ? column + i : column
+
+      for (let j = -1; j <= 1; j++) {
+        for (let k = -1; k <= 1; k++) {
+          const newRow = shipRow + j
+          const newColumn = shipColumn + k
+
+          // Reset reserved cells around a ship
+          if (
+            newRow >= 0 &&
+            newRow < this.rows &&
+            newColumn >= 0 &&
+            newColumn < this.columns
+          ) {
+            const adjacentSquare = this.board[newRow][newColumn]
+            adjacentSquare.isReserved = false
+          }
+        }
+      }
+
+      // Reset ship cells
+      this.board[shipRow][shipColumn].isOccupied = false
+      this.board[shipRow][shipColumn].ship = null
+    }
+  }
+
+  regulateMovableCells(ship, coordinates) {
+    const [row, column] = coordinates
+    const direction = ship.direction 
+
+    for (let i = 0; i < ship.length; i++) {
+      const shipRow = direction === 'horizontal' ? row : row + i
+      const shipCol = direction === 'horizontal' ? column + i : column
+
+      // Check all adjacent cells for other ships
+      for (let j = -1; j <= 1; j++) {
+        for (let k = -1; k <= 1; k++) {
+          const newRow = shipRow + j
+          const newColumn = shipCol + k
+
+          if (newRow >= 0 && newRow < this.rows && newColumn >= 0 && newColumn < this.columns) {
+            const cell = this.board[newRow][newColumn]
+
+            // Ignore the moving ship
+            if (
+              cell.isOccupied &&
+              !(cell.ship === ship) // Only block other ship's adjacent cells
+            ) {
+              return false
+            }
+          }
+        }
+      }
+    }
     return true
   }
 
@@ -124,14 +213,13 @@ export class GameBoard {
         square.isReserved = false
       })
     })
-
     this.ships = []
   }
 
+  
   receiveAttack(coordinates) {
     // Get the square
     const [row, column] = coordinates
-    // console.log(row, column)
     const square = this.board[row][column]
 
     // Check if the square is already hit
@@ -146,7 +234,7 @@ export class GameBoard {
       square.ship.hit()
       return true
     } else {
-      this.emptySquares.push(coordinates)
+      this.emptyCells.push(coordinates)
       return false
     }
   }
