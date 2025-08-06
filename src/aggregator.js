@@ -23,7 +23,9 @@ import {
   computerPlayer,
   populateHumanGameBoard,
   populateComputerGameBoard,
-  changeShipDirection
+  changeShipDirection,
+  generateAdjacentShipCoordinates,
+  generateRandomCoordinates,
 } from './game-controller.js'
 
 export {
@@ -47,5 +49,7 @@ export {
   handleDragOver,
   handleDrop,
   updateShipDirection,
-  changeShipDirection
+  changeShipDirection,
+  generateAdjacentShipCoordinates,
+  generateRandomCoordinates,
 }

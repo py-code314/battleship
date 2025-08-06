@@ -16,6 +16,8 @@ import {
   handleDragLeave,
   handleDragOver,
   updateShipDirection,
+  generateRandomCoordinates,
+  generateAdjacentShipCoordinates,
 } from './aggregator.js'
 
 // Get DOM elements
@@ -36,25 +38,75 @@ document.addEventListener('DOMContentLoaded', (e) => {
   playerTurn.textContent = 'Your turn'
 })
 
+let computerLevel = 'standard'
+const computerLevels = document.querySelector('.computer__levels')
+computerLevels.addEventListener('click', (e) => {
+  console.log(e.target)
+  if (e.target.id === 'standard') {
+    computerLevel = 'standard'
+  } else if (e.target.id === 'advanced') {
+    computerLevel = 'advanced'
+    // console.log(computerLevel)
+  }
+})
+
+let adjacentCoordinates = []
 // Call makeMove() and renderComputerGameBoard() after click event on
 // computerGameBoard
 computerGameBoard.addEventListener('click', (e) => {
   const row = +e.target.dataset.row
   const column = +e.target.dataset.column
+  const coordinates = [row, column]
 
   try {
-    humanPlayer.makeMove(computerPlayer.gameBoard, [row, column])
+    // Human play
+    humanPlayer.makeMove(computerPlayer.gameBoard, coordinates)
+
     renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
     updatePlayerTurn()
     clearErrorMessage()
 
-    // Call makeMove() and renderHumanGameBoard() after click event on
-    //  computerGameBoard with 500ms delay
+    // Computer play
+    const randomCoordinates = generateRandomCoordinates(humanPlayer.gameBoard)
+
     setTimeout(() => {
-      computerPlayer.makeMove(humanPlayer.gameBoard)
+      // Standard level
+      if (computerLevel === 'standard') {
+        computerPlayer.makeMove(humanPlayer.gameBoard, randomCoordinates)
+      } else if (computerLevel === 'advanced') { // Advanced level
+        // If any ship got hit
+        if (adjacentCoordinates.length) {
+          const hitCoordinates = adjacentCoordinates.shift()
+          const hitShip = computerPlayer.makeMove(
+            humanPlayer.gameBoard,
+            hitCoordinates
+          )
+          // Update adjacentCoordinates after a successful hit
+          if (hitShip) {
+            adjacentCoordinates = generateAdjacentShipCoordinates(
+              humanPlayer.gameBoard,
+              hitCoordinates
+            )
+          }
+        } else {
+          // Any ship is not hit
+          const hitShip = computerPlayer.makeMove(
+            humanPlayer.gameBoard,
+            randomCoordinates
+          )
+
+          if (hitShip) {
+            adjacentCoordinates = generateAdjacentShipCoordinates(
+              humanPlayer.gameBoard,
+              randomCoordinates
+            )
+          }
+        }
+      }
+
       renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
       updatePlayerTurn()
-    }, 500)
+    }, 300)
   } catch (err) {
     handleRepeatHit(err)
   }
@@ -65,7 +117,6 @@ randomizeBtn.addEventListener('click', (e) => {
   populateHumanGameBoard(e)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
-
 
 // Event listeners for moving a ship
 humanGameBoard.addEventListener('dragstart', (e) => {
@@ -109,5 +160,3 @@ humanGameBoard.addEventListener('click', (e) => {
   updateShipDirection(e)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
-
-

@@ -1,5 +1,4 @@
-// Import
-// import { Ship } from './aggregator.js'
+
 
 // GameBoard class to create a game board
 export class GameBoard {
@@ -10,6 +9,7 @@ export class GameBoard {
     this.ships = []
     this.emptyCells = []
     this.allHits = new Set()
+    this.shipCells = new Set()
   }
 
   // Get ships array
@@ -20,6 +20,22 @@ export class GameBoard {
   setShips(ship) {
     this.ships.push(ship)
   }
+
+  getAllHits() {
+    return this.allHits
+  }
+
+  getShipCells() {
+    return this.shipCells
+  }
+
+  addShipCell(coordinates) {
+    this.shipCells.add(`${coordinates}`)
+  }
+
+  // addHit(coordinates) {
+  //   this.allHits.add(coordinates)
+  // }
 
   // Create a board
   createBoard() {
@@ -87,9 +103,11 @@ export class GameBoard {
       if (isHorizontal) {
         square = this.board[row][column + i]
         square.ship = ship
+        this.addShipCell([row, column + i])
       } else {
         square = this.board[row + i][column]
         square.ship = ship
+        this.addShipCell([row + i, column])
       }
 
       square.isOccupied = true
@@ -230,6 +248,7 @@ export class GameBoard {
     // Get the square
     const [row, column] = coordinates
     const square = this.board[row][column]
+    // console.log(square)
 
     // Check if the square is already hit
     if (square.isHit) {

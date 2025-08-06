@@ -87,6 +87,7 @@ export function populateComputerGameBoard() {
   }
 }
 
+// Changes ship direction and places ship on board
 export function changeShipDirection(shipId, coordinates) {
   // Moving ship details
   const movingShip = humanPlayer.gameBoard
@@ -121,4 +122,58 @@ export function changeShipDirection(shipId, coordinates) {
     .forEach((ship) =>
       humanPlayer.gameBoard.reserveCells(ship, ship.getPosition())
     )
+}
+
+// Returns random adjacent coordinates of a successful hit
+export function generateAdjacentShipCoordinates(enemyBoard, coordinates) {
+  const [row, column] = coordinates
+  const adjacentShipCoordinatesArray = []
+
+  // Check all adjacent cells
+  for (let i = -1; i <= 1; i++) {
+    for (let j = -1; j <= 1; j++) {
+      const newRow = row + i
+      const newColumn = column + j
+
+      if (
+        newRow >= 0 &&
+        newRow < enemyBoard.rows &&
+        newColumn >= 0 &&
+        newColumn < enemyBoard.columns
+      ) {
+        const adjacentCoordinates = [newRow, newColumn]
+
+        // Add an adjacent cell if it has a ship and not hit already
+        if (
+          enemyBoard.getShipCells().has(`${adjacentCoordinates}`) &&
+          adjacentCoordinates.toString() !== coordinates.toString() &&
+          !enemyBoard.getAllHits().has(`${adjacentCoordinates}`)
+        ) {
+          adjacentShipCoordinatesArray.push(adjacentCoordinates)
+        }
+      }
+    }
+  }
+
+  return adjacentShipCoordinatesArray
+}
+
+// Generate random coordinates
+export function generateRandomCoordinates(enemyBoard) {
+  let row, column, key, randomCoordinates
+
+  // Throw error if all squares are hit
+  if (enemyBoard.getAllHits().size >= 100) {
+    throw new Error('All squares have been hit')
+  }
+
+  // Check if the coordinates are already in the Set
+  do {
+    row = Math.floor(Math.random() * 10)
+    column = Math.floor(Math.random() * 10)
+    key = `${row},${column}`
+    randomCoordinates = [row, column]
+  } while (enemyBoard.getAllHits().has(key))
+
+  return randomCoordinates
 }
