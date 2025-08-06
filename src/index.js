@@ -21,6 +21,7 @@ import {
   displayWelcomeMessage,
   displayStartGameMessage,
   animateMessages,
+  displayAIMessage
 } from './aggregator.js'
 
 // Get DOM elements
@@ -71,6 +72,7 @@ computerLevels.addEventListener('click', (e) => {
 })
 
 let adjacentCoordinates = []
+let firstClick = true
 // Call makeMove() and renderComputerGameBoard() after click event on
 // computerGameBoard
 computerGameBoard.addEventListener('click', (e) => {
@@ -84,6 +86,10 @@ computerGameBoard.addEventListener('click', (e) => {
 
     renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
     updatePlayerTurn()
+    if (firstClick) {
+      displayAIMessage()
+      firstClick = false
+    }
     clearErrorMessage()
 
     // Computer play

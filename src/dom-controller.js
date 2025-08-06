@@ -203,3 +203,11 @@ export function animateMessages() {
 
   
 }
+
+export function displayAIMessage() {
+  const ai = document.createElement('div')
+  ai.classList.add('message')
+  ai.textContent = 'Game on! AI is playing in Learning mode'
+  
+  messages.prepend(ai)
+}

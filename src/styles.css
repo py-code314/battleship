@@ -334,10 +334,6 @@ body {
   overflow: auto;
 }
 
-.yellow {
-  background-color: var(--clr-yellow);
-}
-
 .message {
   padding: var(--space-40) 0;
 }

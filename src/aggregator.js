@@ -21,6 +21,7 @@ import {
   displayWelcomeMessage,
   displayStartGameMessage,
   animateMessages,
+  displayAIMessage,
 } from './dom-controller.js'
 import {
   humanPlayer,
@@ -61,4 +62,5 @@ export {
   displayWelcomeMessage,
   displayStartGameMessage,
   animateMessages,
+  displayAIMessage,
 }
