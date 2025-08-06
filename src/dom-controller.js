@@ -5,8 +5,9 @@ import {
 } from './aggregator.js'
 
 // Get DOM elements
-export const playerTurn = document.querySelector('.messages__turn')
+export const playerTurn = document.querySelector('.player-turn')
 const errorMessage = document.querySelector('.messages__error')
+const messages = document.querySelector('.messages__container')
 
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
@@ -80,15 +81,18 @@ export function renderComputerGameBoard(container, board) {
 }
 
 // Change message based on player's turn
+export function displayPlayerTurn() {
+  playerTurn.textContent = 'YOUR TURN'
+}
+
 export function updatePlayerTurn() {
-  let turnMessage =
-    playerTurn.textContent === 'Your turn' ? "Computer's turn" : 'Your turn'
+  playerTurn.textContent = playerTurn.textContent === 'YOUR TURN'
+    ? "COMPUTER'S TURN"
+    : 'YOUR TURN'
 
   if (humanPlayer.isLost() || computerPlayer.isLost()) {
-    turnMessage = 'Game over'
+    playerTurn.textContent = 'GAME OVER!'
   }
-
-  playerTurn.textContent = turnMessage
 }
 
 // Show error on repeat hit on same square
@@ -165,4 +169,37 @@ export function updateShipDirection(e) {
 
     changeShipDirection(shipId, newCoordinates)
   }
+}
+
+export function displayWelcomeMessage() {
+  const welcome = document.createElement('p')
+  welcome.classList.add('message')
+  welcome.textContent = 'Welcome to the game. Click Play to get started'
+  messages.appendChild(welcome)
+}
+
+export function displayStartGameMessage() {
+  const legend = document.createElement('p')
+  legend.classList.add('message')
+  legend.textContent = 'Legend: Orange = Miss, Red = Hit'
+
+  const turn = document.createElement('p')
+  turn.classList.add('message')
+  turn.textContent = 'Your turn: Click any square on the enemy board'
+
+  messages.prepend(turn, legend)
+}
+
+export function animateMessages() {
+  setTimeout(() => {
+    messages.style.backgroundColor = '#fceb87ff'
+    messages.style.transition = 'background-color 0.3s ease'
+
+  }, 500)
+  setTimeout(() => {
+    messages.style.backgroundColor = 'white'
+    messages.style.transition = 'background-color 0.5s ease'
+  }, 1200)
+
+  
 }

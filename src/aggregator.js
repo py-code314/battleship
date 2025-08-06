@@ -6,6 +6,7 @@ import { Player } from './player.js'
 import {
   renderHumanGameBoard,
   renderComputerGameBoard,
+  displayPlayerTurn,
   updatePlayerTurn,
   playerTurn,
   handleRepeatHit,
@@ -17,6 +18,9 @@ import {
   handleDragOver,
   handleDrop,
   updateShipDirection,
+  displayWelcomeMessage,
+  displayStartGameMessage,
+  animateMessages,
 } from './dom-controller.js'
 import {
   humanPlayer,
@@ -26,6 +30,7 @@ import {
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
+  
 } from './game-controller.js'
 
 export {
@@ -36,6 +41,7 @@ export {
   computerPlayer,
   renderHumanGameBoard,
   renderComputerGameBoard,
+  displayPlayerTurn,
   updatePlayerTurn,
   playerTurn,
   handleRepeatHit,
@@ -52,4 +58,7 @@ export {
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
+  displayWelcomeMessage,
+  displayStartGameMessage,
+  animateMessages,
 }

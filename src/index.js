@@ -4,8 +4,8 @@ import {
   computerPlayer,
   renderHumanGameBoard,
   renderComputerGameBoard,
+  displayPlayerTurn,
   updatePlayerTurn,
-  playerTurn,
   handleRepeatHit,
   clearErrorMessage,
   populateHumanGameBoard,
@@ -18,12 +18,17 @@ import {
   updateShipDirection,
   generateRandomCoordinates,
   generateAdjacentShipCoordinates,
+  displayWelcomeMessage,
+  displayStartGameMessage,
+  animateMessages,
 } from './aggregator.js'
 
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
-const randomizeBtn = document.querySelector('#randomize-btn')
+const randomizeBtn = document.querySelector('#randomize')
+const resetBtn = document.querySelector('#reset')
+const playBtn = document.querySelector('#play')
 
 // On page load
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -35,8 +40,23 @@ document.addEventListener('DOMContentLoaded', (e) => {
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
 
-  playerTurn.textContent = 'Your turn'
+  // playerTurn.textContent = 'YOUR TURN'
+  displayWelcomeMessage()
+  animateMessages()
+
 })
+
+// TODO: both boards should be disabled on page load, enable after Play button click
+// TODO: disable Play button after click
+
+playBtn.addEventListener('click', () => {
+  displayStartGameMessage()
+  displayPlayerTurn()
+})
+
+
+
+
 
 let computerLevel = 'standard'
 const computerLevels = document.querySelector('.computer__levels')
@@ -111,6 +131,8 @@ computerGameBoard.addEventListener('click', (e) => {
     handleRepeatHit(err)
   }
 })
+
+// TODO: disable game boards after game is over
 
 // Event listener for randomize button
 randomizeBtn.addEventListener('click', (e) => {

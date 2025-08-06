@@ -28,10 +28,13 @@
       <div class="boards-container">
         <div class="game-board" id="human-board"></div>
 
-        <div class="game">
-          <button class="btn game__btn" id="randomize-btn">Randomize</button>
-          <button class="btn game__btn">Reset</button>
-          <button class="btn game__btn">Play</button>
+        <div class="game-play">
+          <div class="player-turn"></div>
+          <div class="game">
+            <button class="btn game__btn" id="randomize">Randomize</button>
+            <button class="btn game__btn" id="reset">Reset</button>
+            <button class="btn game__btn" id="play">Play</button>
+          </div>
         </div>
 
         <div class="game-board" id="computer-board"></div>
@@ -39,7 +42,7 @@
 
       <div class="game-data">
         <div class="ships">
-          <p class="ships__text">Your Ships</p>
+          <h2 class="ships__heading">Your Ships</h2>
           <ul class="ships__list">
             <li class="ships__item">Aircraft Carrier (5)</li>
             <li class="ships__item">Battleship (4)</li>
@@ -49,14 +52,14 @@
           </ul>
         </div>
         <div class="messages">
-          <p class="messages__text">Messages</p>
+          <h2 class="messages__text">Messages</h2>
           <p class="messages__turn"></p>
           <div class="messages__container">
             <p class="messages__error"></p>
           </div>
         </div>
         <div class="ships computer-ships">
-          <p class="ships__text">Enemy Ships</p>
+          <h2 class="ships__heading">Enemy Ships</h2>
           <ul class="ships__list">
             <li class="ships__item">Aircraft Carrier (5)</li>
             <li class="ships__item">Battleship (4)</li>
