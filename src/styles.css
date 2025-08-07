@@ -345,3 +345,9 @@ body {
 .sunk {
   color: var(--clr-slate-blue);
 }
+
+.winner {
+  color: var(--clr-pink);
+  font-size: var(--fs-600);
+  font-weight: var(--fw-bold);
+}

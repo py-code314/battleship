@@ -246,3 +246,19 @@ export function isComputerShipSunk() {
     }
   })
 }
+
+export function showWinner() {
+  if (humanPlayer.isLost()) {
+    const winner = document.createElement('p')
+    winner.classList.add('winner', 'message')
+    winner.textContent = 'YOU LOSE. COMPUTER WINS!'
+
+    messages.prepend(winner)
+  } else if (computerPlayer.isLost()) {
+    const winner = document.createElement('p')
+    winner.classList.add('winner', 'message')
+    winner.textContent = 'COMPUTER LOST. YOU WIN!'
+
+    messages.prepend(winner)
+  }
+}

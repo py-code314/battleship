@@ -24,6 +24,7 @@ import {
   displayAIMessage,
   isHumanShipSunk,
   isComputerShipSunk,
+  showWinner,
 } from './dom-controller.js'
 import {
   // humanPlayer,
@@ -68,4 +69,5 @@ export {
   displayAIMessage,
   isHumanShipSunk,
   isComputerShipSunk,
+  showWinner,
 }

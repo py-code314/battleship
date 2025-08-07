@@ -7,7 +7,7 @@ import {
   displayPlayerTurn,
   updatePlayerTurn,
   handleRepeatHit,
-  clearErrorMessage,
+  // clearErrorMessage,
   populateHumanGameBoard,
   populateComputerGameBoard,
   handleDragStart,
@@ -24,6 +24,7 @@ import {
   displayAIMessage,
   isHumanShipSunk,
   isComputerShipSunk,
+  showWinner,
 } from './aggregator.js'
 
 
@@ -137,6 +138,7 @@ computerGameBoard.addEventListener('click', (e) => {
       renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
       updatePlayerTurn()
       isHumanShipSunk()
+      showWinner()
     }, 300)
   } catch (err) {
     handleRepeatHit(err)
