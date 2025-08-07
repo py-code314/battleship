@@ -7,10 +7,9 @@ import {
 
 // Get DOM elements
 export const playerTurn = document.querySelector('.player-turn')
-// const errorMessage = document.querySelector('.messages__error')
 const messages = document.querySelector('.messages__container')
-// console.log(computerPlayer)
-// const computerPlayer = new Player('computer')
+// const aircraftCarrier = document.querySelector('#aircraft-carrier')
+
 
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
@@ -226,6 +225,11 @@ export function isHumanShipSunk() {
       sunk.textContent = `Your ${ship.name} has sunk!`
 
       messages.prepend(sunk)
+
+      const shipName = document.querySelector(
+        `[data-name="Human ${ship.name}"]`
+      )
+      shipName.classList.add('strike-through')
     }
   })
 }
@@ -243,6 +247,9 @@ export function isComputerShipSunk() {
       sunk.textContent = `Computer's ${ship.name} has sunk!`
 
       messages.prepend(sunk)
+
+      const shipName = document.querySelector(`[data-name="Computer ${ship.name}"]`)
+      shipName.classList.add('strike-through')
     }
   })
 }
@@ -257,7 +264,7 @@ export function showWinner() {
   } else if (computerPlayer.isLost()) {
     const winner = document.createElement('p')
     winner.classList.add('winner', 'message')
-    winner.textContent = 'COMPUTER LOST. YOU WIN!'
+    winner.textContent = 'COMPUTER LOST. YOU WON!'
 
     messages.prepend(winner)
   }

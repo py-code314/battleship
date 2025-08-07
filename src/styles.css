@@ -346,6 +346,10 @@ body {
   color: var(--clr-slate-blue);
 }
 
+.strike-through {
+  text-decoration: line-through;
+}
+
 .winner {
   color: var(--clr-pink);
   font-size: var(--fs-600);
