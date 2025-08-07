@@ -96,6 +96,11 @@ export function updatePlayerTurn() {
   }
 }
 
+// Clear player turn message
+export function clearPlayerTurn() {
+  playerTurn.textContent = ''
+}
+
 // Show error on repeat hit on same square
 export function handleRepeatHit(err) {
   console.log('repeat hit')

@@ -32,6 +32,7 @@ import {
   enableResetButton,
   disableRandomizeButton,
   enableRandomizeButton,
+  clearPlayerTurn,
 } from './dom-controller.js'
 import {
   populateHumanGameBoard,
@@ -39,6 +40,7 @@ import {
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
+  
 } from './game-controller.js'
 import { humanPlayer, computerPlayer } from './players.js'
 
@@ -83,4 +85,5 @@ export {
   enablePlayButton,
   clearMessages,
   removeStrikeThrough,
+  clearPlayerTurn,
 }

@@ -34,6 +34,7 @@ import {
   enablePlayButton,
   clearMessages,
   removeStrikeThrough,
+  clearPlayerTurn,
 } from './aggregator.js'
 
 // Get DOM elements
@@ -174,6 +175,7 @@ resetBtn.addEventListener('click', (e) => {
   enableRandomizeButton()
   disableResetButton()
   removeStrikeThrough()
+  clearPlayerTurn()
 })
 
 // Event listeners for moving a ship
