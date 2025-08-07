@@ -186,11 +186,6 @@ body {
   /* font-weight: var(--fw-bold); */
 }
 
-/* .computer {
-  display: flex;
-  gap: var(--space-900);
-} */
-
 .btn {
   display: inline-block;
   border-radius: var(--radius-1);
@@ -213,30 +208,6 @@ body {
   display: flex;
   justify-content: space-between;
 }
-
-/* .row-wrapper {
-  display: flex;
-}
-
-.numbers div {
-  width: var(--size-div);
-  height: var(--size-div);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.alphabets {
-  display: flex;
-}
-
-.alphabets div {
-  width: var(--size-div);
-  height: var(--size-div);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 
 .game-board {
   width: var(--size-game-board);
@@ -270,7 +241,6 @@ body {
   flex-direction: column;
   align-items: center;
   gap: var(--space-200);
-
 }
 
 .player-turn {
@@ -354,4 +324,8 @@ body {
   color: var(--clr-pink);
   font-size: var(--fs-600);
   font-weight: var(--fw-bold);
+}
+
+.disable {
+  pointer-events: none;
 }

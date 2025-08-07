@@ -1,5 +1,3 @@
-
-
 // GameBoard class to create a game board
 export class GameBoard {
   constructor(rows = 10, columns = 10) {
@@ -32,10 +30,6 @@ export class GameBoard {
   addShipCell(coordinates) {
     this.shipCells.add(`${coordinates}`)
   }
-
-  // addHit(coordinates) {
-  //   this.allHits.add(coordinates)
-  // }
 
   // Create a board
   createBoard() {
@@ -236,6 +230,7 @@ export class GameBoard {
   resetBoard() {
     this.board.forEach((row) => {
       row.forEach((square) => {
+        square.isHit = false
         square.isOccupied = false
         square.ship = null
         square.isReserved = false
@@ -248,7 +243,6 @@ export class GameBoard {
     // Get the square
     const [row, column] = coordinates
     const square = this.board[row][column]
-    // console.log(square)
 
     // Check if the square is already hit
     if (square.isHit) {

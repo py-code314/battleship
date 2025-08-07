@@ -1,5 +1,3 @@
-
-
 import { Ship } from './ship.js'
 import { GameBoard } from './game-board.js'
 import { Player } from './player.js'
@@ -10,7 +8,6 @@ import {
   updatePlayerTurn,
   playerTurn,
   handleRepeatHit,
-  clearErrorMessage,
   handleDragStart,
   handleDragEnd,
   handleDragEnter,
@@ -25,16 +22,23 @@ import {
   isHumanShipSunk,
   isComputerShipSunk,
   showWinner,
+  disableComputerGameBoard,
+  enableComputerGameBoard,
+  disablePlayButton,
+  enablePlayButton,
+  clearMessages,
+  removeStrikeThrough,
+  disableResetButton,
+  enableResetButton,
+  disableRandomizeButton,
+  enableRandomizeButton,
 } from './dom-controller.js'
 import {
-  // humanPlayer,
-  // computerPlayer,
   populateHumanGameBoard,
   populateComputerGameBoard,
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
-  
 } from './game-controller.js'
 import { humanPlayer, computerPlayer } from './players.js'
 
@@ -50,7 +54,6 @@ export {
   updatePlayerTurn,
   playerTurn,
   handleRepeatHit,
-  clearErrorMessage,
   populateHumanGameBoard,
   populateComputerGameBoard,
   handleDragStart,
@@ -70,4 +73,14 @@ export {
   isHumanShipSunk,
   isComputerShipSunk,
   showWinner,
+  disableComputerGameBoard,
+  enableComputerGameBoard,
+  disableResetButton,
+  enableResetButton,
+  disableRandomizeButton,
+  enableRandomizeButton,
+  disablePlayButton,
+  enablePlayButton,
+  clearMessages,
+  removeStrikeThrough,
 }

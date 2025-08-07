@@ -7,7 +7,6 @@ import {
   displayPlayerTurn,
   updatePlayerTurn,
   handleRepeatHit,
-  // clearErrorMessage,
   populateHumanGameBoard,
   populateComputerGameBoard,
   handleDragStart,
@@ -25,8 +24,17 @@ import {
   isHumanShipSunk,
   isComputerShipSunk,
   showWinner,
+  disableComputerGameBoard,
+  enableComputerGameBoard,
+  disableResetButton,
+  enableResetButton,
+  disableRandomizeButton,
+  enableRandomizeButton,
+  disablePlayButton,
+  enablePlayButton,
+  clearMessages,
+  removeStrikeThrough,
 } from './aggregator.js'
-
 
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
@@ -44,34 +52,30 @@ document.addEventListener('DOMContentLoaded', (e) => {
   // Load computer game board
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
-
-  // playerTurn.textContent = 'YOUR TURN'
+  disableComputerGameBoard(computerGameBoard)
   displayWelcomeMessage()
   animateMessages()
 
+  disableResetButton()
 })
-
-// TODO: both boards should be disabled on page load, enable after Play button click
-// TODO: disable Play button after click
 
 playBtn.addEventListener('click', () => {
   displayStartGameMessage()
   displayPlayerTurn()
+  enableComputerGameBoard(computerGameBoard)
+
+  disablePlayButton()
+  enableResetButton()
+  disableRandomizeButton()
 })
-
-
-
-
 
 let computerLevel = 'standard'
 const computerLevels = document.querySelector('.computer__levels')
 computerLevels.addEventListener('click', (e) => {
-  console.log(e.target)
   if (e.target.id === 'standard') {
     computerLevel = 'standard'
   } else if (e.target.id === 'advanced') {
     computerLevel = 'advanced'
-    // console.log(computerLevel)
   }
 })
 
@@ -95,7 +99,6 @@ computerGameBoard.addEventListener('click', (e) => {
       firstClick = false
     }
     isComputerShipSunk()
-    // clearErrorMessage()
 
     // Computer play
     const randomCoordinates = generateRandomCoordinates(humanPlayer.gameBoard)
@@ -104,7 +107,8 @@ computerGameBoard.addEventListener('click', (e) => {
       // Standard level
       if (computerLevel === 'standard') {
         computerPlayer.makeMove(humanPlayer.gameBoard, randomCoordinates)
-      } else if (computerLevel === 'advanced') { // Advanced level
+      } else if (computerLevel === 'advanced') {
+        // Advanced level
         // If any ship got hit
         if (adjacentCoordinates.length) {
           const hitCoordinates = adjacentCoordinates.shift()
@@ -138,19 +142,38 @@ computerGameBoard.addEventListener('click', (e) => {
       renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
       updatePlayerTurn()
       isHumanShipSunk()
-      showWinner()
+      const winner = showWinner()
+      if (winner) {
+        disableComputerGameBoard(computerGameBoard)
+      }
     }, 300)
   } catch (err) {
     handleRepeatHit(err)
   }
 })
 
-// TODO: disable game boards after game is over
-
 // Event listener for randomize button
 randomizeBtn.addEventListener('click', (e) => {
   populateHumanGameBoard(e)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+})
+
+// Reset the page
+resetBtn.addEventListener('click', (e) => {
+  populateHumanGameBoard(e)
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+
+  populateComputerGameBoard()
+  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
+  disableComputerGameBoard(computerGameBoard)
+  clearMessages()
+  displayWelcomeMessage()
+  animateMessages()
+
+  enablePlayButton()
+  enableRandomizeButton()
+  disableResetButton()
+  removeStrikeThrough()
 })
 
 // Event listeners for moving a ship

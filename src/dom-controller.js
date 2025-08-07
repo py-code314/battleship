@@ -2,14 +2,14 @@ import {
   humanPlayer,
   computerPlayer,
   changeShipDirection,
-  // Player
 } from './aggregator.js'
 
 // Get DOM elements
 export const playerTurn = document.querySelector('.player-turn')
 const messages = document.querySelector('.messages__container')
-// const aircraftCarrier = document.querySelector('#aircraft-carrier')
-
+const resetButton = document.querySelector('#reset')
+const randomizeButton = document.querySelector('#randomize')
+const playButton = document.querySelector('#play')
 
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
@@ -98,16 +98,12 @@ export function updatePlayerTurn() {
 
 // Show error on repeat hit on same square
 export function handleRepeatHit(err) {
+  console.log('repeat hit')
   const error = document.createElement('p')
   error.classList.add('error')
   error.textContent = err.message
 
   messages.prepend(error)
-}
-
-// Clear error message
-export function clearErrorMessage() {
-  // errorMessage.textContent = ''
 }
 
 // Make ship cells draggable
@@ -177,7 +173,7 @@ export function updateShipDirection(e) {
 export function displayWelcomeMessage() {
   const welcome = document.createElement('p')
   welcome.classList.add('message')
-  welcome.textContent = 'Welcome to the game. Click Play to get started'
+  welcome.textContent = 'Welcome to Battleship game. Click Play to get started'
   messages.appendChild(welcome)
 }
 
@@ -248,9 +244,20 @@ export function isComputerShipSunk() {
 
       messages.prepend(sunk)
 
-      const shipName = document.querySelector(`[data-name="Computer ${ship.name}"]`)
+      const shipName = document.querySelector(
+        `[data-name="Computer ${ship.name}"]`
+      )
       shipName.classList.add('strike-through')
     }
+  })
+}
+
+// Remove strike through from ship names
+export function removeStrikeThrough() {
+  const shipNames = document.querySelectorAll('.ships__item')
+
+  shipNames.forEach((shipName) => {
+    shipName.classList.remove('strike-through')
   })
 }
 
@@ -260,12 +267,69 @@ export function showWinner() {
     winner.classList.add('winner', 'message')
     winner.textContent = 'YOU LOSE. COMPUTER WINS!'
 
-    messages.prepend(winner)
+    const reset = document.createElement('p')
+    reset.classList.add('message')
+    reset.textContent = 'Click Reset to start a new game'
+
+    messages.prepend(reset, winner)
+
+    return true
   } else if (computerPlayer.isLost()) {
     const winner = document.createElement('p')
     winner.classList.add('winner', 'message')
     winner.textContent = 'COMPUTER LOST. YOU WON!'
 
-    messages.prepend(winner)
+    const reset = document.createElement('p')
+    reset.classList.add('message')
+    reset.textContent = 'Click Reset to start a new game'
+
+    messages.prepend(reset, winner)
+
+    return true
   }
+}
+
+// Disable computer game board
+export function disableComputerGameBoard(container) {
+  container.classList.add('disable')
+}
+
+// Enable computer game board
+export function enableComputerGameBoard(container) {
+  container.classList.remove('disable')
+}
+
+// Disable Reset button
+export function disableResetButton() {
+  resetButton.classList.add('disable')
+}
+
+// Enable Reset button
+export function enableResetButton() {
+  resetButton.classList.remove('disable')
+}
+
+// Disable Randomize button
+export function disableRandomizeButton() {
+  randomizeButton.classList.add('disable')
+}
+
+// Enable Randomize button
+export function enableRandomizeButton() {
+  randomizeButton.classList.remove('disable')
+}
+
+// Disable Play button
+export function disablePlayButton() {
+  playButton.classList.add('disable')
+}
+
+// Enable Play button
+export function enablePlayButton() {
+  playButton.classList.remove('disable')
+}
+
+// Clear messages from messages container
+export function clearMessages() {
+  messages.textContent = ''
 }
