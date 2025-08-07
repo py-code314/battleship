@@ -2,12 +2,15 @@ import {
   humanPlayer,
   computerPlayer,
   changeShipDirection,
+  // Player
 } from './aggregator.js'
 
 // Get DOM elements
 export const playerTurn = document.querySelector('.player-turn')
-const errorMessage = document.querySelector('.messages__error')
+// const errorMessage = document.querySelector('.messages__error')
 const messages = document.querySelector('.messages__container')
+// console.log(computerPlayer)
+// const computerPlayer = new Player('computer')
 
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
@@ -86,9 +89,8 @@ export function displayPlayerTurn() {
 }
 
 export function updatePlayerTurn() {
-  playerTurn.textContent = playerTurn.textContent === 'YOUR TURN'
-    ? "COMPUTER'S TURN"
-    : 'YOUR TURN'
+  playerTurn.textContent =
+    playerTurn.textContent === 'YOUR TURN' ? "COMPUTER'S TURN" : 'YOUR TURN'
 
   if (humanPlayer.isLost() || computerPlayer.isLost()) {
     playerTurn.textContent = 'GAME OVER!'
@@ -97,12 +99,16 @@ export function updatePlayerTurn() {
 
 // Show error on repeat hit on same square
 export function handleRepeatHit(err) {
-  errorMessage.textContent = err.message
+  const error = document.createElement('p')
+  error.classList.add('error')
+  error.textContent = err.message
+
+  messages.prepend(error)
 }
 
 // Clear error message
 export function clearErrorMessage() {
-  errorMessage.textContent = ''
+  // errorMessage.textContent = ''
 }
 
 // Make ship cells draggable
@@ -157,8 +163,6 @@ export function handleDrop(e) {
   return { shipId, newCoordinates }
 }
 
-// TODO: call populateHumanGameBoard() inside handleDrop()?
-
 export function updateShipDirection(e) {
   if (e.target.classList.contains('ship')) {
     const shipId = e.target.dataset.shipId
@@ -194,20 +198,51 @@ export function animateMessages() {
   setTimeout(() => {
     messages.style.backgroundColor = '#fceb87ff'
     messages.style.transition = 'background-color 0.3s ease'
-
   }, 500)
   setTimeout(() => {
     messages.style.backgroundColor = 'white'
     messages.style.transition = 'background-color 0.5s ease'
   }, 1200)
-
-  
 }
 
 export function displayAIMessage() {
-  const ai = document.createElement('div')
+  const ai = document.createElement('p')
   ai.classList.add('message')
   ai.textContent = 'Game on! AI is playing in Learning mode'
-  
+
   messages.prepend(ai)
+}
+
+// Notifies about the sunken ships
+export function isHumanShipSunk() {
+  const humanShips = humanPlayer.gameBoard.getShips()
+
+  humanShips.forEach((ship) => {
+    if (ship.isSunk() && !ship.getSunkNotified()) {
+      ship.setSunkNotified(true)
+
+      const sunk = document.createElement('p')
+      sunk.classList.add('sunk', 'message')
+      sunk.textContent = `Your ${ship.name} has sunk!`
+
+      messages.prepend(sunk)
+    }
+  })
+}
+
+// Notifies about the sunken ships
+export function isComputerShipSunk() {
+  const computerShips = computerPlayer.gameBoard.getShips()
+
+  computerShips.forEach((ship) => {
+    if (ship.isSunk() && !ship.getSunkNotified()) {
+      ship.setSunkNotified(true)
+
+      const sunk = document.createElement('p')
+      sunk.classList.add('sunk', 'message')
+      sunk.textContent = `Computer's ${ship.name} has sunk!`
+
+      messages.prepend(sunk)
+    }
+  })
 }

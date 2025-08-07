@@ -1,9 +1,9 @@
 // Import classes
-import { Ship, Player, handleDrop } from './aggregator.js'
+import { Ship, Player, handleDrop, humanPlayer, computerPlayer } from './aggregator.js'
 
-// Create humanPlayer and computerPlayer
-export const humanPlayer = new Player('human')
-export const computerPlayer = new Player('computer')
+// // Create humanPlayer and computerPlayer
+// export const humanPlayer = new Player('human')
+// export const computerPlayer = new Player('computer')
 
 // Place ships on human game board
 export function populateHumanGameBoard(e) {
@@ -44,9 +44,11 @@ export function populateHumanGameBoard(e) {
 
     const shipLengths = [5, 4, 3, 3, 2]
     const length = shipLengths.length
+    const shipNames = ['Aircraft Carrier', 'Battleship', 'Submarine', 'Cruiser', 'Destroyer'
+    ]
 
     for (let i = 0; i < length; i++) {
-      let ship, direction, success
+      let direction, success
 
       // Keep looping until a successful ship placement
       do {
@@ -57,7 +59,8 @@ export function populateHumanGameBoard(e) {
         const isHorizontal = Math.random() < 0.5
         direction = isHorizontal ? 'horizontal' : 'vertical'
 
-        ship = new Ship(shipLengths[i], coordinates, direction)
+        const ship = new Ship(shipLengths[i], coordinates, direction, shipNames[i])
+        // console.log(ship)
         success = humanPlayer.gameBoard.placeShip(ship, coordinates)
       } while (!success)
     }
@@ -68,6 +71,13 @@ export function populateHumanGameBoard(e) {
 export function populateComputerGameBoard() {
   const shipLengths = [5, 4, 3, 3, 2]
   const length = shipLengths.length
+  const shipNames = [
+    'Aircraft Carrier',
+    'Battleship',
+    'Submarine',
+    'Cruiser',
+    'Destroyer',
+  ]
 
   for (let i = 0; i < length; i++) {
     let ship, direction, success
@@ -81,7 +91,7 @@ export function populateComputerGameBoard() {
       const isHorizontal = Math.random() < 0.5
       direction = isHorizontal ? 'horizontal' : 'vertical'
 
-      ship = new Ship(shipLengths[i], coordinates, direction)
+      ship = new Ship(shipLengths[i], coordinates, direction, shipNames[i])
       success = computerPlayer.gameBoard.placeShip(ship, coordinates)
     } while (!success)
   }

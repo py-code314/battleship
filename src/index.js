@@ -21,8 +21,11 @@ import {
   displayWelcomeMessage,
   displayStartGameMessage,
   animateMessages,
-  displayAIMessage
+  displayAIMessage,
+  isHumanShipSunk,
+  isComputerShipSunk,
 } from './aggregator.js'
+
 
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
@@ -90,7 +93,8 @@ computerGameBoard.addEventListener('click', (e) => {
       displayAIMessage()
       firstClick = false
     }
-    clearErrorMessage()
+    isComputerShipSunk()
+    // clearErrorMessage()
 
     // Computer play
     const randomCoordinates = generateRandomCoordinates(humanPlayer.gameBoard)
@@ -132,6 +136,7 @@ computerGameBoard.addEventListener('click', (e) => {
 
       renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
       updatePlayerTurn()
+      isHumanShipSunk()
     }, 300)
   } catch (err) {
     handleRepeatHit(err)

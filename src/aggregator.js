@@ -22,10 +22,12 @@ import {
   displayStartGameMessage,
   animateMessages,
   displayAIMessage,
+  isHumanShipSunk,
+  isComputerShipSunk,
 } from './dom-controller.js'
 import {
-  humanPlayer,
-  computerPlayer,
+  // humanPlayer,
+  // computerPlayer,
   populateHumanGameBoard,
   populateComputerGameBoard,
   changeShipDirection,
@@ -33,6 +35,7 @@ import {
   generateRandomCoordinates,
   
 } from './game-controller.js'
+import { humanPlayer, computerPlayer } from './players.js'
 
 export {
   Ship,
@@ -63,4 +66,6 @@ export {
   displayStartGameMessage,
   animateMessages,
   displayAIMessage,
+  isHumanShipSunk,
+  isComputerShipSunk,
 }

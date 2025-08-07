@@ -3,13 +3,15 @@ export class Ship {
   // Private variables
   #hitCount
 
-  constructor(length, position, direction) {
+  constructor(length, position, direction, name) {
     this.id = crypto.randomUUID()
     this.length = length
     this.#hitCount = 0
     this.sunk = false
     this.position = position
     this.direction = direction
+    this.name = name
+    this.sunkNotified = false
   }
 
   // Increment the hitCount
@@ -46,6 +48,16 @@ export class Ship {
   // Get ship's direction
   getDirection() {
     return this.direction
+  }
+
+  // Get sunk notification
+  getSunkNotified() {
+    return this.sunkNotified
+  }
+
+  // Set sunk notification
+  setSunkNotified(value) {
+    this.sunkNotified = value
   }
 }
 

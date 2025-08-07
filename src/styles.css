@@ -337,3 +337,11 @@ body {
 .message {
   padding: var(--space-40) 0;
 }
+
+.error {
+  color: var(--clr-red);
+}
+
+.sunk {
+  color: var(--clr-slate-blue);
+}
