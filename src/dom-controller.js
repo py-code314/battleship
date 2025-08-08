@@ -42,9 +42,9 @@ export function renderHumanGameBoard(container, board) {
 
       // Color ship hit & empty square hit
       if (cell.isHit && cell.ship) {
-        square.style.backgroundColor = 'red'
+        square.style.backgroundColor = '#F94144'
       } else if (cell.isHit && !cell.ship) {
-        square.style.backgroundColor = 'orange'
+        square.style.backgroundColor = '#F8961E'
       }
 
       container.appendChild(square)
@@ -68,15 +68,15 @@ export function renderComputerGameBoard(container, board) {
       square.dataset.column = columnIndex
 
       // Color ship
-      if (cell.ship) {
-        square.style.backgroundColor = 'gray'
-      }
+      // if (cell.ship) {
+      //   square.style.backgroundColor = '#577590'
+      // }
 
       // Color ship hit & empty square hit
       if (cell.isHit && cell.ship) {
-        square.style.backgroundColor = 'red'
+        square.style.backgroundColor = '#F94144'
       } else if (cell.isHit && !cell.ship) {
-        square.style.backgroundColor = 'orange'
+        square.style.backgroundColor = '#F8961E'
       }
 
       container.appendChild(square)
@@ -198,7 +198,7 @@ export function displayStartGameMessage() {
 
 export function animateMessages() {
   setTimeout(() => {
-    messages.style.backgroundColor = '#fceb87ff'
+    messages.style.backgroundColor = '#f6ca64ff'
     messages.style.transition = 'background-color 0.3s ease'
   }, 500)
   setTimeout(() => {
