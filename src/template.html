@@ -13,14 +13,42 @@
     <main class="main">
       <div class="btns-container">
         <div class="intro">
-          <button class="btn intro__btn">Instructions</button>
+          <button class="btn intro__btn" id="instructions">Instructions</button>
+          <dialog class="dialog" id="instructions-modal">
+            <button class="btn close__btn" id="close-btn">Close</button>
+            <div class="rules">
+              <h2 class="rules__heading">Rules</h2>
+              <ol class="rules__list">
+                <li class="rules__item">Each player places their ships (The AI places its ships randomly, and it cannot see where you've placed your ships).</li>
+                <li class="rules__item">Ships may not overlap or touch each other. Also they can only be placed within the grid boundaries.</li>
+                <li class="rules__item">Ships can be placed either horizontally or vertically, but never diagonally.</li>
+                <li class="rules__item">The players take turns taking shots at squares. The results are either "hit" or "miss".</li>
+                <li class="rules__item">The winner is the first player to sink all of the other player's ships.</li>
+               
+              </ol>
+            </div>
+            <div class="instructions">
+              <h2 class="instructions__heading">Instructions</h2>
+              <ol class="instructions__list">
+                <li class="instructions__item">On initial page load, ships are placed randomly on your board.</li>
+                <li class="instructions__item">You can click the "Randomize" button to shuffle the ships' positions or drag and drop them to place them where you want.</li>
+                <li class="instructions__item">You can drag any square of a ship, and the ship will be positioned starting from the square where you drop it.</li>
+                <li class="instructions__item">You can also change a ship's direction by clicking any of its squares—the ship will be repositioned to start from the square where you clicked.</li>
+                <li class="instructions__item">Click "Play" button to start the game.</li>
+                <li class="instructions__item">You can reset the game during the play or after the game is over by using "Reset" button.</li>
+                <li class="instructions__item">On your turn, click a square on enemy board and see what happens. Square turns "red" if you hit a ship, "orange" for a missed hit.</li>
+                <li class="instructions__item">Watch "Messages" box below the boards to see game updates.</li>
+                
+              </ol>
+            </div>
+          </dialog>
           <button class="btn intro__btn">Options</button>
         </div>
         <div class="computer">
           <p class="computer__text">Choose a Computer Level:</p>
           <div class="computer__levels">
-            <button class="btn computer__btn" id="standard">Standard</button>
-            <button class="btn computer__btn" id="advanced">Advanced</button>
+            <button class="btn computer-btn standard-btn" id="standard">Standard</button>
+            <button class="btn computer-btn advanced-btn" id="advanced">Advanced</button>
           </div>
         </div>
       </div>

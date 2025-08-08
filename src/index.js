@@ -35,6 +35,10 @@ import {
   clearMessages,
   removeStrikeThrough,
   clearPlayerTurn,
+  styleStandardButton,
+  unstyleStandardButton,
+  styleAdvancedButton,
+  unstyleAdvancedButton,
 } from './aggregator.js'
 
 // Get DOM elements
@@ -43,6 +47,9 @@ const computerGameBoard = document.querySelector('#computer-board')
 const randomizeBtn = document.querySelector('#randomize')
 const resetBtn = document.querySelector('#reset')
 const playBtn = document.querySelector('#play')
+const instructionsBtn = document.querySelector('#instructions')
+const instructionsModal = document.querySelector('#instructions-modal')
+const closeBtn = document.querySelector('#close-btn')
 
 // On page load
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -58,6 +65,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   animateMessages()
 
   disableResetButton()
+  styleStandardButton()
 })
 
 playBtn.addEventListener('click', () => {
@@ -75,8 +83,12 @@ const computerLevels = document.querySelector('.computer__levels')
 computerLevels.addEventListener('click', (e) => {
   if (e.target.id === 'standard') {
     computerLevel = 'standard'
+    styleStandardButton()
+    unstyleAdvancedButton()
   } else if (e.target.id === 'advanced') {
     computerLevel = 'advanced'
+    styleAdvancedButton()
+    unstyleStandardButton()
   }
 })
 
@@ -219,4 +231,20 @@ humanGameBoard.addEventListener('drop', (e) => {
 humanGameBoard.addEventListener('click', (e) => {
   updateShipDirection(e)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+})
+
+// Event listeners to show and close instructions dialog
+instructionsBtn.addEventListener('click', () => {
+  instructionsModal.showModal()
+})
+
+closeBtn.addEventListener('click', () => {
+  instructionsModal.close()
+})
+
+// Add code for Esc key
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    instructionsModal.close()
+  }
 })

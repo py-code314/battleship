@@ -10,6 +10,8 @@ const messages = document.querySelector('.messages__container')
 const resetButton = document.querySelector('#reset')
 const randomizeButton = document.querySelector('#randomize')
 const playButton = document.querySelector('#play')
+const standardButton = document.querySelector('#standard')
+const advancedButton = document.querySelector('#advanced')
 
 // Create human game board with default ship colors
 export function renderHumanGameBoard(container, board) {
@@ -337,4 +339,24 @@ export function enablePlayButton() {
 // Clear messages from messages container
 export function clearMessages() {
   messages.textContent = ''
+}
+
+// Add styling to Standard button
+export function styleStandardButton() {
+  standardButton.classList.add('green')
+}
+
+// Remove styling from Standard button
+export function unstyleStandardButton() {
+  standardButton.classList.remove('green')
+}
+
+// Add styling to Advanced button
+export function styleAdvancedButton() {
+  advancedButton.classList.add('green')
+}
+
+// Remove styling from Advanced button
+export function unstyleAdvancedButton() {
+  advancedButton.classList.remove('green')
 }

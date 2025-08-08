@@ -36,6 +36,7 @@
   --space-100: 0.625rem;
   --space-200: 0.75rem;
   --space-400: 1rem;
+  --space-600: 1.25rem;
   --space-700: 1.5rem;
   --space-850: 1.875rem;
   --space-900: 2rem;
@@ -49,6 +50,7 @@
   --width-messages: 31.25rem; /* 500px */
   --height-messages: 12.5rem; /* 200px */
   --size-div: 2.5rem;
+  --width-dialog: 43.75rem; /* 700px */
 
   /* Colors */
   --clr-white: hsl(0, 0%, 100%);
@@ -200,8 +202,16 @@ body {
   background-color: var(--clr-slate-blue);
 }
 
-.computer__btn {
+.computer-btn {
+  color: var(--clr-green);
+  border: 1px solid var(--clr-green);
+  background-color: var(--clr-white);
+}
+
+.green {
   background-color: var(--clr-green);
+  color: var(--clr-white);
+  border: none;
 }
 
 .boards-container {
@@ -328,4 +338,82 @@ body {
 
 .disable {
   pointer-events: none;
+}
+
+.dialog {
+  width: var(--width-dialog);
+  max-block-size: 95%;
+  border: none;
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-900);
+  /* display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; */
+
+  /* Place dialog in center of screen */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: popup 0.8s ease-in-out;
+}
+
+/* Animate dialog popup */
+@keyframes popup {
+  0% {
+    transform: translate(-50%, -60%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+.dialog::backdrop {
+  background-image: linear-gradient(
+    45deg,
+    hsl(203, 100%, 50%),
+    hsl(162, 50%, 40%),
+    hsl(210, 100%, 56%),
+    hsl(120, 100%, 25%)
+  );
+  opacity: 0.75;
+}
+
+.close__btn {
+  display: block;
+  background-color: var(--clr-red);
+  margin-left: auto;
+  margin-block-end: var(--space-400);
+}
+
+
+.rules,
+.instructions {
+  margin-block-end: var(--space-400);
+  /* margin-inline-start: var(--space-700); */
+}
+
+
+
+.rules__heading,
+.instructions__heading {
+  margin-block-end: var(--space-200);
+}
+
+.rules__list,
+.instructions__list {
+  margin-inline-start: var(--space-600);
+}
+
+.rules__item,
+.instructions__item {
+  margin-block-end: var(--space-40);
 }

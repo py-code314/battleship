@@ -33,6 +33,10 @@ import {
   disableRandomizeButton,
   enableRandomizeButton,
   clearPlayerTurn,
+  styleStandardButton,
+  unstyleStandardButton,
+  styleAdvancedButton,
+  unstyleAdvancedButton
 } from './dom-controller.js'
 import {
   populateHumanGameBoard,
@@ -86,4 +90,8 @@ export {
   clearMessages,
   removeStrikeThrough,
   clearPlayerTurn,
+  styleStandardButton,
+  unstyleStandardButton,
+  styleAdvancedButton,
+  unstyleAdvancedButton,
 }
