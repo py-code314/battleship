@@ -1,49 +1,40 @@
 /* eslint-disable no-undef */
 
-import { Player } from '../src/aggregator.js'
+import { Player } from '../src/player'
 
 describe('Player', () => {
-  // Testing this indirectly in makeMove()
-  // it('returns correct type of player', () => {
-  //   const human = new Player('human')
-  //   expect(human.type).toBe('human')
-
-  //   const computer = new Player('computer')
-  //   expect(computer.type).toBe('computer')
-  // })
-
   describe('makeMove()', () => {
-    it('calls receiveAttack() when the player is human', () => {
+    it('Returns true when the ship is hit', () => {
       const human = new Player('human')
 
       // Mock enemyBoard and coordinates
-      const enemyBoard = { receiveAttack: jest.fn() }
+      const enemyBoard = { receiveAttack: jest.fn().mockReturnValue(true) }
       const coordinates = [3, 4]
 
-      human.makeMove(enemyBoard, coordinates)
+      const result = human.makeMove(enemyBoard, coordinates)
 
       expect(enemyBoard.receiveAttack).toHaveBeenCalledTimes(1)
       expect(enemyBoard.receiveAttack).toHaveBeenCalledWith(coordinates)
+      expect(result).toBe(true)
     })
 
-    it('generates random coordinates when the player is computer', () => {
-      const computer = new Player('computer')
+    it('Returns false when the ship is not hit', () => {
+      const human = new Player('human')
 
-      // Mock enemyBoard and random coordinates
-      const enemyBoard = { receiveAttack: jest.fn() }
-      const randomCoordinates = [3, 4]
-      computer.generateRandomCoordinates = jest.fn(() => randomCoordinates)
+      // Mock enemyBoard and coordinates
+      const enemyBoard = { receiveAttack: jest.fn().mockReturnValue(false) }
+      const coordinates = [3, 4]
 
-      computer.makeMove(enemyBoard)
+      const result = human.makeMove(enemyBoard, coordinates)
 
-      expect(computer.generateRandomCoordinates).toHaveBeenCalledTimes(1)
       expect(enemyBoard.receiveAttack).toHaveBeenCalledTimes(1)
-      expect(enemyBoard.receiveAttack).toHaveBeenCalledWith(randomCoordinates)
+      expect(enemyBoard.receiveAttack).toHaveBeenCalledWith(coordinates)
+      expect(result).toBe(false)
     })
   })
 
   describe('isLost()', () => {
-    it('returns true if all ships are sunk', () => {
+    it('Returns true if all ships are sunk', () => {
       const human = new Player('human')
 
       human.gameBoard.allShipsSunk = jest.fn(() => true)
@@ -51,7 +42,7 @@ describe('Player', () => {
       expect(human.isLost()).toBe(true)
     })
 
-    it('returns false if all ships are not sunk', () => {
+    it('Returns false if all ships are not sunk', () => {
       const human = new Player('human')
 
       human.gameBoard.allShipsSunk = jest.fn(() => false)

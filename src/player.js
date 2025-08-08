@@ -1,4 +1,4 @@
-import { GameBoard } from './aggregator.js'
+import { GameBoard } from './game-board'
 
 export class Player {
   constructor(type) {
