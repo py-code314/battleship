@@ -150,6 +150,7 @@ export class GameBoard {
         }
       }
     }
+    
   }
 
   // Move ship to new position when it's dragged
@@ -185,6 +186,7 @@ export class GameBoard {
     }
   }
 
+  // Prevents touching of adjacent ships
   regulateMovableCells(ship, coordinates) {
     const [row, column] = coordinates
     const direction = ship.direction

@@ -105,36 +105,31 @@ describe('GameBoard', () => {
       jest.restoreAllMocks()
     })
 
-    it('throws error if a square is hit second time', () => {
+    it('Throws error if a square is hit second time', () => {
       expect(board.receiveAttack([2, 3])).toBe(true)
       expect(() => board.receiveAttack([2, 3])).toThrow(
         'You have already hit that square'
       )
     })
 
-    it('checks for a hit on the ship', () => {
+    it('Returns true if a ship is hit', () => {
       expect(board.receiveAttack([2, 3])).toBe(true)
       expect(board.receiveAttack([2, 4])).toBe(true)
       expect(board.receiveAttack([2, 5])).toBe(true)
       expect(board.receiveAttack([2, 6])).toBe(true)
     })
 
-    it('returns false if a hit misses the ship', () => {
+    it('Returns false if a hit misses the ship', () => {
       expect(board.receiveAttack([2, 2])).toBe(false)
       expect(board.receiveAttack([2, 7])).toBe(false)
     })
 
-    it('adds a missed hit to emptySquares array', () => {
+    it('Adds a missed hit to emptyCells array', () => {
       board.receiveAttack([2, 7])
-      expect(board.emptySquares).toContainEqual([2, 7])
+      expect(board.emptyCells).toContainEqual([2, 7])
     })
 
-    it("doesn't add a hit to emptySquares array", () => {
-      board.receiveAttack([2, 4])
-      expect(board.emptySquares).not.toContainEqual([2, 7])
-    })
-
-    it('checks if square.ship.hit() is being called', () => {
+    it('Checks if hit() method is being called', () => {
       // Get the square where ship is placed
       const shipSquare = board.board[2][4]
 
@@ -154,12 +149,6 @@ describe('GameBoard', () => {
     beforeEach(() => {
       board = new GameBoard()
 
-      // Mock the Math.random function
-      // jest.spyOn(Math, 'random').mockReturnValue(0.3)
-
-      // board.placeShip(2, 3, 3)
-      // board.placeShip(5, 3, 2)
-
       // Mock placeShip function
       board.placeShip = jest.fn(() => board.ships.push({}))
       board.placeShip()
@@ -168,10 +157,10 @@ describe('GameBoard', () => {
 
     // Clear mock after each test
     afterEach(() => {
-      // Math.random.mockRestore()
+      jest.restoreAllMocks()
     })
 
-    it('checks for all ships sunken', () => {
+    it('Returns true if all ships are sunk', () => {
       // Mock isSunk function
       board.ships[0].isSunk = jest.fn(() => true)
       board.ships[1].isSunk = jest.fn(() => true)
@@ -179,7 +168,7 @@ describe('GameBoard', () => {
       expect(board.allShipsSunk()).toBe(true)
     })
 
-    it('returns false if all ships are not sunken', () => {
+    it('Returns false if all ships are not sunk', () => {
       // Mock isSunk function
       board.ships[0].isSunk = jest.fn(() => true)
       board.ships[1].isSunk = jest.fn(() => false)
@@ -187,7 +176,7 @@ describe('GameBoard', () => {
       expect(board.allShipsSunk()).toBe(false)
     })
 
-    it('checks that isSunk() is called on every ship', () => {
+    it('Checks if isSunk() is called on every ship', () => {
       // Mock isSunk function
       board.ships[0].isSunk = jest.fn().mockReturnValue(true)
       board.ships[1].isSunk = jest.fn().mockReturnValue(true)
@@ -198,7 +187,7 @@ describe('GameBoard', () => {
       expect(board.ships[1].isSunk).toHaveBeenCalledTimes(1)
     })
 
-    it('skips calling isSunk() if ship in the middle is not sunk', () => {
+    it('Skips calling isSunk() if ship in the middle of array is not sunk', () => {
       // Place a third ship for testing purpose
       board.placeShip()
 
@@ -214,10 +203,38 @@ describe('GameBoard', () => {
       expect(board.ships[2].isSunk).toHaveBeenCalledTimes(0)
     })
 
-    it('returns true when there are no ships', () => {
+    it('Returns true when there are no ships', () => {
       board.ships = []
 
       expect(board.allShipsSunk()).toBe(true)
+    })
+  })
+
+  describe('resetBoard()', () => {
+    it('Resets all board cells to default state', () => {
+      const board = new GameBoard()
+      board.board[1][1].isHit = true
+      board.board[3][1].isOccupied = true
+      board.board[3][0].isReserved = true
+      board.board[3][2].ship = { name: 'Submarine' }
+      
+      board.ships[{ length: 4, direction: 'horizontal', name: 'Battleship' }, { length: 2, direction: 'vertical', name: 'Destroyer' }]
+      
+      board.resetBoard()
+
+      board.board.forEach(row => {
+        row.forEach(cell => {
+          expect(cell.isHit).toBe(false)
+          expect(cell.isOccupied).toBe(false)
+          expect(cell.isReserved).toBe(false)
+          expect(cell.ship).toBe(null)
+          
+        })
+      })
+
+      expect(board.ships).toEqual([])
+
+
     })
   })
 })
