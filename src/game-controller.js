@@ -62,10 +62,15 @@ export function populateHumanGameBoard(e) {
 
         const ship = new Ship(
           shipLengths[i],
-          coordinates,
           direction,
           shipNames[i]
         )
+        // const ship = new Ship(
+        //   shipLengths[i],
+        //   coordinates,
+        //   direction,
+        //   shipNames[i]
+        // )
 
         success = humanPlayer.gameBoard.placeShip(ship, coordinates)
       } while (!success)
@@ -99,7 +104,8 @@ export function populateComputerGameBoard() {
       const isHorizontal = Math.random() < 0.5
       direction = isHorizontal ? 'horizontal' : 'vertical'
 
-      ship = new Ship(shipLengths[i], coordinates, direction, shipNames[i])
+      ship = new Ship(shipLengths[i], direction, shipNames[i])
+      // ship = new Ship(shipLengths[i], coordinates, direction, shipNames[i])
       success = computerPlayer.gameBoard.placeShip(ship, coordinates)
     } while (!success)
   }

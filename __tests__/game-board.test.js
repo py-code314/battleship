@@ -1,41 +1,24 @@
 /* eslint-disable no-undef */
 // Import GameBoard module
-import { GameBoard } from '../src/aggregator.js'
+import { GameBoard } from '../src/game-board'
+import { Ship } from '../src/ship'
 
 // Tests for GameBoard class
 describe('GameBoard', () => {
   describe('createBoard()', () => {
-    it('returns 10 x 10 game board when called with no arguments', () => {
+    it('Returns 10 x 10 game board when called with no arguments', () => {
       const gameBoard = new GameBoard()
       const board = gameBoard.board
       expect(board.length).toBe(10)
       expect(board[0].length).toBe(10)
     })
 
-    it('returns 5 x 7 game board when called with custom arguments', () => {
+    it('Returns 5 x 7 game board when called with custom arguments', () => {
       const gameBoard = new GameBoard(5, 7)
       const board = gameBoard.board
       expect(board.length).toBe(5)
       expect(board[0].length).toBe(7)
     })
-
-    // it('checks for correct values in each cell', () => {
-    //   const gameBoard = new GameBoard(5, 5)
-    //   const board = gameBoard.board
-    //   // expect(board.length).toBe(5)
-    //   expect(board[0][0]).toEqual({
-    //     row: 0,
-    //     column: 0,
-    //     isOccupied: false,
-    //     ship: '',
-    //   })
-    //   expect(board[3][4]).toEqual({
-    //     row: 3,
-    //     column: 4,
-    //     isOccupied: false,
-    //     ship: '',
-    //   })
-    // })
   })
 
   describe('placeShip()', () => {
@@ -46,75 +29,51 @@ describe('GameBoard', () => {
       board = new GameBoard()
     })
 
-    it('returns false for out of bounds coordinates', () => {
-      expect(board.placeShip([-1, 3], 4)).toBe(false)
-      expect(board.placeShip([1, 10], 4)).toBe(false)
+    it('Returns false for out of bounds coordinates', () => {
+      ship = new Ship(3, 'horizontal', 'Submarine')
+      expect(board.placeShip(ship, [-1, 3])).toBe(false)
+      expect(board.placeShip(ship, [10, 3])).toBe(false)
+      expect(board.placeShip(ship, [1, -1])).toBe(false)
+      expect(board.placeShip(ship, [1, 10])).toBe(false)
     })
 
-    it('returns false for ship length less than or equal to 0', () => {
-      expect(board.placeShip([1, 3], 0)).toBe(false)
+    it('Returns false for ship length less than or equal to 0', () => {
+      const ship1 = new Ship(0, 'horizontal', 'Destroyer')
+      expect(board.placeShip(ship1, [1, 3])).toBe(false)
+      const ship2 = new Ship(-1, 'horizontal', 'Destroyer')
+      expect(board.placeShip(ship2, [1, 3])).toBe(false)
     })
 
-    it('checks for a successfully placed horizontal ship', () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.3)
+    it('Returns false for out of bounds horizontal ship', () => {
+      const ship = new Ship(5, 'horizontal', 'Aircraft Carrier')
 
-      expect(board.placeShip([2, 3], 4)).toBe(true)
-
-      // Clear mock
-      Math.random.mockRestore()
+      expect(board.placeShip(ship, [2, 7])).toBe(false)
     })
 
-    it("doesn't place a horizontal ship in already occupied squares", () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.3)
+    it('Returns false for out of bounds vertical ship', () => {
+      const ship = new Ship(5, 'horizontal', 'Aircraft Carrier')
 
-      expect(board.placeShip([2, 3], 4)).toBe(true)
-      expect(board.placeShip([2, 3], 4)).toBe(false)
-
-      // Clear mock
-      Math.random.mockRestore()
+      expect(board.placeShip(ship, [7, 7])).toBe(false)
     })
 
-    it("doesn't place a ship out of right boundary for a lengthy horizontal ship ", () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.3)
+    it('Returns false if attempting to place a ship where another ship is already located', () => {
+      const ship1 = new Ship(3, 'horizontal', 'Cruiser')
+      const ship2 = new Ship(3, 'horizontal', 'Submarine')
+      const ship3 = new Ship(4, 'vertical', 'Battleship')
 
-      expect(board.placeShip([2, 7], 4)).toBe(false)
+      expect(board.placeShip(ship1, [2, 3])).toBe(true)
+      expect(board.placeShip(ship2, [2, 3])).toBe(false)
 
-      // Clear mock
-      Math.random.mockRestore()
+      expect(board.placeShip(ship3, [4, 3])).toBe(true)
+      expect(board.placeShip(ship2, [4, 3])).toBe(false)
     })
 
-    it('checks for a successfully placed vertical ship', () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.7)
+    it('Returns true for a successfully placed ship', () => {
+      const ship1 = new Ship(3, 'horizontal', 'Submarine')
+      const ship2 = new Ship(4, 'vertical', 'Battleship')
 
-      expect(board.placeShip([2, 3], 4)).toBe(true)
-
-      // Clear mock
-      Math.random.mockRestore()
-    })
-
-    it("doesn't place a vertical ship in already occupied squares", () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.7)
-
-      expect(board.placeShip([2, 3], 4)).toBe(true)
-      expect(board.placeShip([2, 3], 4)).toBe(false)
-
-      // Clear mock
-      Math.random.mockRestore()
-    })
-
-    it("doesn't place a vertical ship out of bottom boundary for a lengthy ship ", () => {
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.3)
-
-      expect(board.placeShip([7, 7], 4)).toBe(false)
-
-      // Clear mock
-      Math.random.mockRestore()
+      expect(board.placeShip(ship1, [2, 3])).toBe(true)
+      expect(board.placeShip(ship2, [4, 3])).toBe(true)
     })
   })
 
@@ -124,9 +83,6 @@ describe('GameBoard', () => {
     // Set up a board and place ship before each test
     beforeEach(() => {
       board = new GameBoard()
-
-      // Mock the Math.random function
-      jest.spyOn(Math, 'random').mockReturnValue(0.3)
 
       // Mock placeShip function
       const mockShip = {
