@@ -55,7 +55,7 @@
   /* Colors */
   --clr-white: hsl(0, 0%, 100%);
   --clr-black: #282828;
-  --clr-red: hsl(359, 77%, 51%);
+  --clr-red: #F94144;
   --clr-light-blue: hsl(195, 73%, 79%);
   --clr-blue: hsl(216, 88%, 65%);
   --clr-slate-blue: hsl(248, 53%, 58%);
@@ -66,11 +66,11 @@
   --clr-caribbean-sea: hsl(201, 51%, 69%);
   --clr-moss-green: hsl(84, 29%, 43%);
   --clr-golden-rod: hsl(39, 92%, 57%);
-  --clr-mineral-orange: #f26418;
+  --clr-orange: #F8961E;
   --clr-copenhagen-blue: hsl(205, 100%, 51%);
-  --clr-henna: #8F2D56;
+  --clr-henna: #F94144;
   --clr-cerulean-blue: #577590;
-  --clr-aquamarine: #43AA8B;
+  --clr-aquamarine: #06b883;
   --clr-yellow-ochre: #F9C74F;
   --clr-true-green: #90BE6D;
   --clr-cool-grey: #22333B;
@@ -226,7 +226,7 @@ body {
   background-color: var(--clr-white);
 }
 
-.green {
+.active {
   background-color: var(--clr-aquamarine);
   color: var(--clr-white);
   border: none;
@@ -261,7 +261,7 @@ body {
   opacity: 0.4;
 }
 
-.drag-over {
+.target-square {
   border: 3px dotted var(--clr-red);
 }
 
@@ -347,7 +347,7 @@ body {
   color: var(--clr-slate-blue);
 }
 
-.strike-through {
+.lost {
   text-decoration: line-through;
 }
 
@@ -437,4 +437,20 @@ body {
 .rules__item,
 .instructions__item {
   margin-block-end: var(--space-40);
+}
+
+.hit {
+  background-color: var(--clr-red);
+}
+
+.miss {
+  background-color: var(--clr-orange);
+}
+
+.hover-effect {
+  transition: transform 0.2s ease-in-out;
+}
+
+.hover-effect:hover {
+  transform: scale(1.1);
 }

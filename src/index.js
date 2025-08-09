@@ -19,11 +19,11 @@ import {
   generateAdjacentShipCoordinates,
   displayWelcomeMessage,
   displayStartGameMessage,
-  animateMessages,
+  flashMessagesBackground,
   displayAIMessage,
   isHumanShipSunk,
   isComputerShipSunk,
-  showWinner,
+  displayWinner,
   disableComputerGameBoard,
   enableComputerGameBoard,
   disableResetButton,
@@ -32,13 +32,15 @@ import {
   enableRandomizeButton,
   disablePlayButton,
   enablePlayButton,
-  clearMessages,
-  removeStrikeThrough,
+  clearAllMessages,
+  resetShipNames,
   clearPlayerTurn,
   styleStandardButton,
   unstyleStandardButton,
   styleAdvancedButton,
   unstyleAdvancedButton,
+  addHoverEffect,
+  disableHoverEffect,
 } from './aggregator.js'
 
 // Get DOM elements
@@ -62,7 +64,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
   displayWelcomeMessage()
-  animateMessages()
+  flashMessagesBackground()
 
   disableResetButton()
   styleStandardButton()
@@ -71,11 +73,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 playBtn.addEventListener('click', () => {
   displayStartGameMessage()
   displayPlayerTurn()
+
   enableComputerGameBoard(computerGameBoard)
 
   disablePlayButton()
   enableResetButton()
   disableRandomizeButton()
+  addHoverEffect(computerGameBoard)
 })
 
 let computerLevel = 'standard'
@@ -155,9 +159,10 @@ computerGameBoard.addEventListener('click', (e) => {
       renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
       updatePlayerTurn()
       isHumanShipSunk()
-      const winner = showWinner()
+      const winner = displayWinner()
       if (winner) {
         disableComputerGameBoard(computerGameBoard)
+        disableHoverEffect(computerGameBoard)
       }
     }, 300)
   } catch (err) {
@@ -179,14 +184,14 @@ resetBtn.addEventListener('click', (e) => {
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
-  clearMessages()
+  clearAllMessages()
   displayWelcomeMessage()
-  animateMessages()
+  flashMessagesBackground()
 
   enablePlayButton()
   enableRandomizeButton()
   disableResetButton()
-  removeStrikeThrough()
+  resetShipNames()
   clearPlayerTurn()
 })
 

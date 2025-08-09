@@ -17,19 +17,17 @@ const advancedButton = document.querySelector('#advanced')
 export function renderHumanGameBoard(container, board) {
   container.textContent = ''
 
-  let cellSize = container.offsetWidth / 10
+  let squareSize = container.offsetWidth / 10
 
   board.forEach((row, rowIndex) => {
     row.forEach((cell, columnIndex) => {
       // Create a div for each cell
       const square = document.createElement('div')
 
-      square.style.width = `${cellSize}px`
-      square.style.height = `${cellSize}px`
+      square.style.width = `${squareSize}px`
+      square.style.height = `${squareSize}px`
       square.dataset.row = `${rowIndex}`
       square.dataset.column = `${columnIndex}`
-
-      square.textContent = cell.marker
 
       // Color ship
       if (cell.ship) {
@@ -41,10 +39,8 @@ export function renderHumanGameBoard(container, board) {
       }
 
       // Color ship hit & empty square hit
-      if (cell.isHit && cell.ship) {
-        square.style.backgroundColor = '#F94144'
-      } else if (cell.isHit && !cell.ship) {
-        square.style.backgroundColor = '#F8961E'
+      if (cell.isHit) {
+        square.className = cell.ship ? 'hit' : 'miss'
       }
 
       container.appendChild(square)
@@ -55,28 +51,26 @@ export function renderHumanGameBoard(container, board) {
 // Create computer game board
 export function renderComputerGameBoard(container, board) {
   container.textContent = ''
-  const cellSize = container.offsetWidth / 10
+  const squareSize = container.offsetWidth / 10
 
   board.forEach((row, rowIndex) => {
     row.forEach((cell, columnIndex) => {
       // Create a div for each cell
       const square = document.createElement('div')
-      square.classList.add('cell')
-      square.style.width = `${cellSize}px`
-      square.style.height = `${cellSize}px`
+      square.classList.add('cell', 'computer-cell')
+      square.style.width = `${squareSize}px`
+      square.style.height = `${squareSize}px`
       square.dataset.row = rowIndex
       square.dataset.column = columnIndex
 
-      // Color ship
-      // if (cell.ship) {
-      //   square.style.backgroundColor = '#577590'
-      // }
+      if (cell.ship) {
+        square.classList.add('ship')
+      }
 
       // Color ship hit & empty square hit
-      if (cell.isHit && cell.ship) {
-        square.style.backgroundColor = '#F94144'
-      } else if (cell.isHit && !cell.ship) {
-        square.style.backgroundColor = '#F8961E'
+
+      if (cell.isHit) {
+        square.className = cell.ship ? 'hit' : 'miss'
       }
 
       container.appendChild(square)
@@ -105,7 +99,6 @@ export function clearPlayerTurn() {
 
 // Show error on repeat hit on same square
 export function handleRepeatHit(err) {
-  console.log('repeat hit')
   const error = document.createElement('p')
   error.classList.add('error')
   error.textContent = err.message
@@ -114,74 +107,65 @@ export function handleRepeatHit(err) {
 }
 
 // Make ship cells draggable
-export function handleDragStart(e) {
-  const shipId = e.target.dataset.shipId
+export function handleDragStart(event) {
+  const shipId = event.target.dataset.shipId
+  const shipCells = document.querySelectorAll(`[data-ship-id="${shipId}"]`)
 
-  const shipCells = document.querySelectorAll(`[data-ship-id='${shipId}']`)
-  shipCells.forEach((shipCell) => {
-    shipCell.classList.add('drag-ship')
-  })
+  shipCells.forEach((cell) => cell.classList.add('drag-ship'))
 
-  // Store ship id in dragging cell
-  e.dataTransfer.effectAllowed = 'move'
-  e.dataTransfer.setData('text/plain', shipId)
+  event.dataTransfer.effectAllowed = 'move'
+  event.dataTransfer.setData('text/plain', shipId)
 }
 
-// Reset ship cells
-export function handleDragEnd(e) {
-  const shipId = e.target.dataset.shipId
+// Reset ship cells after drag ends
+export function handleDragEnd(event) {
+  const shipId = event.target.dataset.shipId
 
-  const shipCells = document.querySelectorAll(`[data-ship-id='${shipId}']`)
+  const shipCells = document.querySelectorAll(`[data-ship-id="${shipId}"]`)
 
-  shipCells.forEach((shipCell) => {
-    shipCell.classList.remove('drag-ship')
-  })
+  shipCells.forEach((cell) => cell.classList.remove('drag-ship'))
 }
 
-// Add visual indicator for drag over cells
-export function handleDragEnter(e) {
-  e.target.classList.add('drag-over')
+// Highlight cell when a ship is dragged over
+export function handleDragEnter(event) {
+  event.target.classList.add('target-square')
 }
 
-export function handleDragLeave(e) {
-  e.target.classList.remove('drag-over')
+export function handleDragLeave(event) {
+  event.target.classList.remove('target-square')
 }
 
-export function handleDragOver(e) {
-  e.preventDefault()
+export function handleDragOver(event) {
+  event.preventDefault()
   return false
 }
 
-// Return ship id and new coordinates for a dragged ship
-export function handleDrop(e) {
-  e.stopPropagation()
-  e.target.classList.remove('drag-over')
+// Return ship ID and new coordinates when a ship is dropped
+export function handleDrop(event) {
+  const shipId = event.dataTransfer.getData('text/plain')
+  const { row, column } = event.target.dataset
+  const newCoordinates = [Number(row), Number(column)]
 
-  const shipId = e.dataTransfer.getData('text/plain')
-  const row = +e.target.dataset.row
-  const column = +e.target.dataset.column
-
-  const newCoordinates = [row, column]
   return { shipId, newCoordinates }
 }
 
-export function updateShipDirection(e) {
-  if (e.target.classList.contains('ship')) {
-    const shipId = e.target.dataset.shipId
-    const row = +e.target.dataset.row
-    const column = +e.target.dataset.column
-
-    const newCoordinates = [row, column]
+export function updateShipDirection(event) {
+  if (event.target.classList.contains('ship')) {
+    const shipId = event.target.dataset.shipId
+    const newCoordinates = [
+      Number(event.target.dataset.row),
+      Number(event.target.dataset.column),
+    ]
 
     changeShipDirection(shipId, newCoordinates)
   }
 }
 
 export function displayWelcomeMessage() {
-  const welcome = document.createElement('p')
-  welcome.classList.add('message')
-  welcome.textContent = 'Welcome to Battleship game. Click Play to get started'
-  messages.appendChild(welcome)
+  const message = document.createElement('p')
+  message.classList.add('message')
+  message.textContent = 'Welcome to Battleship game. Click Play to get started'
+  messages.appendChild(message)
 }
 
 export function displayStartGameMessage() {
@@ -189,108 +173,110 @@ export function displayStartGameMessage() {
   legend.classList.add('message')
   legend.textContent = 'Legend: Orange = Miss, Red = Hit'
 
-  const turn = document.createElement('p')
-  turn.classList.add('message')
-  turn.textContent = 'Your turn: Click any square on the enemy board'
+  const message = document.createElement('p')
+  message.classList.add('message')
+  message.textContent = 'Your turn: Click any square on the enemy board'
 
-  messages.prepend(turn, legend)
+  messages.prepend(message, legend)
 }
 
-export function animateMessages() {
+export function flashMessagesBackground() {
+  const messageBackground = messages.style.backgroundColor
+
   setTimeout(() => {
-    messages.style.backgroundColor = '#f6ca64ff'
-    messages.style.transition = 'background-color 0.3s ease'
+    messages.style.backgroundColor = '#feee59ff'
+    messages.style.transition = 'background-color 0.5s ease'
   }, 500)
+
   setTimeout(() => {
-    messages.style.backgroundColor = 'white'
+    messages.style.backgroundColor = messageBackground
     messages.style.transition = 'background-color 0.5s ease'
   }, 1200)
 }
 
 export function displayAIMessage() {
-  const ai = document.createElement('p')
-  ai.classList.add('message')
-  ai.textContent = 'Game on! AI is playing in Learning mode'
+  const message = document.createElement('p')
+  message.classList.add('message')
+  message.textContent = 'Game on! Computer is playing in Learning mode'
 
-  messages.prepend(ai)
+  messages.prepend(message)
 }
 
 // Notifies about the sunken ships
 export function isHumanShipSunk() {
-  const humanShips = humanPlayer.gameBoard.getShips()
+  const ships = humanPlayer.gameBoard.getShips()
 
-  humanShips.forEach((ship) => {
+  ships.forEach((ship) => {
     if (ship.isSunk() && !ship.getSunkNotified()) {
       ship.setSunkNotified(true)
 
-      const sunk = document.createElement('p')
-      sunk.classList.add('sunk', 'message')
-      sunk.textContent = `Your ${ship.name} has sunk!`
+      const message = document.createElement('p')
+      message.classList.add('sunk', 'message')
+      message.textContent = `Your ${ship.name} has sunk!`
 
-      messages.prepend(sunk)
+      messages.prepend(message)
 
       const shipName = document.querySelector(
         `[data-name="Human ${ship.name}"]`
       )
-      shipName.classList.add('strike-through')
+      shipName.classList.add('lost')
     }
   })
 }
 
 // Notifies about the sunken ships
 export function isComputerShipSunk() {
-  const computerShips = computerPlayer.gameBoard.getShips()
+  const ships = computerPlayer.gameBoard.getShips()
 
-  computerShips.forEach((ship) => {
+  ships.forEach((ship) => {
     if (ship.isSunk() && !ship.getSunkNotified()) {
       ship.setSunkNotified(true)
 
-      const sunk = document.createElement('p')
-      sunk.classList.add('sunk', 'message')
-      sunk.textContent = `Computer's ${ship.name} has sunk!`
+      const message = document.createElement('p')
+      message.classList.add('sunk', 'message')
+      message.textContent = `Computer's ${ship.name} has sunk!`
 
-      messages.prepend(sunk)
+      messages.prepend(message)
 
       const shipName = document.querySelector(
         `[data-name="Computer ${ship.name}"]`
       )
-      shipName.classList.add('strike-through')
+      shipName.classList.add('lost')
     }
   })
 }
 
 // Remove strike through from ship names
-export function removeStrikeThrough() {
+export function resetShipNames() {
   const shipNames = document.querySelectorAll('.ships__item')
 
   shipNames.forEach((shipName) => {
-    shipName.classList.remove('strike-through')
+    shipName.classList.remove('lost')
   })
 }
 
-export function showWinner() {
+export function displayWinner() {
+  const winnerMessage = document.createElement('p')
+  winnerMessage.classList.add('winner', 'message')
+
   if (humanPlayer.isLost()) {
-    const winner = document.createElement('p')
-    winner.classList.add('winner', 'message')
-    winner.textContent = 'YOU LOSE. COMPUTER WINS!'
+    winnerMessage.textContent = 'YOU LOSE. COMPUTER WINS!'
 
-    const reset = document.createElement('p')
-    reset.classList.add('message')
-    reset.textContent = 'Click Reset to start a new game'
+    const resetMessage = document.createElement('p')
+    resetMessage.classList.add('message')
+    resetMessage.textContent = 'Click Reset to start a new game'
 
-    messages.prepend(reset, winner)
+    messages.prepend(resetMessage, winnerMessage)
 
     return true
   } else if (computerPlayer.isLost()) {
-    const winner = document.createElement('p')
-    winner.classList.add('winner', 'message')
-    winner.textContent = 'COMPUTER LOST. YOU WON!'
+    winnerMessage.textContent = 'COMPUTER LOST. YOU WON!'
 
-    const reset = document.createElement('p')
-    reset.classList.add('message')
-    reset.textContent = 'Click Reset to start a new game'
+    const resetMessage = document.createElement('p')
+    resetMessage.classList.add('message')
+    resetMessage.textContent = 'Click Reset to start a new game'
 
-    messages.prepend(reset, winner)
+    messages.prepend(resetMessage, winnerMessage)
 
     return true
   }
@@ -336,27 +322,30 @@ export function enablePlayButton() {
   playButton.classList.remove('disable')
 }
 
-// Clear messages from messages container
-export function clearMessages() {
-  messages.textContent = ''
+// Clear all messages from the messages container
+export function clearAllMessages() {
+  messages.innerHTML = ''
 }
 
 // Add styling to Standard button
 export function styleStandardButton() {
-  standardButton.classList.add('green')
+  standardButton.classList.add('active')
 }
 
 // Remove styling from Standard button
 export function unstyleStandardButton() {
-  standardButton.classList.remove('green')
+  standardButton.classList.remove('active')
 }
 
 // Add styling to Advanced button
 export function styleAdvancedButton() {
-  advancedButton.classList.add('green')
+  advancedButton.classList.add('active')
 }
 
 // Remove styling from Advanced button
 export function unstyleAdvancedButton() {
-  advancedButton.classList.remove('green')
+  advancedButton.classList.remove('active')
 }
+
+// Add hover effect for enemy board squares
+
