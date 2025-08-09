@@ -348,4 +348,16 @@ export function unstyleAdvancedButton() {
 }
 
 // Add hover effect for enemy board squares
+export function addHoverEffect(container) {
+  const squares = container.querySelectorAll('.computer-cell')
+
+  squares.forEach((square) => square.classList.add('hover-effect'))
+}
+
+// Disable hover effect
+export function disableHoverEffect(container) {
+  const squares = container.querySelectorAll('.computer-cell')
+
+  squares.forEach((square) => square.classList.remove('hover-effect'))
+}
 
