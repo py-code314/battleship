@@ -13,7 +13,7 @@ export function populateHumanGameBoard(event) {
 
     board.clearShipAndReservedCells(movingShip)
 
-    const canMove = board.regulateMovableCells(movingShip, newCoordinates)
+    const canMove = board.canMoveTo(movingShip, newCoordinates)
     if (canMove) {
       const success = board.placeShip(movingShip, newCoordinates)
       if (!success) {
@@ -103,7 +103,7 @@ export function changeShipDirection(shipId, coordinates) {
   board.clearShipAndReservedCells(movingShip)
   movingShip.setDirection(oldDirection === 'horizontal' ? 'vertical' : 'horizontal')
     
-  const canMove = board.regulateMovableCells(movingShip, coordinates)
+  const canMove = board.canMoveTo(movingShip, coordinates)
 
   if (canMove) {
     const success = board.placeShip(movingShip, coordinates)
