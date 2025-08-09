@@ -361,3 +361,4 @@ export function disableHoverEffect(container) {
   squares.forEach((square) => square.classList.remove('hover-effect'))
 }
 
+

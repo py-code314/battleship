@@ -150,7 +150,6 @@ export class GameBoard {
         }
       }
     }
-    
   }
 
   // Move ship to new position when it's dragged
