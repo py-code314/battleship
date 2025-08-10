@@ -108,7 +108,7 @@ describe('GameBoard', () => {
     it('Throws error if a square is hit second time', () => {
       expect(board.receiveAttack([2, 3])).toBe(true)
       expect(() => board.receiveAttack([2, 3])).toThrow(
-        'You have already hit that square'
+        'This square has already been hit'
       )
     })
 
@@ -211,14 +211,41 @@ describe('GameBoard', () => {
   })
 
   describe('resetBoard()', () => {
-    it('Resets all board cells to default state', () => {
-      const board = new GameBoard()
+    let board
+
+    beforeEach(() => {
+       board = new GameBoard()
       board.board[1][1].isHit = true
       board.board[3][1].isOccupied = true
       board.board[3][0].isReserved = true
       board.board[3][2].ship = { name: 'Submarine' }
+
+      board.ships[
+        ({ length: 4, direction: 'horizontal', name: 'Battleship' },
+        { length: 2, direction: 'vertical', name: 'Destroyer' })
+      ]
+      board.emptyCells = [
+        [0, 0],
+        [1, 1],
+      ]
+      board.allHits = new Set(['0,0', '1,1'])
+      board.shipCells = new Set(['0,1', '1,2'])
+    })
+
+    it('Resets all board cells to default state', () => {
+      // const board = new GameBoard()
+      // board.board[1][1].isHit = true
+      // board.board[3][1].isOccupied = true
+      // board.board[3][0].isReserved = true
+      // board.board[3][2].ship = { name: 'Submarine' }
       
-      board.ships[{ length: 4, direction: 'horizontal', name: 'Battleship' }, { length: 2, direction: 'vertical', name: 'Destroyer' }]
+      // board.ships[{ length: 4, direction: 'horizontal', name: 'Battleship' }, { length: 2, direction: 'vertical', name: 'Destroyer' }]
+      // boardInstance.emptyCells = [
+      //   [0, 0],
+      //   [1, 1],
+      // ]
+      // boardInstance.allHits = new Set(['0,0', '1,1'])
+      // boardInstance.shipCells = new Set(['0,1', '1,2'])
       
       board.resetBoard()
 
@@ -232,9 +259,19 @@ describe('GameBoard', () => {
         })
       })
 
+      // expect(board.ships).toEqual([])
+      // expect(board.emptyCells).toEqual([])
+
+
+    })
+
+    it('Clears ships, emptyCells, allHits, and shipCells', () => {
+      board.resetBoard()
+
       expect(board.ships).toEqual([])
-
-
+      expect(board.emptyCells).toEqual([])
+      expect(board.allHits.size).toBe(0)
+      expect(board.shipCells.size).toBe(0)
     })
   })
 })
