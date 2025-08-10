@@ -1,4 +1,4 @@
-// Create Ship class
+/* Ship class */
 export class Ship {
   // Private variables
   #hitCount
@@ -14,37 +14,32 @@ export class Ship {
     this.sunkNotified = false
   }
 
-  // Set starting coordinates of a ship
+  /* Getters and Setters */
   setPosition(coordinates) {
     this.position = coordinates
   }
 
-  // Get ship's starting position
   getPosition() {
     return [...this.position]
   }
 
-  // Set direction for a ship
   setDirection(direction) {
     this.direction = direction
   }
 
-  // Get ship's direction
   getDirection() {
     return this.direction
   }
 
-  // Get sunk notification
   getSunkNotified() {
     return this.sunkNotified
   }
 
-  // Set sunk notification
   setSunkNotified(value) {
     this.sunkNotified = value
   }
 
-  // Increment the hitCount
+  /* Increments the hit counter */
   hit() {
     if (this.#hitCount < this.length) {
       this.#hitCount++
@@ -52,7 +47,7 @@ export class Ship {
     this.isSunk()
   }
 
-  // Return ship's sunk status
+  /* Checks if the ship is sunk */
   isSunk() {
     if (this.#hitCount >= this.length) {
       this.sunk = true

@@ -1,14 +1,15 @@
 /* eslint-disable no-undef */
-// Import GameBoard module
+/* Import modules */
 import { GameBoard } from '../src/game-board'
 import { Ship } from '../src/ship'
 
-// Tests for GameBoard class
+/* Tests for GameBoard functions */
 describe('GameBoard', () => {
   describe('createBoard()', () => {
     it('Returns 10 x 10 game board when called with no arguments', () => {
       const gameBoard = new GameBoard()
       const board = gameBoard.board
+
       expect(board.length).toBe(10)
       expect(board[0].length).toBe(10)
     })
@@ -16,6 +17,7 @@ describe('GameBoard', () => {
     it('Returns 5 x 7 game board when called with custom arguments', () => {
       const gameBoard = new GameBoard(5, 7)
       const board = gameBoard.board
+
       expect(board.length).toBe(5)
       expect(board[0].length).toBe(7)
     })
@@ -30,7 +32,8 @@ describe('GameBoard', () => {
     })
 
     it('Returns false for out of bounds coordinates', () => {
-      ship = new Ship(3, 'horizontal', 'Submarine')
+      const ship = new Ship(3, 'horizontal', 'Submarine')
+
       expect(board.placeShip(ship, [-1, 3])).toBe(false)
       expect(board.placeShip(ship, [10, 3])).toBe(false)
       expect(board.placeShip(ship, [1, -1])).toBe(false)
@@ -40,6 +43,7 @@ describe('GameBoard', () => {
     it('Returns false for ship length less than or equal to 0', () => {
       const ship1 = new Ship(0, 'horizontal', 'Destroyer')
       expect(board.placeShip(ship1, [1, 3])).toBe(false)
+
       const ship2 = new Ship(-1, 'horizontal', 'Destroyer')
       expect(board.placeShip(ship2, [1, 3])).toBe(false)
     })
@@ -130,7 +134,7 @@ describe('GameBoard', () => {
     })
 
     it('Checks if hit() method is being called', () => {
-      // Get the square where ship is placed
+      // Get ship square
       const shipSquare = board.board[2][4]
 
       // Mock the function hit()
@@ -214,7 +218,8 @@ describe('GameBoard', () => {
     let board
 
     beforeEach(() => {
-       board = new GameBoard()
+      // Populate board with mock data
+      board = new GameBoard()
       board.board[1][1].isHit = true
       board.board[3][1].isOccupied = true
       board.board[3][0].isReserved = true
@@ -233,36 +238,16 @@ describe('GameBoard', () => {
     })
 
     it('Resets all board cells to default state', () => {
-      // const board = new GameBoard()
-      // board.board[1][1].isHit = true
-      // board.board[3][1].isOccupied = true
-      // board.board[3][0].isReserved = true
-      // board.board[3][2].ship = { name: 'Submarine' }
-      
-      // board.ships[{ length: 4, direction: 'horizontal', name: 'Battleship' }, { length: 2, direction: 'vertical', name: 'Destroyer' }]
-      // boardInstance.emptyCells = [
-      //   [0, 0],
-      //   [1, 1],
-      // ]
-      // boardInstance.allHits = new Set(['0,0', '1,1'])
-      // boardInstance.shipCells = new Set(['0,1', '1,2'])
-      
       board.resetBoard()
 
-      board.board.forEach(row => {
-        row.forEach(cell => {
+      board.board.forEach((row) => {
+        row.forEach((cell) => {
           expect(cell.isHit).toBe(false)
           expect(cell.isOccupied).toBe(false)
           expect(cell.isReserved).toBe(false)
           expect(cell.ship).toBe(null)
-          
         })
       })
-
-      // expect(board.ships).toEqual([])
-      // expect(board.emptyCells).toEqual([])
-
-
     })
 
     it('Clears ships, emptyCells, allHits, and shipCells', () => {

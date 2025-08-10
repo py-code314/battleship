@@ -1,7 +1,9 @@
+/* Import modules */
 import { Ship } from './ship.js'
 import { GameBoard } from './game-board.js'
 import { Player } from './player.js'
 
+/* Import DOM controller functions */
 import {
   renderHumanGameBoard,
   renderComputerGameBoard,
@@ -47,6 +49,7 @@ import {
   enableAdvancedButton,
 } from './dom-controller.js'
 
+/* Import game controller functions */
 import {
   populateHumanGameBoard,
   populateComputerGameBoard,
@@ -55,6 +58,7 @@ import {
   generateRandomCoordinates,
 } from './game-controller.js'
 
+/* Import state functions */
 import {
   setComputerLevel,
   getComputerLevel,
@@ -63,8 +67,11 @@ import {
   setAdjacentCoordinates,
   getAdjacentCoordinates,
 } from './state.js'
+
+/* Import players */
 import { humanPlayer, computerPlayer } from './players.js'
 
+/* Export modules */
 export {
   Ship,
   GameBoard,

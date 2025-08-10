@@ -1,4 +1,4 @@
-// GameBoard class to create a game board
+/* GameBoard class */
 export class GameBoard {
   constructor(rows = 10, columns = 10) {
     this.rows = rows
@@ -10,7 +10,7 @@ export class GameBoard {
     this.shipCells = new Set()
   }
 
-  // Get ships array
+  /* Getters and Setters */
   getShips() {
     return [...this.ships]
   }
@@ -31,7 +31,7 @@ export class GameBoard {
     this.shipCells.add(`${coordinates}`)
   }
 
-  // Create a board
+  /* Creates a 2D array representing the game board */
   createBoard() {
     const board = []
 
@@ -54,7 +54,7 @@ export class GameBoard {
     return board
   }
 
-  // Place a ship at specified coordinates
+  /* Places a ship at the specified coordinates */
   placeShip(ship, coordinates) {
     const [row, column] = coordinates
 
@@ -68,10 +68,10 @@ export class GameBoard {
     )
       return false
 
+    // Check for orientation
     const isHorizontal = ship.getDirection() === 'horizontal'
 
     // Check for orientation boundaries
-
     if (
       (isHorizontal && column + ship.length > this.columns) ||
       (!isHorizontal && row + ship.length > this.rows)
@@ -89,7 +89,6 @@ export class GameBoard {
     }
 
     // Place the ship
-
     for (let i = 0; i < ship.length; i++) {
       const square = isHorizontal
         ? this.board[row][column + i]
@@ -117,17 +116,21 @@ export class GameBoard {
     return true
   }
 
+  /* Mark cells adjacent to ship cells as reserved */
   reserveCells(ship, coordinates) {
     const [row, column] = coordinates
     const direction = ship.getDirection()
 
-    // Mark cells adjacent to ship cells as reserved
+    // Loop through all ship cells
     for (let i = 0; i < ship.length; i++) {
+      // Get the row and column of the current ship cell
       const shipRow = direction === 'horizontal' ? row : row + i
       const shipColumn = direction === 'horizontal' ? column + i : column
 
+      // Loop through all adjacent cells
       for (let j = -1; j <= 1; j++) {
         for (let k = -1; k <= 1; k++) {
+          // Get the row and column of the adjacent cell
           const newRow = shipRow + j
           const newColumn = shipColumn + k
 
@@ -148,27 +151,31 @@ export class GameBoard {
     }
   }
 
-  // Move ship to new position when it's dragged
+  /* Clears the specified ship and its surrounding reserved cells from the board */
   clearShipAndReservedCells(ship) {
     const [row, column] = ship.getPosition()
     const direction = ship.getDirection()
 
+    // Loop through all ship cells
     for (let i = 0; i < ship.length; i++) {
+      // Get the row and column of the current ship cell
       const shipRow = direction === 'horizontal' ? row : row + i
       const shipColumn = direction === 'horizontal' ? column + i : column
 
+      // Loop through all adjacent cells
       for (let j = -1; j <= 1; j++) {
         for (let k = -1; k <= 1; k++) {
           const newRow = shipRow + j
           const newColumn = shipColumn + k
 
-          // Reset reserved cells around a ship
+          // Check for board boundaries
           if (
             newRow >= 0 &&
             newRow < this.rows &&
             newColumn >= 0 &&
             newColumn < this.columns
           ) {
+            // Reset adjacent cell
             const adjacentSquare = this.board[newRow][newColumn]
             adjacentSquare.isReserved = false
           }
@@ -181,7 +188,7 @@ export class GameBoard {
     }
   }
 
-  // Prevents touching of adjacent ships
+  /* Determines if a ship can be moved to a given set of coordinates */
   canMoveTo(ship, coordinates) {
     const [row, column] = coordinates
     const { length, direction } = ship
@@ -194,15 +201,18 @@ export class GameBoard {
       return false
 
     for (let i = 0; i < length; i++) {
+      // Get the row and column of the current ship cell
       const shipRow = direction === 'horizontal' ? row : row + i
       const shipCol = direction === 'horizontal' ? column + i : column
 
-      // Check all adjacent cells for other ships
+      // Loop through all adjacent cells
       for (let j = -1; j <= 1; j++) {
         for (let k = -1; k <= 1; k++) {
+          // Get the row and column of the adjacent cell
           const newRow = shipRow + j
           const newColumn = shipCol + k
 
+          // Check for board boundaries
           if (
             newRow >= 0 &&
             newRow < this.rows &&
@@ -211,10 +221,8 @@ export class GameBoard {
           ) {
             const cell = this.board[newRow][newColumn]
 
-            // Ignore the moving ship
-            if (cell.isOccupied && cell.ship !== ship)
-              // Only block other ship's adjacent cells
-              return false
+            // Ignore the moving ship and only block other ship's adjacent cells
+            if (cell.isOccupied && cell.ship !== ship) return false
           }
         }
       }
@@ -222,16 +230,19 @@ export class GameBoard {
     return true
   }
 
+  /* Marks a square as hit if there's a ship in it */
   receiveAttack(coordinates) {
     const [row, col] = coordinates
     const targetSquare = this.board[row][col]
 
+    // Throw error if the square has already been hit
     if (targetSquare.isHit) {
       throw new Error('This square has already been hit')
     }
     targetSquare.isHit = true
     this.allHits.add(`${row},${col}`)
 
+    // Check for a ship in the square
     if (targetSquare.ship) {
       targetSquare.ship.hit()
       return true
@@ -241,6 +252,7 @@ export class GameBoard {
     }
   }
 
+  /* Resets the game board by clearing all cell and board properties  */
   resetBoard() {
     this.board.forEach((row) =>
       row.forEach((cell) => {
@@ -256,7 +268,7 @@ export class GameBoard {
     this.shipCells = new Set()
   }
 
-  // Checks for sunken ships
+  /* Checks if all ships are sunk */
   allShipsSunk() {
     return this.ships.every((ship) => ship.isSunk())
   }

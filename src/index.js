@@ -1,4 +1,7 @@
+/* Import style sheet */
 import './styles.css'
+
+/* Import classes and functions */
 import {
   humanPlayer,
   computerPlayer,
@@ -55,7 +58,7 @@ import {
   setAdjacentCoordinates,
 } from './aggregator.js'
 
-// Get DOM elements
+/* Get DOM elements */
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
 const instructionsButton = document.querySelector('#instructions')
@@ -66,7 +69,9 @@ const randomizeButton = document.querySelector('#randomize')
 const resetButton = document.querySelector('#reset')
 const playButton = document.querySelector('#play')
 
-// On page load
+/* EVENT LISTENERS */
+
+/* DOMContentLoaded event listener */
 document.addEventListener('DOMContentLoaded', (e) => {
   // Load human game board
   populateHumanGameBoard(e)
@@ -77,33 +82,37 @@ document.addEventListener('DOMContentLoaded', (e) => {
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
 
+  // Set up initial button states and display messages
   styleStandardButton()
   disableResetButton()
   displayWelcomeMessage()
   flashMessagesBackground()
 })
 
-// Add code for Esc key
+/* Keydown event listener */
 document.addEventListener('keydown', (event) => {
+  // Close instructions modal on 'Escape'
   if (event.key === 'Escape') {
     instructionsModal.close()
   }
 })
 
+/* Click event listener to change computer level */
 computerLevels.addEventListener('click', (e) => {
   if (e.target.id === 'standard') {
+    // Set computer level and style buttons
     setComputerLevel('standard')
     styleStandardButton()
     unstyleAdvancedButton()
   } else if (e.target.id === 'advanced') {
+    // Set computer level and style buttons
     setComputerLevel('advanced')
     styleAdvancedButton()
     unstyleStandardButton()
   }
 })
 
-// Call makeMove() and renderComputerGameBoard() after click event on
-// computerGameBoard
+/* Click event listener for game play on computer game board */
 computerGameBoard.addEventListener('click', (e) => {
   const row = +e.target.dataset.row
   const column = +e.target.dataset.column
@@ -131,15 +140,18 @@ computerGameBoard.addEventListener('click', (e) => {
         computerPlayer.makeMove(humanPlayer.gameBoard, randomCoordinates)
       } else if (computerLevel === 'advanced') {
         // Advanced level
-        // If any ship got hit
+        // Get adjacent coordinates
         let adjacentCoordinates = getAdjacentCoordinates()
 
+        // Check if there are any adjacent coordinates
         if (adjacentCoordinates.length) {
+          // Call makeMove with the first adjacent coordinate
           const hitCoordinates = adjacentCoordinates.shift()
           const hitShip = computerPlayer.makeMove(
             humanPlayer.gameBoard,
             hitCoordinates
           )
+
           // Update adjacentCoordinates after a successful hit
           if (hitShip) {
             adjacentCoordinates = generateAdjacentShipCoordinates(
@@ -149,12 +161,13 @@ computerGameBoard.addEventListener('click', (e) => {
             setAdjacentCoordinates(adjacentCoordinates)
           }
         } else {
-          // Any ship is not hit
+          // If no adjacent coordinates, call makeMove with a random coordinate
           const hitShip = computerPlayer.makeMove(
             humanPlayer.gameBoard,
             randomCoordinates
           )
 
+          // Update adjacentCoordinates after a successful hit
           if (hitShip) {
             adjacentCoordinates = generateAdjacentShipCoordinates(
               humanPlayer.gameBoard,
@@ -179,7 +192,7 @@ computerGameBoard.addEventListener('click', (e) => {
   }
 })
 
-// Event listeners for moving a ship
+/* Drag and Drop event listeners */
 humanGameBoard.addEventListener('dragstart', (event) => {
   if (event.target.classList.contains('ship')) {
     handleDragStart(event)
@@ -217,61 +230,72 @@ humanGameBoard.addEventListener('drop', (event) => {
   }
 })
 
+/* Click event listener to change ship direction */
 humanGameBoard.addEventListener('click', (event) => {
   updateShipDirection(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
-// Event listeners to show and close instructions dialog
+/* Event listener to open instructions */
 instructionsButton.addEventListener('click', () => {
   instructionsModal.showModal()
 })
 
+/* Event listener to close instructions */
 closeButton.addEventListener('click', () => {
   instructionsModal.close()
 })
 
-// Event listener for randomize button
+/* Event listener to randomize ships placement on board */
 randomizeButton.addEventListener('click', (event) => {
   populateHumanGameBoard(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
+/* Event listener to start the game */
 playButton.addEventListener('click', () => {
+  // Set up game boards
   disableHumanGameBoard(humanGameBoard)
   enableComputerGameBoard(computerGameBoard)
   addHoverEffect(computerGameBoard)
 
+  // Manage button states
   disableStandardButton()
   disableAdvancedButton()
   disablePlayButton()
   enableResetButton()
   disableRandomizeButton()
 
+  // Display messages
   displayPlayerTurn()
   displayStartGameMessage()
 })
 
-// Reset the page
+/* Event listener to reset the game */
 resetButton.addEventListener('click', (event) => {
+  // Reset human game board
   populateHumanGameBoard(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
   enableHumanGameBoard(humanGameBoard)
 
+  // Reset computer game board
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
 
+  // Manage button states
   enableStandardButton()
   enableAdvancedButton()
   styleStandardButton()
   unstyleAdvancedButton()
-  setComputerLevel('standard')
-
   enablePlayButton()
   enableRandomizeButton()
   disableResetButton()
 
+  // Set computer level to standard
+  setComputerLevel('standard')
+
+  // Reset messages
   clearPlayerTurn()
   clearAllMessages()
   resetShipNames()

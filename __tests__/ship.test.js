@@ -1,12 +1,13 @@
 /* eslint-disable no-undef */
-// Import Ship
-import {Ship} from '../src/ship.js'
+/* Import modules */
+import { Ship } from '../src/ship.js'
 
-// Tests for Ship functions
+/* Tests for Ship functions */
 describe('Ship', () => {
   describe('isSunk()', () => {
     it('Returns false for a new ship', () => {
       const ship = new Ship(2)
+
       expect(ship.isSunk()).toBe(false)
     })
 
@@ -14,14 +15,16 @@ describe('Ship', () => {
       const ship = new Ship(3)
       ship.hit()
       ship.hit()
+
       expect(ship.isSunk()).toBe(false)
     })
- 
+
     it("Returns true if it is hit equal times to it's length", () => {
       const ship = new Ship(3)
       ship.hit()
       ship.hit()
       ship.hit()
+
       expect(ship.isSunk()).toBe(true)
     })
 
@@ -31,6 +34,7 @@ describe('Ship', () => {
       ship.hit()
       ship.hit()
       ship.hit()
+
       expect(ship.isSunk()).toBe(true)
     })
   })

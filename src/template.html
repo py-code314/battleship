@@ -6,18 +6,25 @@
     <title>Battleship</title>
   </head>
   <body>
+    <!-- Page title -->
     <header class="header">
       <h1 class="header__title">Battleship</h1>
     </header>
 
+    <!-- Main content -->
     <main class="main">
+      <!-- Top row buttons container -->
       <div class="btns-container">
         <div class="intro">
+          <!-- Instructions button -->
           <button class="btn intro__btn" id="instructions">Instructions</button>
 
+          <!-- Instructions dialog -->
           <dialog class="dialog" id="instructions-modal">
+            <!-- Close button -->
             <button class="btn close__btn" id="close-btn">Close</button>
 
+            <!-- Rules -->
             <div class="rules">
               <h2 class="rules__heading">Rules</h2>
               <ol class="rules__list">
@@ -44,6 +51,7 @@
               </ol>
             </div>
 
+            <!-- Instructions -->
             <div class="instructions">
               <h2 class="instructions__heading">Instructions</h2>
               <ol class="instructions__list">
@@ -85,11 +93,15 @@
             </div>
           </dialog>
 
+          <!-- Options button -->
           <button class="btn intro__btn">Options</button>
         </div>
 
+        <!-- Computer level selector -->
         <div class="computer">
           <p class="computer__text">Choose a Computer Level:</p>
+
+          <!-- Computer level buttons -->
           <div class="computer__levels">
             <button class="btn computer-btn standard-btn" id="standard">
               Standard
@@ -101,11 +113,15 @@
         </div>
       </div>
 
+      <!-- Boards container -->
       <div class="boards-container">
+        <!-- Human board -->
         <div class="game-board" id="human-board"></div>
 
         <div class="game-play">
+          <!-- Player turn indicator -->
           <div class="player-turn"></div>
+          <!-- Game play buttons -->
           <div class="game">
             <button class="btn game__btn" id="randomize">Randomize</button>
             <button class="btn game__btn" id="reset">Reset</button>
@@ -113,10 +129,12 @@
           </div>
         </div>
 
+        <!-- Computer board -->
         <div class="game-board" id="computer-board"></div>
       </div>
 
       <div class="game-data">
+        <!-- Human ships -->
         <div class="ships">
           <h2 class="ships__heading">Your Ships</h2>
 
@@ -136,14 +154,18 @@
             </li>
           </ul>
         </div>
+
+        <!-- Messages -->
         <div class="messages">
-          <h2 class="messages__text">Messages</h2>
-          <p class="messages__turn"></p>
+          <h2 class="messages__heading">Messages</h2>
+          <!-- <p class="messages__turn"></p> -->
 
           <div class="messages__container">
             <p class="messages__error"></p>
           </div>
         </div>
+
+        <!-- Computer ships -->
         <div class="ships computer-ships">
           <h2 class="ships__heading">Enemy Ships</h2>
 

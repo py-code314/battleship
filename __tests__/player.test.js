@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
-
+/* Import modules */
 import { Player } from '../src/player'
 
+/* Tests for Player functions */
 describe('Player', () => {
   describe('makeMove()', () => {
     it('Returns true when the ship is hit', () => {
@@ -37,6 +38,7 @@ describe('Player', () => {
     it('Returns true if all ships are sunk', () => {
       const human = new Player('human')
 
+      // Mock allShipsSunk
       human.gameBoard.allShipsSunk = jest.fn(() => true)
 
       expect(human.isLost()).toBe(true)
@@ -45,6 +47,7 @@ describe('Player', () => {
     it('Returns false if all ships are not sunk', () => {
       const human = new Player('human')
 
+      // Mock allShipsSunk
       human.gameBoard.allShipsSunk = jest.fn(() => false)
 
       expect(human.isLost()).toBe(false)

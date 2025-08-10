@@ -1,7 +1,9 @@
+/* State management */
 let computerLevel = 'standard'
 let firstClick = true
 let adjacentCoordinates = []
 
+/* Getters and Setters */
 export function setComputerLevel(level) {
   computerLevel = level
 }

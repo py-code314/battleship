@@ -2,6 +2,7 @@
    CSS VARIABLES
    =================== */
 
+/* Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
@@ -34,19 +35,19 @@
 
   /* Colors */
   --clr-white: hsl(0, 0%, 100%);
-  --clr-red: #f94144;
+  --clr-red: hsl(359, 94%, 62%);
   --clr-slate-blue: hsl(248, 53%, 58%);
   --clr-green: hsl(123, 88%, 24%);
   --clr-pink: hsl(323, 52%, 53%);
   --clr-caribbean-sea: hsl(201, 51%, 69%);
-  --clr-orange: #f8961e;
+  --clr-orange: hsl(33, 94%, 55%);
   --clr-copenhagen-blue: hsl(205, 100%, 51%);
-  --clr-cerulean-blue: #577590;
-  --clr-aquamarine: #05b17d;
-  --clr-true-green: #90be6d;
-  --clr-permanent-red: #db3b32;
-  --clr-prussian-green: #007200;
-  --clr-mulberry: #7b2cbf;
+  --clr-cerulean-blue: hsl(208, 25%, 45%);
+  --clr-aquamarine: hsl(162, 95%, 36%);
+  --clr-true-green: hsl(94, 38%, 59%);
+  --clr-permanent-red: hsl(3, 70%, 53%);
+  --clr-prussian-green: hsl(120, 100%, 22%);
+  --clr-mulberry: hsl(272, 63%, 46%);
 
   /* Utilities */
   --radius-1: 0.3125rem; /* 5px */
@@ -122,6 +123,7 @@ ul {
    END OF RESET 
    =================== */
 
+/* Apply flex to body */
 body {
   padding: var(--space-400);
   display: flex;
@@ -132,6 +134,7 @@ body {
   min-height: 100vh;
 }
 
+/* Header styles */
 .header {
   font-family: var(--ff-fira-code);
   display: flex;
@@ -139,6 +142,7 @@ body {
   align-items: center;
 }
 
+/* Apply flex and limit width to main */
 .main {
   display: flex;
   flex-direction: column;
@@ -149,6 +153,7 @@ body {
   margin: 0 auto;
 }
 
+/* Place buttons in a row */
 .btns-container {
   display: flex;
   justify-content: space-between;
@@ -165,6 +170,7 @@ body {
   gap: var(--space-900);
 }
 
+/* Default button styles */
 .btn {
   display: inline-block;
   border-radius: var(--radius-1);
@@ -185,17 +191,20 @@ body {
   background-color: var(--clr-white);
 }
 
+/* Active button styles for computer levels */
 .active {
   background-color: var(--clr-aquamarine);
   color: var(--clr-white);
   border: none;
 }
 
+/* Place boards side by side */
 .boards-container {
   display: flex;
   justify-content: space-between;
 }
 
+/* Place squares in a 2D array grid */
 .game-board {
   width: var(--size-game-board);
   height: var(--size-game-board);
@@ -204,25 +213,30 @@ body {
   background-color: var(--clr-caribbean-sea);
 }
 
+/* Default square styles */
 .cell {
   border: 1px solid var(--clr-white);
   cursor: pointer;
 }
 
+/* Style squares with ships */
 .ship {
   background-color: var(--clr-cerulean-blue);
   cursor: move;
 }
 
+/* Apply styles to dragged ships */
 .drag-ship {
   background-color: var(--clr-green);
   opacity: 0.4;
 }
 
+/* Styles for target squares */
 .target-square {
   border: 3px dotted var(--clr-red);
 }
 
+/* Styles for game-play section */
 .game-play {
   display: flex;
   flex-direction: column;
@@ -230,6 +244,7 @@ body {
   gap: var(--space-200);
 }
 
+/* Styles for player turn section */
 .player-turn {
   flex: 1;
   display: flex;
@@ -240,6 +255,7 @@ body {
   font-weight: var(--fw-semibold);
 }
 
+/* Styles for game play buttons */
 .game {
   display: flex;
   flex-direction: column;
@@ -257,6 +273,7 @@ body {
   justify-content: space-between;
 }
 
+/* Styles for ships and messages sections */
 .ships,
 .messages {
   display: flex;
@@ -274,13 +291,9 @@ body {
   text-align: right;
 }
 
-.messages__text {
+/* Styles for messages section */
+.messages__heading {
   text-align: center;
-}
-
-.messages__turn {
-  color: var(--clr-green);
-  font-weight: var(--fw-semibold);
 }
 
 .messages__container {
@@ -292,32 +305,39 @@ body {
   overflow: auto;
 }
 
+/* Default message styles */
 .message {
   padding: var(--space-40) 0;
 }
 
+/* Error message styles */
 .error {
   color: var(--clr-red);
 }
 
+/* Ship sunk message styles */
 .sunk {
   color: var(--clr-slate-blue);
 }
 
+/* Apply strike through to sunk ships */
 .lost {
   text-decoration: line-through;
 }
 
+/* Winner message styles */
 .winner {
   color: var(--clr-pink);
   font-size: var(--fs-600);
   font-weight: var(--fw-bold);
 }
 
+/* Disable en element */
 .disable {
   pointer-events: none;
 }
 
+/* Instructions dialog styles */
 .dialog {
   width: var(--width-dialog);
   max-block-size: 95%;
@@ -360,6 +380,7 @@ body {
   opacity: 0.75;
 }
 
+/* Styles for close button */
 .close__btn {
   display: block;
   background-color: var(--clr-red);
@@ -367,6 +388,7 @@ body {
   margin-block-end: var(--space-400);
 }
 
+/* Styles for rules and instructions sections */
 .rules,
 .instructions {
   margin-block-end: var(--space-400);
@@ -387,6 +409,7 @@ body {
   margin-block-end: var(--space-40);
 }
 
+/* Color the hit and miss squares */
 .hit {
   background-color: var(--clr-red);
 }
@@ -395,6 +418,7 @@ body {
   background-color: var(--clr-orange);
 }
 
+/* Hover effect for computer game board squares */
 .hover-effect {
   transition: transform 0.2s ease-in-out;
 }

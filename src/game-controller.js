@@ -1,17 +1,20 @@
-// Import classes
+/* Import modules, classes, and functions */
 import { Ship, handleDrop, humanPlayer, computerPlayer } from './aggregator.js'
 
-// Place ships on human game board
+/* Populate human game board with either a dropped ship or randomly placed ships */
 export function populateHumanGameBoard(event) {
   const board = humanPlayer.gameBoard
   if (event.type === 'drop') {
     const { shipId, newCoordinates } = handleDrop(event)
 
+    // Moving ship details
     const movingShip = board.getShips().find((ship) => ship.id === shipId)
     const oldPosition = movingShip.getPosition()
 
+    // Clear ship and reserved cells
     board.clearShipAndReservedCells(movingShip)
 
+    // Check if the ship can be moved
     const canMove = board.canMoveTo(movingShip, newCoordinates)
     if (canMove) {
       const success = board.placeShip(movingShip, newCoordinates)
@@ -22,12 +25,14 @@ export function populateHumanGameBoard(event) {
       board.placeShip(movingShip, oldPosition)
     }
 
+    // Reserve cells for all ships after ship's placement is over
     board
       .getShips()
       .forEach((ship) => board.reserveCells(ship, ship.getPosition()))
   } else {
     board.resetBoard()
 
+    // Ship details
     const shipLengths = [5, 4, 3, 3, 2]
     const length = shipLengths.length
     const shipNames = [
@@ -58,9 +63,11 @@ export function populateHumanGameBoard(event) {
   }
 }
 
-// Place ships on computer game board
+/* Populates the computer's game board with ships of various lengths and names */
 export function populateComputerGameBoard() {
   const board = computerPlayer.gameBoard
+
+  // Ship details
   const shipLengths = [5, 4, 3, 3, 2]
   const shipNames = [
     'Aircraft Carrier',
@@ -90,22 +97,27 @@ export function populateComputerGameBoard() {
   })
 }
 
-// Changes ship direction and places ship on board
+/* Changes the direction of the ship with the given shipId and new
+   coordinates */
 export function changeShipDirection(shipId, coordinates) {
   const board = humanPlayer.gameBoard
+
   // Moving ship details
   const movingShip = board.getShips().find((ship) => ship.id === shipId)
-
   const oldPosition = movingShip.getPosition()
   const oldDirection = movingShip.getDirection()
 
+  // Clear ship and reserved cells
   board.clearShipAndReservedCells(movingShip)
+
+  // Change direction
   movingShip.setDirection(
     oldDirection === 'horizontal' ? 'vertical' : 'horizontal'
   )
 
   const canMove = board.canMoveTo(movingShip, coordinates)
 
+  // Check if the ship can be moved
   if (canMove) {
     const success = board.placeShip(movingShip, coordinates)
 
@@ -117,14 +129,15 @@ export function changeShipDirection(shipId, coordinates) {
     board.placeShip(movingShip, oldPosition)
   }
 
-  // Reserve cells after ship's placement is over
+  // Reserve cells for all ships after ship's placement is over
   board
     .getShips()
     .forEach((ship) => board.reserveCells(ship, ship.getPosition()))
 }
 
-// Generate random coordinates
+/* Generates random coordinates on the game board that have not been hit yet */
 export function generateRandomCoordinates(board) {
+  // Check if all squares have been hit
   if (board.getAllHits().size >= 100) {
     throw new Error('All squares have been hit')
   }
@@ -139,7 +152,7 @@ export function generateRandomCoordinates(board) {
   return randomCoordinates
 }
 
-// Returns random adjacent coordinates of a successful hit
+/* Generates adjacent ship coordinates around the given coordinates */
 export function generateAdjacentShipCoordinates(board, coordinates) {
   const [row, column] = coordinates
   const adjacentShipCoordinatesArray = []
@@ -150,6 +163,7 @@ export function generateAdjacentShipCoordinates(board, coordinates) {
       const newRow = row + i
       const newColumn = column + j
 
+      // Check for board boundaries
       if (
         newRow >= 0 &&
         newRow < board.rows &&
@@ -172,7 +186,3 @@ export function generateAdjacentShipCoordinates(board, coordinates) {
 
   return adjacentShipCoordinatesArray
 }
-
-
-
-
