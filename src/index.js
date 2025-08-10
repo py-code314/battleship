@@ -47,6 +47,12 @@ import {
   enableStandardButton,
   disableAdvancedButton,
   enableAdvancedButton,
+  setComputerLevel,
+  getComputerLevel,
+  getFirstClick,
+  setFirstClick,
+  getAdjacentCoordinates,
+  setAdjacentCoordinates,
 } from './aggregator.js'
 
 
@@ -61,9 +67,9 @@ const closeButton = document.querySelector('#close-btn')
 const instructionsModal = document.querySelector('#instructions-modal')
 const computerLevels = document.querySelector('.computer__levels')
 
-let computerLevel = 'standard'
-let firstClick = true
-let adjacentCoordinates = []
+// let computerLevel = 'standard'
+// let firstClick = true
+// let adjacentCoordinates = []
 
 
 // On page load
@@ -95,15 +101,27 @@ document.addEventListener('keydown', (event) => {
 
 computerLevels.addEventListener('click', (e) => {
   if (e.target.id === 'standard') {
-    computerLevel = 'standard'
+    setComputerLevel('standard')
     styleStandardButton()
     unstyleAdvancedButton()
   } else if (e.target.id === 'advanced') {
-    computerLevel = 'advanced'
+    setComputerLevel('advanced')
     styleAdvancedButton()
     unstyleStandardButton()
   }
 })
+
+// computerLevels.addEventListener('click', (e) => {
+//   if (e.target.id === 'standard') {
+//     computerLevel = 'standard'
+//     styleStandardButton()
+//     unstyleAdvancedButton()
+//   } else if (e.target.id === 'advanced') {
+//     computerLevel = 'advanced'
+//     styleAdvancedButton()
+//     unstyleStandardButton()
+//   }
+// })
 
 
 // Call makeMove() and renderComputerGameBoard() after click event on
@@ -119,22 +137,29 @@ computerGameBoard.addEventListener('click', (e) => {
 
     renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
     updatePlayerTurn()
-    if (firstClick) {
+    if (getFirstClick()) {
       displayAIMessage()
-      firstClick = false
+      setFirstClick(false)
     }
+
+    // if (firstClick) {
+    //   displayAIMessage()
+    //   firstClick = false
+    // }
     isComputerShipSunk()
 
     // Computer play
     const randomCoordinates = generateRandomCoordinates(humanPlayer.gameBoard)
 
     setTimeout(() => {
+      const computerLevel = getComputerLevel()
       // Standard level
       if (computerLevel === 'standard') {
         computerPlayer.makeMove(humanPlayer.gameBoard, randomCoordinates)
       } else if (computerLevel === 'advanced') {
         // Advanced level
         // If any ship got hit
+        let adjacentCoordinates = getAdjacentCoordinates()
         if (adjacentCoordinates.length) {
           const hitCoordinates = adjacentCoordinates.shift()
           const hitShip = computerPlayer.makeMove(
@@ -147,6 +172,7 @@ computerGameBoard.addEventListener('click', (e) => {
               humanPlayer.gameBoard,
               hitCoordinates
             )
+            setAdjacentCoordinates(adjacentCoordinates)
           }
         } else {
           // Any ship is not hit
@@ -160,6 +186,7 @@ computerGameBoard.addEventListener('click', (e) => {
               humanPlayer.gameBoard,
               randomCoordinates
             )
+            setAdjacentCoordinates(adjacentCoordinates)
           }
         }
       }
@@ -278,6 +305,7 @@ resetButton.addEventListener('click', (e) => {
 
   styleStandardButton()
   unstyleAdvancedButton()
-
+  setComputerLevel('standard')
+  // console.log(getComputerLevel())
 })
 

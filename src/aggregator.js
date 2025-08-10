@@ -43,8 +43,7 @@ import {
   disableStandardButton,
   enableStandardButton,
   disableAdvancedButton,
-  enableAdvancedButton
-  
+  enableAdvancedButton,
 } from './dom-controller.js'
 import {
   populateHumanGameBoard,
@@ -52,8 +51,16 @@ import {
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
-
 } from './game-controller.js'
+
+import {
+  setComputerLevel,
+  getComputerLevel,
+  getFirstClick,
+  setFirstClick,
+  setAdjacentCoordinates,
+  getAdjacentCoordinates,
+} from './state.js'
 import { humanPlayer, computerPlayer } from './players.js'
 
 export {
@@ -109,5 +116,10 @@ export {
   enableStandardButton,
   disableAdvancedButton,
   enableAdvancedButton,
-
+  setComputerLevel,
+  getComputerLevel,
+  getFirstClick,
+  setFirstClick,
+  setAdjacentCoordinates,
+  getAdjacentCoordinates,
 }
