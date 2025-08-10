@@ -41,9 +41,9 @@ This is an online two player Battleship game where each player secretly arranges
 
 ### Screenshots
 
-| ![The weather app - daytime](./src/assets/images/screenshots/screenshot-day.png) | ![The weather app - nighttime](./src/assets/images/screenshots/screenshot-night.png) |
+| ![The weather app - daytime](./src/images/screenshots/screenshot-intial-game-state.png) | ![The weather app - nighttime](./src/images/screenshots/screenshot-finished-game-state.png) |
 |:-----------------------------------------------: | :--------------------------------------------------:|
-|                <em>Daytime</em>                  |                <em>Nighttime</em> | 
+|                <em>Initial game state</em>                  |                <em>Finished game state</em> | 
 
 
 
