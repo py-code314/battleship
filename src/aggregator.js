@@ -1,6 +1,7 @@
 import { Ship } from './ship.js'
 import { GameBoard } from './game-board.js'
 import { Player } from './player.js'
+
 import {
   renderHumanGameBoard,
   renderComputerGameBoard,
@@ -45,6 +46,7 @@ import {
   disableAdvancedButton,
   enableAdvancedButton,
 } from './dom-controller.js'
+
 import {
   populateHumanGameBoard,
   populateComputerGameBoard,

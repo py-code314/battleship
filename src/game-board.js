@@ -68,13 +68,6 @@ export class GameBoard {
     )
       return false
 
-    // let isHorizontal
-    // if (ship.direction === 'horizontal') {
-    //   isHorizontal = true
-    // } else {
-    //   isHorizontal = false
-    // }
-
     const isHorizontal = ship.getDirection() === 'horizontal'
 
     // Check for orientation boundaries
@@ -221,7 +214,6 @@ export class GameBoard {
             // Ignore the moving ship
             if (cell.isOccupied && cell.ship !== ship)
               // Only block other ship's adjacent cells
-
               return false
           }
         }
@@ -230,36 +222,38 @@ export class GameBoard {
     return true
   }
 
+  receiveAttack(coordinates) {
+    const [row, col] = coordinates
+    const targetSquare = this.board[row][col]
+
+    if (targetSquare.isHit) {
+      throw new Error('This square has already been hit')
+    }
+    targetSquare.isHit = true
+    this.allHits.add(`${row},${col}`)
+
+    if (targetSquare.ship) {
+      targetSquare.ship.hit()
+      return true
+    } else {
+      this.emptyCells.push(coordinates)
+      return false
+    }
+  }
+
   resetBoard() {
-    this.board.forEach((row) => row.forEach((cell) => {
-      cell.isHit = false
-      cell.isOccupied = false
-      cell.ship = null
-      cell.isReserved = false
-    }))
+    this.board.forEach((row) =>
+      row.forEach((cell) => {
+        cell.isHit = false
+        cell.isOccupied = false
+        cell.ship = null
+        cell.isReserved = false
+      })
+    )
     this.ships = []
     this.emptyCells = []
     this.allHits = new Set()
     this.shipCells = new Set()
-  }
-
-  receiveAttack(coordinates) {
-    const [row, col] = coordinates;
-    const targetSquare = this.board[row][col];
-
-    if (targetSquare.isHit) {
-      throw new Error('This square has already been hit');
-    }
-    targetSquare.isHit = true;
-    this.allHits.add(`${row},${col}`);
-
-    if (targetSquare.ship) {
-      targetSquare.ship.hit();
-      return true;
-    } else {
-      this.emptyCells.push(coordinates);
-      return false;
-    }
   }
 
   // Checks for sunken ships

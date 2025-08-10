@@ -250,7 +250,6 @@ body {
 
 .game__btn {
   background-color: var(--clr-prussian-green);
-
 }
 
 .game-data {
@@ -371,7 +370,6 @@ body {
 .rules,
 .instructions {
   margin-block-end: var(--space-400);
-
 }
 
 .rules__heading,

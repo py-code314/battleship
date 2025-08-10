@@ -63,12 +63,7 @@ export function renderComputerGameBoard(container, board) {
       square.dataset.row = rowIndex
       square.dataset.column = columnIndex
 
-      if (cell.ship) {
-        square.classList.add('ship')
-      }
-
       // Color ship hit & empty square hit
-
       if (cell.isHit) {
         square.className = cell.ship ? 'hit' : 'miss'
       }
@@ -78,32 +73,74 @@ export function renderComputerGameBoard(container, board) {
   })
 }
 
-// Change message based on player's turn
-export function displayPlayerTurn() {
-  playerTurn.textContent = 'YOUR TURN'
+// Disable human game board
+export function disableHumanGameBoard(container) {
+  container.classList.add('disable')
 }
 
-export function updatePlayerTurn() {
-  playerTurn.textContent =
-    playerTurn.textContent === 'YOUR TURN' ? "COMPUTER'S TURN" : 'YOUR TURN'
-
-  if (humanPlayer.isLost() || computerPlayer.isLost()) {
-    playerTurn.textContent = 'GAME OVER!'
-  }
+// Enable human game board
+export function enableHumanGameBoard(container) {
+  container.classList.remove('disable')
 }
 
-// Clear player turn message
-export function clearPlayerTurn() {
-  playerTurn.textContent = ''
+// Disable computer game board
+export function disableComputerGameBoard(container) {
+  container.classList.add('disable')
 }
 
-// Show error on repeat hit on same square
-export function handleRepeatHit(err) {
-  const error = document.createElement('p')
-  error.classList.add('error')
-  error.textContent = err.message
+// Enable computer game board
+export function enableComputerGameBoard(container) {
+  container.classList.remove('disable')
+}
 
-  messages.prepend(error)
+// Add styling to Standard button
+export function styleStandardButton() {
+  standardButton.classList.add('active')
+}
+
+// Remove styling from Standard button
+export function unstyleStandardButton() {
+  standardButton.classList.remove('active')
+}
+
+// Add styling to Advanced button
+export function styleAdvancedButton() {
+  advancedButton.classList.add('active')
+}
+
+// Remove styling from Advanced button
+export function unstyleAdvancedButton() {
+  advancedButton.classList.remove('active')
+}
+
+// Disable Randomize button
+export function disableRandomizeButton() {
+  randomizeButton.classList.add('disable')
+}
+
+// Enable Randomize button
+export function enableRandomizeButton() {
+  randomizeButton.classList.remove('disable')
+}
+
+// Disable Reset button
+export function disableResetButton() {
+  resetButton.classList.add('disable')
+}
+
+// Enable Reset button
+export function enableResetButton() {
+  resetButton.classList.remove('disable')
+}
+
+// Disable Play button
+export function disablePlayButton() {
+  playButton.classList.add('disable')
+}
+
+// Enable Play button
+export function enablePlayButton() {
+  playButton.classList.remove('disable')
 }
 
 // Make ship cells draggable
@@ -120,7 +157,6 @@ export function handleDragStart(event) {
 // Reset ship cells after drag ends
 export function handleDragEnd(event) {
   const shipId = event.target.dataset.shipId
-
   const shipCells = document.querySelectorAll(`[data-ship-id="${shipId}"]`)
 
   shipCells.forEach((cell) => cell.classList.remove('drag-ship'))
@@ -161,10 +197,30 @@ export function updateShipDirection(event) {
   }
 }
 
+// Change message based on player's turn
+export function displayPlayerTurn() {
+  playerTurn.textContent = 'YOUR TURN'
+}
+
+export function updatePlayerTurn() {
+  playerTurn.textContent =
+    playerTurn.textContent === 'YOUR TURN' ? "COMPUTER'S TURN" : 'YOUR TURN'
+
+  if (humanPlayer.isLost() || computerPlayer.isLost()) {
+    playerTurn.textContent = 'GAME OVER!'
+  }
+}
+
+// Clear player turn message
+export function clearPlayerTurn() {
+  playerTurn.textContent = ''
+}
+
 export function displayWelcomeMessage() {
   const message = document.createElement('p')
   message.classList.add('message')
   message.textContent = 'Welcome to Battleship game. Click Play to get started'
+
   messages.appendChild(message)
 }
 
@@ -178,6 +234,14 @@ export function displayStartGameMessage() {
   message.textContent = 'Your turn: Click any square on the enemy board'
 
   messages.prepend(message, legend)
+}
+
+export function displayAIMessage() {
+  const message = document.createElement('p')
+  message.classList.add('message')
+  message.textContent = 'Game on! Computer is playing in Learning mode'
+
+  messages.prepend(message)
 }
 
 export function flashMessagesBackground() {
@@ -194,12 +258,13 @@ export function flashMessagesBackground() {
   }, 1200)
 }
 
-export function displayAIMessage() {
-  const message = document.createElement('p')
-  message.classList.add('message')
-  message.textContent = 'Game on! Computer is playing in Learning mode'
+// Show error on repeat hit on same square
+export function handleRepeatHit(err) {
+  const error = document.createElement('p')
+  error.classList.add('error')
+  error.textContent = err.message
 
-  messages.prepend(message)
+  messages.prepend(error)
 }
 
 // Notifies about the sunken ships
@@ -246,15 +311,6 @@ export function isComputerShipSunk() {
   })
 }
 
-// Remove strike through from ship names
-export function resetShipNames() {
-  const shipNames = document.querySelectorAll('.ships__item')
-
-  shipNames.forEach((shipName) => {
-    shipName.classList.remove('lost')
-  })
-}
-
 export function displayWinner() {
   const winnerMessage = document.createElement('p')
   winnerMessage.classList.add('winner', 'message')
@@ -282,81 +338,18 @@ export function displayWinner() {
   }
 }
 
-// Disable computer game board
-export function disableComputerGameBoard(container) {
-  container.classList.add('disable')
-}
+// Remove strike through from ship names
+export function resetShipNames() {
+  const shipNames = document.querySelectorAll('.ships__item')
 
-// Disable human game board
-export function disableHumanGameBoard(container) {
-  container.classList.add('disable')
-}
-
-
-
-// Enable computer game board
-export function enableComputerGameBoard(container) {
-  container.classList.remove('disable')
-}
-
-// Enable human game board
-export function enableHumanGameBoard(container) {
-  container.classList.remove('disable')
-}
-
-// Disable Reset button
-export function disableResetButton() {
-  resetButton.classList.add('disable')
-}
-
-// Enable Reset button
-export function enableResetButton() {
-  resetButton.classList.remove('disable')
-}
-
-// Disable Randomize button
-export function disableRandomizeButton() {
-  randomizeButton.classList.add('disable')
-}
-
-// Enable Randomize button
-export function enableRandomizeButton() {
-  randomizeButton.classList.remove('disable')
-}
-
-// Disable Play button
-export function disablePlayButton() {
-  playButton.classList.add('disable')
-}
-
-// Enable Play button
-export function enablePlayButton() {
-  playButton.classList.remove('disable')
+  shipNames.forEach((shipName) => {
+    shipName.classList.remove('lost')
+  })
 }
 
 // Clear all messages from the messages container
 export function clearAllMessages() {
   messages.innerHTML = ''
-}
-
-// Add styling to Standard button
-export function styleStandardButton() {
-  standardButton.classList.add('active')
-}
-
-// Remove styling from Standard button
-export function unstyleStandardButton() {
-  standardButton.classList.remove('active')
-}
-
-// Add styling to Advanced button
-export function styleAdvancedButton() {
-  advancedButton.classList.add('active')
-}
-
-// Remove styling from Advanced button
-export function unstyleAdvancedButton() {
-  advancedButton.classList.remove('active')
 }
 
 // Add hover effect for enemy board squares
@@ -392,5 +385,3 @@ export function disableAdvancedButton() {
 export function enableAdvancedButton() {
   advancedButton.classList.remove('disable')
 }
-
-

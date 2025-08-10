@@ -123,6 +123,22 @@ export function changeShipDirection(shipId, coordinates) {
     .forEach((ship) => board.reserveCells(ship, ship.getPosition()))
 }
 
+// Generate random coordinates
+export function generateRandomCoordinates(board) {
+  if (board.getAllHits().size >= 100) {
+    throw new Error('All squares have been hit')
+  }
+
+  let randomCoordinates
+  do {
+    const row = Math.floor(Math.random() * 10)
+    const column = Math.floor(Math.random() * 10)
+    randomCoordinates = [row, column]
+  } while (board.getAllHits().has(randomCoordinates.toString()))
+
+  return randomCoordinates
+}
+
 // Returns random adjacent coordinates of a successful hit
 export function generateAdjacentShipCoordinates(board, coordinates) {
   const [row, column] = coordinates
@@ -157,20 +173,6 @@ export function generateAdjacentShipCoordinates(board, coordinates) {
   return adjacentShipCoordinatesArray
 }
 
-// Generate random coordinates
-export function generateRandomCoordinates(board) {
-  if (board.getAllHits().size >= 100) {
-    throw new Error('All squares have been hit')
-  }
 
-  let randomCoordinates
-  do {
-    const row = Math.floor(Math.random() * 10)
-    const column = Math.floor(Math.random() * 10)
-    randomCoordinates = [row, column]
-  } while (board.getAllHits().has(randomCoordinates.toString()))
 
-  return randomCoordinates
-}
 
-// Set computer level to standard

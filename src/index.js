@@ -58,17 +58,13 @@ import {
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
+const instructionsButton = document.querySelector('#instructions')
+const instructionsModal = document.querySelector('#instructions-modal')
+const closeButton = document.querySelector('#close-btn')
+const computerLevels = document.querySelector('.computer__levels')
 const randomizeButton = document.querySelector('#randomize')
 const resetButton = document.querySelector('#reset')
 const playButton = document.querySelector('#play')
-const instructionsButton = document.querySelector('#instructions')
-const closeButton = document.querySelector('#close-btn')
-const instructionsModal = document.querySelector('#instructions-modal')
-const computerLevels = document.querySelector('.computer__levels')
-
-// let computerLevel = 'standard'
-// let firstClick = true
-// let adjacentCoordinates = []
 
 // On page load
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -80,11 +76,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
+
+  styleStandardButton()
+  disableResetButton()
   displayWelcomeMessage()
   flashMessagesBackground()
-
-  disableResetButton()
-  styleStandardButton()
 })
 
 // Add code for Esc key
@@ -106,18 +102,6 @@ computerLevels.addEventListener('click', (e) => {
   }
 })
 
-// computerLevels.addEventListener('click', (e) => {
-//   if (e.target.id === 'standard') {
-//     computerLevel = 'standard'
-//     styleStandardButton()
-//     unstyleAdvancedButton()
-//   } else if (e.target.id === 'advanced') {
-//     computerLevel = 'advanced'
-//     styleAdvancedButton()
-//     unstyleStandardButton()
-//   }
-// })
-
 // Call makeMove() and renderComputerGameBoard() after click event on
 // computerGameBoard
 computerGameBoard.addEventListener('click', (e) => {
@@ -128,18 +112,12 @@ computerGameBoard.addEventListener('click', (e) => {
   try {
     // Human play
     humanPlayer.makeMove(computerPlayer.gameBoard, coordinates)
-
     renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
     updatePlayerTurn()
     if (getFirstClick()) {
       displayAIMessage()
       setFirstClick(false)
     }
-
-    // if (firstClick) {
-    //   displayAIMessage()
-    //   firstClick = false
-    // }
     isComputerShipSunk()
 
     // Computer play
@@ -158,7 +136,6 @@ computerGameBoard.addEventListener('click', (e) => {
 
         if (adjacentCoordinates.length) {
           const hitCoordinates = adjacentCoordinates.shift()
-
           const hitShip = computerPlayer.makeMove(
             humanPlayer.gameBoard,
             hitCoordinates
@@ -183,7 +160,6 @@ computerGameBoard.addEventListener('click', (e) => {
               humanPlayer.gameBoard,
               randomCoordinates
             )
-
             setAdjacentCoordinates(adjacentCoordinates)
           }
         }
@@ -204,45 +180,45 @@ computerGameBoard.addEventListener('click', (e) => {
 })
 
 // Event listeners for moving a ship
-humanGameBoard.addEventListener('dragstart', (e) => {
-  if (e.target.classList.contains('ship')) {
-    handleDragStart(e)
+humanGameBoard.addEventListener('dragstart', (event) => {
+  if (event.target.classList.contains('ship')) {
+    handleDragStart(event)
   }
 })
 
-humanGameBoard.addEventListener('dragend', (e) => {
-  if (e.target.classList.contains('ship')) {
-    handleDragEnd(e)
+humanGameBoard.addEventListener('dragend', (event) => {
+  if (event.target.classList.contains('ship')) {
+    handleDragEnd(event)
   }
 })
 
-humanGameBoard.addEventListener('dragenter', (e) => {
-  if (e.target.classList.contains('cell')) {
-    handleDragEnter(e)
+humanGameBoard.addEventListener('dragenter', (event) => {
+  if (event.target.classList.contains('cell')) {
+    handleDragEnter(event)
   }
 })
 
-humanGameBoard.addEventListener('dragleave', (e) => {
-  if (e.target.classList.contains('cell')) {
-    handleDragLeave(e)
+humanGameBoard.addEventListener('dragleave', (event) => {
+  if (event.target.classList.contains('cell')) {
+    handleDragLeave(event)
   }
 })
 
-humanGameBoard.addEventListener('dragover', (e) => {
-  if (e.target.classList.contains('cell')) {
-    handleDragOver(e)
+humanGameBoard.addEventListener('dragover', (event) => {
+  if (event.target.classList.contains('cell')) {
+    handleDragOver(event)
   }
 })
 
-humanGameBoard.addEventListener('drop', (e) => {
-  if (e.target.classList.contains('cell')) {
-    populateHumanGameBoard(e)
+humanGameBoard.addEventListener('drop', (event) => {
+  if (event.target.classList.contains('cell')) {
+    populateHumanGameBoard(event)
     renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
   }
 })
 
-humanGameBoard.addEventListener('click', (e) => {
-  updateShipDirection(e)
+humanGameBoard.addEventListener('click', (event) => {
+  updateShipDirection(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
@@ -256,48 +232,49 @@ closeButton.addEventListener('click', () => {
 })
 
 // Event listener for randomize button
-randomizeButton.addEventListener('click', (e) => {
-  populateHumanGameBoard(e)
+randomizeButton.addEventListener('click', (event) => {
+  populateHumanGameBoard(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
 playButton.addEventListener('click', () => {
-  displayStartGameMessage()
-  displayPlayerTurn()
-
-  enableComputerGameBoard(computerGameBoard)
   disableHumanGameBoard(humanGameBoard)
+  enableComputerGameBoard(computerGameBoard)
+  addHoverEffect(computerGameBoard)
 
+  disableStandardButton()
+  disableAdvancedButton()
   disablePlayButton()
   enableResetButton()
   disableRandomizeButton()
-  disableStandardButton()
-  disableAdvancedButton()
-  addHoverEffect(computerGameBoard)
+
+  displayPlayerTurn()
+  displayStartGameMessage()
 })
 
 // Reset the page
-resetButton.addEventListener('click', (e) => {
-  populateHumanGameBoard(e)
+resetButton.addEventListener('click', (event) => {
+  populateHumanGameBoard(event)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
   enableHumanGameBoard(humanGameBoard)
 
   populateComputerGameBoard()
   renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
   disableComputerGameBoard(computerGameBoard)
-  clearAllMessages()
-  displayWelcomeMessage()
-  flashMessagesBackground()
+
+  enableStandardButton()
+  enableAdvancedButton()
+  styleStandardButton()
+  unstyleAdvancedButton()
+  setComputerLevel('standard')
 
   enablePlayButton()
   enableRandomizeButton()
   disableResetButton()
-  enableStandardButton()
-  enableAdvancedButton()
-  resetShipNames()
-  clearPlayerTurn()
 
-  styleStandardButton()
-  unstyleAdvancedButton()
-  setComputerLevel('standard')
+  clearPlayerTurn()
+  clearAllMessages()
+  resetShipNames()
+  displayWelcomeMessage()
+  flashMessagesBackground()
 })

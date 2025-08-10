@@ -14,22 +14,6 @@ export class Ship {
     this.sunkNotified = false
   }
 
-  // Increment the hitCount
-  hit() {
-    if (this.#hitCount < this.length) {
-      this.#hitCount++
-    }
-    this.isSunk()
-  }
-
-  // Return ship's sunk status
-  isSunk() {
-    if (this.#hitCount >= this.length) {
-      this.sunk = true
-    }
-    return this.sunk
-  }
-
   // Set starting coordinates of a ship
   setPosition(coordinates) {
     this.position = coordinates
@@ -58,5 +42,21 @@ export class Ship {
   // Set sunk notification
   setSunkNotified(value) {
     this.sunkNotified = value
+  }
+
+  // Increment the hitCount
+  hit() {
+    if (this.#hitCount < this.length) {
+      this.#hitCount++
+    }
+    this.isSunk()
+  }
+
+  // Return ship's sunk status
+  isSunk() {
+    if (this.#hitCount >= this.length) {
+      this.sunk = true
+    }
+    return this.sunk
   }
 }
