@@ -11,7 +11,6 @@ This is a solution for the [Battleship project on The Odin Project](https://www.
     - [Instructions](#instructions)
     - [Screenshots](#screenshots)
     - [Links](#links)
-  - [Credits](#credits)
 
 ## Overview
 
@@ -41,7 +40,7 @@ This is an online two player Battleship game where each player secretly arranges
 
 ### Screenshots
 
-| ![The weather app - daytime](./src/images/screenshots/screenshot-intial-game-state.png) | ![The weather app - nighttime](./src/images/screenshots/screenshot-finished-game-state.png) |
+| ![Battleship - Initial game state](./src/images/screenshots/screenshot-intial-game-state.png) | ![Battleship - Finished game state](./src/images/screenshots/screenshot-finished-game-state.png) |
 |:-----------------------------------------------: | :--------------------------------------------------:|
 |                <em>Initial game state</em>                  |                <em>Finished game state</em> | 
 
@@ -49,16 +48,9 @@ This is an online two player Battleship game where each player secretly arranges
 
 ### Links
 
-- Solution URL: [https://github.com/py-code314/weather-app](https://github.com/py-code314/weather-app)
-- Live Site URL: [https://py-code314.github.io/weather-app/](https://py-code314.github.io/weather-app/)
+- Solution URL: [https://github.com/py-code314/battleship](https://github.com/py-code314/battleship)
+- Live Site URL: [https://py-code314.github.io/battleship/](https://py-code314.github.io/battleship/)
 
 
-
-## Credits
-
-- All animated weather icons are from [meteocons.com](https://github.com/basmilius/weather-icons), thanks to [Bas Milius](https://github.com/basmilius)
-- Spinner icon is from [loading.io](https://loading.io/spinner/blocks/-rectangle-square-rotate-cycle-adobe)
-- Gradient background images for daytime and nighttime are from [cssgradient.io](https://cssgradient.io/)
-- Default background image 'Hand drawn adventure background' from [freepik.com](https://www.freepik.com/free-vector/hand-drawn-adventure-background_16665121.htm#fromView=search&page=1&position=14&uuid=30f0a776-df6b-440e-b0c4-13690c8bc096&query=Nature+Illustration)
 
 
