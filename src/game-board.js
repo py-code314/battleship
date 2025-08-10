@@ -238,6 +238,9 @@ export class GameBoard {
       cell.isReserved = false
     }))
     this.ships = []
+    this.emptyCells = []
+    this.allHits = new Set()
+    this.shipCells = new Set()
   }
 
   receiveAttack(coordinates) {

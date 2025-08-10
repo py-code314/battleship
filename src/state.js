@@ -4,11 +4,11 @@ let adjacentCoordinates = []
 
 export function setComputerLevel(level) {
   computerLevel = level
-} 
+}
 
 export function getComputerLevel() {
   return computerLevel
-} 
+}
 
 export function getFirstClick() {
   return firstClick

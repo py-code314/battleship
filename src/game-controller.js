@@ -6,7 +6,6 @@ export function populateHumanGameBoard(event) {
   const board = humanPlayer.gameBoard
   if (event.type === 'drop') {
     const { shipId, newCoordinates } = handleDrop(event)
-    
 
     const movingShip = board.getShips().find((ship) => ship.id === shipId)
     const oldPosition = movingShip.getPosition()
@@ -101,8 +100,10 @@ export function changeShipDirection(shipId, coordinates) {
   const oldDirection = movingShip.getDirection()
 
   board.clearShipAndReservedCells(movingShip)
-  movingShip.setDirection(oldDirection === 'horizontal' ? 'vertical' : 'horizontal')
-    
+  movingShip.setDirection(
+    oldDirection === 'horizontal' ? 'vertical' : 'horizontal'
+  )
+
   const canMove = board.canMoveTo(movingShip, coordinates)
 
   if (canMove) {
@@ -162,15 +163,14 @@ export function generateRandomCoordinates(board) {
     throw new Error('All squares have been hit')
   }
 
-  let randomCoordinates;
+  let randomCoordinates
   do {
-    const row = Math.floor(Math.random() * 10);
-    const column = Math.floor(Math.random() * 10);
-    randomCoordinates = [row, column];
-  } while (board.getAllHits().has(randomCoordinates.toString()));
+    const row = Math.floor(Math.random() * 10)
+    const column = Math.floor(Math.random() * 10)
+    randomCoordinates = [row, column]
+  } while (board.getAllHits().has(randomCoordinates.toString()))
 
-  return randomCoordinates;
+  return randomCoordinates
 }
 
 // Set computer level to standard
-

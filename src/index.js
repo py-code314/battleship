@@ -55,7 +55,6 @@ import {
   setAdjacentCoordinates,
 } from './aggregator.js'
 
-
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
@@ -70,7 +69,6 @@ const computerLevels = document.querySelector('.computer__levels')
 // let computerLevel = 'standard'
 // let firstClick = true
 // let adjacentCoordinates = []
-
 
 // On page load
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -89,15 +87,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
   styleStandardButton()
 })
 
-
 // Add code for Esc key
 document.addEventListener('keydown', (event) => {
   if (event.key === 'Escape') {
     instructionsModal.close()
   }
 })
-
-
 
 computerLevels.addEventListener('click', (e) => {
   if (e.target.id === 'standard') {
@@ -122,7 +117,6 @@ computerLevels.addEventListener('click', (e) => {
 //     unstyleStandardButton()
 //   }
 // })
-
 
 // Call makeMove() and renderComputerGameBoard() after click event on
 // computerGameBoard
@@ -153,6 +147,7 @@ computerGameBoard.addEventListener('click', (e) => {
 
     setTimeout(() => {
       const computerLevel = getComputerLevel()
+
       // Standard level
       if (computerLevel === 'standard') {
         computerPlayer.makeMove(humanPlayer.gameBoard, randomCoordinates)
@@ -160,8 +155,10 @@ computerGameBoard.addEventListener('click', (e) => {
         // Advanced level
         // If any ship got hit
         let adjacentCoordinates = getAdjacentCoordinates()
+
         if (adjacentCoordinates.length) {
           const hitCoordinates = adjacentCoordinates.shift()
+
           const hitShip = computerPlayer.makeMove(
             humanPlayer.gameBoard,
             hitCoordinates
@@ -186,6 +183,7 @@ computerGameBoard.addEventListener('click', (e) => {
               humanPlayer.gameBoard,
               randomCoordinates
             )
+
             setAdjacentCoordinates(adjacentCoordinates)
           }
         }
@@ -204,8 +202,6 @@ computerGameBoard.addEventListener('click', (e) => {
     handleRepeatHit(err)
   }
 })
-
-
 
 // Event listeners for moving a ship
 humanGameBoard.addEventListener('dragstart', (e) => {
@@ -249,7 +245,6 @@ humanGameBoard.addEventListener('click', (e) => {
   updateShipDirection(e)
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
-
 
 // Event listeners to show and close instructions dialog
 instructionsButton.addEventListener('click', () => {
@@ -302,10 +297,7 @@ resetButton.addEventListener('click', (e) => {
   resetShipNames()
   clearPlayerTurn()
 
-
   styleStandardButton()
   unstyleAdvancedButton()
   setComputerLevel('standard')
-  // console.log(getComputerLevel())
 })
-
