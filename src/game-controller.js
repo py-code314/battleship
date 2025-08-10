@@ -171,3 +171,6 @@ export function generateRandomCoordinates(board) {
 
   return randomCoordinates;
 }
+
+// Set computer level to standard
+

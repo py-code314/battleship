@@ -287,8 +287,20 @@ export function disableComputerGameBoard(container) {
   container.classList.add('disable')
 }
 
+// Disable human game board
+export function disableHumanGameBoard(container) {
+  container.classList.add('disable')
+}
+
+
+
 // Enable computer game board
 export function enableComputerGameBoard(container) {
+  container.classList.remove('disable')
+}
+
+// Enable human game board
+export function enableHumanGameBoard(container) {
   container.classList.remove('disable')
 }
 
@@ -359,6 +371,26 @@ export function disableHoverEffect(container) {
   const squares = container.querySelectorAll('.computer-cell')
 
   squares.forEach((square) => square.classList.remove('hover-effect'))
+}
+
+// Disable Standard button
+export function disableStandardButton() {
+  standardButton.classList.add('disable')
+}
+
+// Enable Standard button
+export function enableStandardButton() {
+  standardButton.classList.remove('disable')
+}
+
+// Disable Advanced button
+export function disableAdvancedButton() {
+  advancedButton.classList.add('disable')
+}
+
+// Enable Advanced button
+export function enableAdvancedButton() {
+  advancedButton.classList.remove('disable')
 }
 
 

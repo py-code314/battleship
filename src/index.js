@@ -41,17 +41,30 @@ import {
   unstyleAdvancedButton,
   addHoverEffect,
   disableHoverEffect,
+  enableHumanGameBoard,
+  disableHumanGameBoard,
+  disableStandardButton,
+  enableStandardButton,
+  disableAdvancedButton,
+  enableAdvancedButton,
 } from './aggregator.js'
+
 
 // Get DOM elements
 const humanGameBoard = document.querySelector('#human-board')
 const computerGameBoard = document.querySelector('#computer-board')
-const randomizeBtn = document.querySelector('#randomize')
-const resetBtn = document.querySelector('#reset')
-const playBtn = document.querySelector('#play')
-const instructionsBtn = document.querySelector('#instructions')
+const randomizeButton = document.querySelector('#randomize')
+const resetButton = document.querySelector('#reset')
+const playButton = document.querySelector('#play')
+const instructionsButton = document.querySelector('#instructions')
+const closeButton = document.querySelector('#close-btn')
 const instructionsModal = document.querySelector('#instructions-modal')
-const closeBtn = document.querySelector('#close-btn')
+const computerLevels = document.querySelector('.computer__levels')
+
+let computerLevel = 'standard'
+let firstClick = true
+let adjacentCoordinates = []
+
 
 // On page load
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -70,20 +83,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
   styleStandardButton()
 })
 
-playBtn.addEventListener('click', () => {
-  displayStartGameMessage()
-  displayPlayerTurn()
 
-  enableComputerGameBoard(computerGameBoard)
-
-  disablePlayButton()
-  enableResetButton()
-  disableRandomizeButton()
-  addHoverEffect(computerGameBoard)
+// Add code for Esc key
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    instructionsModal.close()
+  }
 })
 
-let computerLevel = 'standard'
-const computerLevels = document.querySelector('.computer__levels')
+
+
 computerLevels.addEventListener('click', (e) => {
   if (e.target.id === 'standard') {
     computerLevel = 'standard'
@@ -96,8 +105,7 @@ computerLevels.addEventListener('click', (e) => {
   }
 })
 
-let adjacentCoordinates = []
-let firstClick = true
+
 // Call makeMove() and renderComputerGameBoard() after click event on
 // computerGameBoard
 computerGameBoard.addEventListener('click', (e) => {
@@ -170,30 +178,7 @@ computerGameBoard.addEventListener('click', (e) => {
   }
 })
 
-// Event listener for randomize button
-randomizeBtn.addEventListener('click', (e) => {
-  populateHumanGameBoard(e)
-  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
-})
 
-// Reset the page
-resetBtn.addEventListener('click', (e) => {
-  populateHumanGameBoard(e)
-  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
-
-  populateComputerGameBoard()
-  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
-  disableComputerGameBoard(computerGameBoard)
-  clearAllMessages()
-  displayWelcomeMessage()
-  flashMessagesBackground()
-
-  enablePlayButton()
-  enableRandomizeButton()
-  disableResetButton()
-  resetShipNames()
-  clearPlayerTurn()
-})
 
 // Event listeners for moving a ship
 humanGameBoard.addEventListener('dragstart', (e) => {
@@ -238,18 +223,61 @@ humanGameBoard.addEventListener('click', (e) => {
   renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
 
+
 // Event listeners to show and close instructions dialog
-instructionsBtn.addEventListener('click', () => {
+instructionsButton.addEventListener('click', () => {
   instructionsModal.showModal()
 })
 
-closeBtn.addEventListener('click', () => {
+closeButton.addEventListener('click', () => {
   instructionsModal.close()
 })
 
-// Add code for Esc key
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {
-    instructionsModal.close()
-  }
+// Event listener for randomize button
+randomizeButton.addEventListener('click', (e) => {
+  populateHumanGameBoard(e)
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
 })
+
+playButton.addEventListener('click', () => {
+  displayStartGameMessage()
+  displayPlayerTurn()
+
+  enableComputerGameBoard(computerGameBoard)
+  disableHumanGameBoard(humanGameBoard)
+
+  disablePlayButton()
+  enableResetButton()
+  disableRandomizeButton()
+  disableStandardButton()
+  disableAdvancedButton()
+  addHoverEffect(computerGameBoard)
+})
+
+// Reset the page
+resetButton.addEventListener('click', (e) => {
+  populateHumanGameBoard(e)
+  renderHumanGameBoard(humanGameBoard, humanPlayer.gameBoard.board)
+  enableHumanGameBoard(humanGameBoard)
+
+  populateComputerGameBoard()
+  renderComputerGameBoard(computerGameBoard, computerPlayer.gameBoard.board)
+  disableComputerGameBoard(computerGameBoard)
+  clearAllMessages()
+  displayWelcomeMessage()
+  flashMessagesBackground()
+
+  enablePlayButton()
+  enableRandomizeButton()
+  disableResetButton()
+  enableStandardButton()
+  enableAdvancedButton()
+  resetShipNames()
+  clearPlayerTurn()
+
+
+  styleStandardButton()
+  unstyleAdvancedButton()
+
+})
+

@@ -38,6 +38,12 @@ import {
   unstyleAdvancedButton,
   addHoverEffect,
   disableHoverEffect,
+  enableHumanGameBoard,
+  disableHumanGameBoard,
+  disableStandardButton,
+  enableStandardButton,
+  disableAdvancedButton,
+  enableAdvancedButton
   
 } from './dom-controller.js'
 import {
@@ -46,7 +52,7 @@ import {
   changeShipDirection,
   generateAdjacentShipCoordinates,
   generateRandomCoordinates,
-  
+
 } from './game-controller.js'
 import { humanPlayer, computerPlayer } from './players.js'
 
@@ -97,6 +103,11 @@ export {
   unstyleAdvancedButton,
   addHoverEffect,
   disableHoverEffect,
-
+  enableHumanGameBoard,
+  disableHumanGameBoard,
+  disableStandardButton,
+  enableStandardButton,
+  disableAdvancedButton,
+  enableAdvancedButton,
 
 }
