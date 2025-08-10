@@ -6,87 +6,52 @@
 
 :root {
   /* Font Size */
-  --fs-500: 1.125rem; /* 18px */
   --fs-600: 1.25rem; /* 20px */
-  --fs-900: 2rem; /* 32px */
-  --fs-1100: 2.5rem; /* 40px */
-  --fs-temp: 7.5rem; /* 120px */
 
   /* Font weights */
-  --fw-thin: 100;
-  --fw-extra-light: 200;
-  --fw-light: 300;
-  --fw-regular: 400;
   --fw-medium: 500;
   --fw-semibold: 600;
   --fw-bold: 700;
-  --fw-extra-bold: 800;
-  --fw-black: 900;
-  --fw-extra-black: 950;
 
   /* Font family */
   --ff-fira-code: 'Fira Code', monospace;
   --ff-work-sans: 'Work Sans', sans-serif;
 
   /* Spaces */
-  --space-10: 0.0625rem; /* 1px */
-  --space-20: 0.125rem; /* 2px */
   --space-40: 0.25rem;
-  --space-80: 0.5rem;
   --space-100: 0.625rem;
   --space-200: 0.75rem;
   --space-400: 1rem;
   --space-600: 1.25rem;
-  --space-700: 1.5rem;
-  --space-850: 1.875rem;
   --space-900: 2rem;
-  --space-1100: 2.5rem;
-  --space-1600: 3.75rem; /* 60px */
-  --space-1700: 4rem; /* 64px */
-  --space-2000: 4.75rem; /* 76px */
   --space-2100: 5rem; /* 80px */
 
+  --width-main: 75rem; /* 1200px */
   --size-game-board: 25rem; /* 400px */
   --width-messages: 31.25rem; /* 500px */
   --height-messages: 12.5rem; /* 200px */
-  --size-div: 2.5rem;
   --width-dialog: 43.75rem; /* 700px */
 
   /* Colors */
   --clr-white: hsl(0, 0%, 100%);
-  --clr-black: #282828;
-  --clr-red: #F94144;
-  --clr-light-blue: hsl(195, 73%, 79%);
-  --clr-blue: hsl(216, 88%, 65%);
+  --clr-red: #f94144;
   --clr-slate-blue: hsl(248, 53%, 58%);
   --clr-green: hsl(123, 88%, 24%);
   --clr-pink: hsl(323, 52%, 53%);
-  --clr-yellow: hsl(55, 89%, 59%);
-
   --clr-caribbean-sea: hsl(201, 51%, 69%);
-  /* --clr-moss-green: hsl(84, 84%, 37%); */
-  --clr-golden-rod: hsl(39, 92%, 57%);
-  --clr-orange: #F8961E;
+  --clr-orange: #f8961e;
   --clr-copenhagen-blue: hsl(205, 100%, 51%);
-  --clr-henna: #F94144;
   --clr-cerulean-blue: #577590;
   --clr-aquamarine: #05b17d;
-  --clr-yellow-ochre: #F9C74F;
-  --clr-true-green: #90BE6D;
-  --clr-cool-grey: #22333B;
+  --clr-true-green: #90be6d;
   --clr-permanent-red: #db3b32;
-  --clr-sepia: #3A5A40;
   --clr-prussian-green: #007200;
-  --clr-mulberry: #7B2CBF;
+  --clr-mulberry: #7b2cbf;
 
   /* Utilities */
   --radius-1: 0.3125rem; /* 5px */
   --radius-2: 0.625rem; /* 10px */
-  --radius-3: 3.125rem; /* 50px */
-  --radius-circle: 50%;
   --shadow-1: 0px 3px 5px 0px hsla(0, 0%, 0%, 0.36);
-  --shadow-3: 0px 3px 5px 0px hsla(0, 0%, 0%, 0.25);
-  /* --img-bg: url('../assets/images/image-lake.jpg'); */
 }
 
 /* ===================
@@ -161,8 +126,6 @@ body {
   padding: var(--space-400);
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
   gap: var(--space-900);
   font-family: var(--ff-work-sans);
   font-weight: var(--fw-medium);
@@ -180,11 +143,9 @@ body {
   display: flex;
   flex-direction: column;
   gap: var(--space-900);
-  /* padding: var(--space-900) 0; */
-  padding: 0  var(--space-2100) var(--space-900);
-  border: 1px solid blueviolet;
-  width: 1200px;
-  /* max-width: 1200px; */
+  padding: 0 var(--space-2100) var(--space-900);
+  border: 1px solid var(--clr-mulberry);
+  width: var(--width-main);
   margin: 0 auto;
 }
 
@@ -192,7 +153,6 @@ body {
   display: flex;
   justify-content: space-between;
   gap: var(--space-900);
-  /* border: 1px solid rgb(255, 0, 208); */
   padding: var(--space-400);
   border-block-end: 1px solid black;
 }
@@ -203,7 +163,6 @@ body {
   display: flex;
   align-items: center;
   gap: var(--space-900);
-  /* font-weight: var(--fw-bold); */
 }
 
 .btn {
@@ -242,7 +201,6 @@ body {
   height: var(--size-game-board);
   display: flex;
   flex-wrap: wrap;
-  /* background-color: var(--clr-copenhagen-blue); */
   background-color: var(--clr-caribbean-sea);
 }
 
@@ -292,7 +250,7 @@ body {
 
 .game__btn {
   background-color: var(--clr-prussian-green);
-  /* background-color: var(--clr-mulberry); */
+
 }
 
 .game-data {
@@ -368,17 +326,12 @@ body {
   border-radius: var(--radius-2);
   box-shadow: var(--shadow-1);
   padding: var(--space-900);
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center; */
-
   /* Place dialog in center of screen */
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  animation: popup 0.8s ease-in-out;
+  animation: popup 1s ease-in-out;
 }
 
 /* Animate dialog popup */
@@ -415,14 +368,11 @@ body {
   margin-block-end: var(--space-400);
 }
 
-
 .rules,
 .instructions {
   margin-block-end: var(--space-400);
-  /* margin-inline-start: var(--space-700); */
+
 }
-
-
 
 .rules__heading,
 .instructions__heading {

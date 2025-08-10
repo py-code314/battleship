@@ -14,17 +14,6 @@ export class Ship {
     this.sunkNotified = false
   }
 
-  // constructor(length, position, direction, name) {
-  //   this.id = crypto.randomUUID()
-  //   this.length = length
-  //   this.#hitCount = 0
-  //   this.sunk = false
-  //   this.position = position
-  //   this.direction = direction
-  //   this.name = name
-  //   this.sunkNotified = false
-  // }
-
   // Increment the hitCount
   hit() {
     if (this.#hitCount < this.length) {
@@ -71,5 +60,3 @@ export class Ship {
     this.sunkNotified = value
   }
 }
-
-
